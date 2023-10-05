@@ -1,8 +1,0 @@
-<?xml version="1.0"?>
-<cGameConfiguration xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-  <m_ButtonCount>4</m_ButtonCount>
-  <m_EachStepPointCount>1</m_EachStepPointCount>
-  <m_GameTimeInSeconds>50</m_GameTimeInSeconds>
-  <m_RepeatMode>true</m_RepeatMode>
-  <m_GameSpeed>1</m_GameSpeed>
-</cGameConfiguration>

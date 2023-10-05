@@ -29,7 +29,7 @@ public class cSimonSaysController : MonoBehaviour
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition + new Vector3(0, 0, 5));
         if (Physics.Raycast(ray, out var hit) && Input.GetMouseButtonDown(0))
         {
-            if (hit.collider.attachedRigidbody&& hit.collider.attachedRigidbody.TryGetComponent(out cSimonButton button) && button.IsSelectable)
+            if (hit.collider.attachedRigidbody&& hit.collider.attachedRigidbody.TryGetComponent(out cSimonButton button) && button.m_IsSelectable)
             {
                 if (button == CurrentMatchSelectionList[currentIndex])
                 {
@@ -41,7 +41,7 @@ public class cSimonSaysController : MonoBehaviour
                         currentIndex = 0;
                         foreach (var VARIABLE in SimonButtons)
                         {
-                            VARIABLE.IsSelectable = false;
+                            VARIABLE.m_IsSelectable = false;
                         }
 
                         cGameLogicManager.Instance.OnSuccessTurn();
@@ -61,7 +61,7 @@ public class cSimonSaysController : MonoBehaviour
                     
                     foreach (var VARIABLE in SimonButtons)
                     {
-                        VARIABLE.IsSelectable = false;
+                        VARIABLE.m_IsSelectable = false;
                     }
 
                     StartCoroutine(WrongAnim());
@@ -121,7 +121,7 @@ public class cSimonSaysController : MonoBehaviour
     {
         foreach (var VARIABLE in SimonButtons)
         {
-            VARIABLE.IsSelectable = true;
+            VARIABLE.m_IsSelectable = true;
         }
     }
 }

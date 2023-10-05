@@ -24,7 +24,7 @@ public class cGameLogicManager : cSingleton<cGameLogicManager>
 
     private void Awake()
     {
-        GameConfig = new jsonGameData();
+        GameConfig = new cJsonGameConfig();
     }
 
     public void SetLevel(TextAsset textAsset)

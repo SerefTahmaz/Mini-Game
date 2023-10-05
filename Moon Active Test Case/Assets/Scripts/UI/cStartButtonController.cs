@@ -25,6 +25,7 @@ public class cStartButtonController : cButton
 
     public override void OnClick()
     {
+        base.OnClick();
         cGameLogicManager.Instance.OnStartButton();
     }
 }

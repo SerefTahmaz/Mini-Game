@@ -9,54 +9,50 @@ public class cSimonButton : MonoBehaviour
     [SerializeField] private Renderer m_Rend;
     [SerializeField] private Transform m_Center;
 
-    public bool Selected;
-    public bool IsSelectable;
-
-    private Tween light;
-
-    private cSimonButtonSO SimonButtonSo;
+    private Tween m_LightTween;
+    private cSimonButtonSO m_SimonButtonSO;
+    
+    public bool m_Selected;
+    public bool m_IsSelectable;
 
     private void Awake()
     {
-        cGameLogicManager.Instance.m_OnSelected += () =>
-        {
-            Deselect();
-        };
+        cGameLogicManager.Instance.m_OnSelected += Deselect;
     }
 
     public void Init(cSimonButtonSO simonButtonSo, float scale)
     {
-        SimonButtonSo = simonButtonSo;
+        m_SimonButtonSO = simonButtonSo;
         m_Rend.material = simonButtonSo.m_ColorMat;
         m_Center.transform.localScale = Vector3.one * scale;
     }
 
     public void Light(float duration=Single.PositiveInfinity)
     {
-        light.Kill();
+        m_LightTween.Kill();
         m_Rend.material.EnableKeyword("_EMISSION");
-        light=DOVirtual.DelayedCall(duration, Unlight);
-        cSoundManager.Instance.PlayTrack(SimonButtonSo.m_OnLightSound);
+        m_LightTween=DOVirtual.DelayedCall(duration, Unlight);
+        cSoundManager.Instance.PlayTrack(m_SimonButtonSO.m_OnLightSound);
     }
     
     public void Unlight()
     {
-        light.Kill();
+        m_LightTween.Kill();
         m_Rend.material.DisableKeyword("_EMISSION");
     }
     
     public void Deselect()
     {
         Unlight();
-        Selected = false;
+        m_Selected = false;
     }
 
     public void Select()
     {
-        if(!IsSelectable) return;
+        if(!m_IsSelectable) return;
         
         cGameLogicManager.Instance.m_OnSelected.Invoke();
-        Selected = true;
+        m_Selected = true;
         Light(.5f);
     }
 }

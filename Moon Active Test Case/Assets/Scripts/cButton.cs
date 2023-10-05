@@ -16,6 +16,7 @@ public class cButton : MonoBehaviour
     {
         transform.DOComplete();
         transform.DOScale(.25f, .25f).SetRelative(true);
+        cSoundManager.Instance.PlayClick();
     }
     
     public virtual void OnExit()

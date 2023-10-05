@@ -9,9 +9,9 @@ public class cAudioUIButton : MonoBehaviour
 
     private void Awake()
     {
-        var audiostate = PlayerPrefs.GetInt("AudioState", 1);
+        var audiostate = cSaveData.GameConfiguration.AudioState;;
 
-        if (audiostate == 1)
+        if (audiostate)
         {
             EnableAudio();
         }
@@ -23,9 +23,9 @@ public class cAudioUIButton : MonoBehaviour
 
     public void OnClick()
     {
-        var audiostate = PlayerPrefs.GetInt("AudioState", 1);
+        var audiostate = cSaveData.GameConfiguration.AudioState;
 
-        if (audiostate == 1)
+        if (audiostate)
         {
             DisableAudio();
         }
@@ -38,14 +38,14 @@ public class cAudioUIButton : MonoBehaviour
 
     public void EnableAudio()
     {
-        PlayerPrefs.SetInt("AudioState",1);
+        cSaveData.GameConfiguration.AudioState = true;
         m_DisableGO.SetActive(false);
         cSoundManager.Instance.SetActive( true);
     }
     
     public void DisableAudio()
     {
-        PlayerPrefs.SetInt("AudioState",0);
+        cSaveData.GameConfiguration.AudioState = false;
         m_DisableGO.SetActive(true);
         cSoundManager.Instance.SetActive( false);
     }

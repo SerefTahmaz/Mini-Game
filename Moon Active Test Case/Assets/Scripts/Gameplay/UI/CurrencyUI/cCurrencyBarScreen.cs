@@ -7,29 +7,24 @@ public class cCurrencyBarScreen : cSingleton<cCurrencyBarScreen>
 
     public int CurrentCurrencyAmount
     {
-        get => PlayerPrefs.GetInt("PlayerCurrency",0);
+        get => cSaveData.GameConfiguration.CurrentCoinCount;
         set
         {
-            PlayerPrefs.SetInt("PlayerCurrency",value);
+            cSaveData.GameConfiguration.CurrentCoinCount = value;
             PlayerMaxScore = value;
         }
     }
     
     public int PlayerMaxScore
     {
-        get => PlayerPrefs.GetInt("PlayerMaxScore",0);
+        get =>  cSaveData.GameConfiguration.MaxCoinCount;
         set
         {
             if (value > PlayerMaxScore)
             {
-                PlayerPrefs.SetInt("PlayerMaxScore",value);
+                cSaveData.GameConfiguration.MaxCoinCount = value;
             }
         }
-    }
-
-    public void Awake()
-    {
-        // Main.CurrencyBar = this;
     }
 
     public void RegisterBar(cCurrencyBar bar)
@@ -64,18 +59,4 @@ public class cCurrencyBarScreen : cSingleton<cCurrencyBarScreen>
             bar.Refresh(currency);
         }
     }
-
-    // private GUIStyle customButton;
-    // private void OnGUI()
-    // {
-    //     customButton = new GUIStyle("button");
-    //     customButton.fontSize = 20;
-    //     
-    //     GUILayout.BeginArea(new Rect(Screen.width - 130,0, 120, 30));
-    //     if (GUILayout.Button("AddMoney",customButton,new []{GUILayout.Width(100), GUILayout.Height(40)}))
-    //     {
-    //         GainCurrency(100);
-    //     }
-    //     GUILayout.EndArea();
-    // }
 }

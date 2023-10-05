@@ -31,7 +31,8 @@ public class cPlayerNameInputController : cView
         {
             transform.SuccessShakeUI();
 
-            PlayerPrefs.SetString("PlayerName", m_InputText.text);
+            cSaveData.GameConfiguration.PlayerName = m_InputText.text;
+            cSaveData.Save();
 
             DOVirtual.DelayedCall(.35f, () =>
             {

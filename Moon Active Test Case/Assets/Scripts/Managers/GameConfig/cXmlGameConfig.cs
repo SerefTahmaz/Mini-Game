@@ -3,15 +3,20 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Xml.Serialization;
+using UnityEditor;
 using UnityEngine;
 
-public class cXmlExample : IGameConfig
+public class cXmlGameConfig : IGameConfig
 {
-    public cGameConfiguration GameConfiguration { get; set; }
+    private cGameConfiguration m_GameConfiguration = new cGameConfiguration();
+    public cGameConfiguration GameConfiguration
+    {
+        get => m_GameConfiguration;
+        set => m_GameConfiguration = value;
+    }
 
-    private string m_FilePath => Application.dataPath + "/ObjectData.xml";
+    private static string m_FilePath => Application.dataPath + "/ObjectData.xml";
 
-    [ContextMenu("save")]
     public void Save()
     {
         XmlSerializer serializer = new XmlSerializer(typeof(cGameConfiguration));
@@ -22,7 +27,6 @@ public class cXmlExample : IGameConfig
         }
     }
  
-    [ContextMenu("load")]
     public void Load()
     {
         XmlSerializer serializer = new XmlSerializer(typeof(cGameConfiguration));
@@ -37,7 +41,25 @@ public class cXmlExample : IGameConfig
 
     public cGameConfiguration Load(TextAsset textAsset)
     {
-        return null;
+        var serializer = new XmlSerializer(typeof(cGameConfiguration));
+        using(var reader = new System.IO.StringReader(textAsset.text))
+        {
+            return serializer.Deserialize(reader) as cGameConfiguration;
+        }
+    }
+    
+     [MenuItem("GameConfig/Template XML Config")]
+    public static void CreateTemplateConfig()
+    {
+        XmlSerializer serializer = new XmlSerializer(typeof(cGameConfiguration));
+ 
+        using (FileStream stream = new FileStream(m_FilePath, FileMode.Create))
+        {
+            serializer.Serialize(stream, new cGameConfiguration());
+        }
+  
+        Debug.Log("Save file created at: " + m_FilePath);
+        AssetDatabase.Refresh();
     }
 
 
@@ -52,13 +74,4 @@ public class cXmlExample : IGameConfig
         else
             Debug.Log("There is nothing to delete!");
     }
-}
-
-public interface IGameConfig
-{
-    public cGameConfiguration GameConfiguration { get; set; }
-    public void Save();
-    public void Load();
-    public cGameConfiguration Load(TextAsset textAsset);
-    public void DeleteSaveFile();
 }

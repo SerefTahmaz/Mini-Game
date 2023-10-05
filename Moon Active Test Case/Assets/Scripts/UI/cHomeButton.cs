@@ -7,6 +7,7 @@ public class cHomeButton : cButton
 {
     public override void OnClick()
     {
+        base.OnClick();
         cGameLogicManager.Instance.TransitionManager.PlayTransition(cTransitionManager.TransitionType.Rotating);
         DOVirtual.DelayedCall(.5f, () =>
         {

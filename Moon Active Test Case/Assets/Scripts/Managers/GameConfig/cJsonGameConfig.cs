@@ -8,26 +8,7 @@ using UnityEngine;
 using UnityEditor;
 #endif
 
-[Serializable]
-public class cGameConfiguration
-{
-    public int m_ButtonCount=4;
-    public int m_EachStepPointCount=1;
-    public int m_GameTimeInSeconds=50;
-    public bool m_RepeatMode=true;
-    public float m_GameSpeed = 1;
-
-    public override string ToString()
-    {
-        return $"button Count: {m_ButtonCount}," +
-               $"Each Step Point Count: {m_EachStepPointCount}," +
-               $"Game Time In Seconds Count: {m_GameTimeInSeconds}," +
-               $"Repeat Mode: {m_RepeatMode}," +
-               $"Game Speed: {m_GameSpeed},";
-    }
-}
-
-public class jsonGameData : IGameConfig
+public class cJsonGameConfig : IGameConfig
 {
     private cGameConfiguration m_GameConfiguration = new cGameConfiguration();
     public cGameConfiguration GameConfiguration
@@ -37,7 +18,7 @@ public class jsonGameData : IGameConfig
     }
     private bool m_Loaded = false;
 
-    private string saveFilePath => Application.dataPath + "/GameConfigData.json";
+    private static string saveFilePath => Application.dataPath + "/GameConfigData.json";
 
     public void Load(){
         if(m_Loaded) return;
@@ -66,6 +47,16 @@ public class jsonGameData : IGameConfig
         File.WriteAllText(saveFilePath, savePlayerData);
   
         Debug.Log("Save file created at: ");
+    }
+
+    [MenuItem("GameConfig/Template Json Config")]
+    public static void CreateTemplateConfig()
+    {
+        string savePlayerData = JsonUtility.ToJson(new cGameConfiguration());
+        File.WriteAllText(saveFilePath, savePlayerData);
+  
+        Debug.Log("Save file created at: " + saveFilePath);
+        AssetDatabase.Refresh();
     }
     
     

@@ -19,6 +19,7 @@ public class cLevelSelectButton : cButton
     }
     public override void OnClick()
     {
+        base.OnClick();
         LevelSelectUIController.Selected(m_GameLevelSo);
     }
 }

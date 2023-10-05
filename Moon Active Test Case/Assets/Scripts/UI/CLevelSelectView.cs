@@ -11,7 +11,7 @@ public class CLevelSelectView : cView
     {
         base.Activate();
 
-        if (PlayerPrefs.GetString("PlayerName", "Default") == "Default")
+        if (cSaveData.PlayerName()=="")
         {
             m_NameSelect.Activate();
             m_LevelSelect.Deactivate();

@@ -1,0 +1,45 @@
+using System.Collections;
+using System.Collections.Generic;
+using DG.Tweening;
+using UnityEngine;
+
+public class cLevel : MonoBehaviour
+{
+    [SerializeField] private cSimonButton m_SimonButtonUnit;
+    [SerializeField] private Transform m_PosToSpawn;
+    [SerializeField] private List<cSimonButtonSO> m_SimonButtonSos;
+    [SerializeField] private cSimonSaysController m_SimonSaysController;
+
+    public void InitLevel(cGameConfiguration gameConfiguration)
+    {
+        StartCoroutine(SpawnParts());
+        IEnumerator SpawnParts()
+        {
+            int index = 0;
+            var buttonCount = gameConfiguration.m_ButtonCount;
+
+            List<cSimonButton> buttons = new List<cSimonButton>();
+
+            for (int i = 0; i < buttonCount; i++)
+            {
+                float unityAngle = ((float)360 / buttonCount);
+                float currentAngle = unityAngle * i;
+                Debug.Log(currentAngle);
+                var ins = Instantiate(m_SimonButtonUnit, m_PosToSpawn);
+                ins.transform.localEulerAngles = new Vector3(0, currentAngle, 0);
+                ins.Init(m_SimonButtonSos[index% m_SimonButtonSos.Count],  Mathf.Clamp((unityAngle/90),.1f,1));
+                index++;
+            
+                buttons.Add(ins);
+
+                ins.transform.localScale = Vector3.zero;
+                ins.transform.DOScale(1, .5f).SetEase(Ease.OutBack);
+                cSoundManager.Instance.PlayPop();
+                yield return new WaitForSeconds(.5f);
+            }
+        
+            m_SimonSaysController.Init(buttons);
+            m_SimonSaysController.AddRound();
+        }
+    }
+}

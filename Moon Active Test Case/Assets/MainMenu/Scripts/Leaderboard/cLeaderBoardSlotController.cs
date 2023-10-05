@@ -42,9 +42,4 @@ public class cLeaderBoardSlotController: MonoBehaviour
         m_NameText.text = m_PlayerName.Length >= 10 ? m_PlayerName.Substring(0,10) : m_PlayerName;
         m_RankText.text = m_Rank.ToString();
     }
-
-    private void Update()
-    {
-        if(m_LeaderBoardView) SetRank(m_LeaderBoardView.GetIndex(transform));
-    }
 }

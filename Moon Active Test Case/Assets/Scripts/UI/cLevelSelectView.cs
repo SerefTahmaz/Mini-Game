@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CLevelSelectView : cView
+public class cLevelSelectView : cView
 {
     [SerializeField] private cPlayerNameInputController m_NameSelect;
     [SerializeField] private cLevelSelectUIController m_LevelSelect;
@@ -11,7 +11,7 @@ public class CLevelSelectView : cView
     {
         base.Activate();
 
-        if (cSaveDataHandler.PlayerName()=="")
+        if (cSaveDataHandler.PlayerName() == "NewPlayer")
         {
             m_NameSelect.Activate();
             m_LevelSelect.Deactivate();

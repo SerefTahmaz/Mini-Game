@@ -25,6 +25,9 @@ public class cDownTransition : MonoBehaviour
             m_Left.DOLocalMove(Vector3.right, .4f);
             m_Right.DOLocalMove(-Vector3.right, .4f);
             yield return new WaitForSeconds(.4f);
+            
+            cSoundManager.Instance.PlaySwoosh();
+            
             color.a = 1;
             m_Image.DOColor(color, .3f).SetLoops(2, LoopType.Yoyo);
             m_Image.transform.DORotate(new Vector3(0, 0, 55), .3f).SetRelative(true).SetLoops(2, LoopType.Yoyo);

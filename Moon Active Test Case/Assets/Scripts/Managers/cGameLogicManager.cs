@@ -43,6 +43,7 @@ public class cGameLogicManager : cSingleton<cGameLogicManager>
         var go = cObjectPooler.Instance.Spawn("MoneyUI", cCurrencyBarScreen.Instance.transform).transform;
         go.localScale = Vector3.one * 1.25f;
         go.gameObject.GetComponent<cMoneyUI>().Fly();
+        cSoundManager.Instance.SuccessSound();
     }
 
     public void OnStartButton()

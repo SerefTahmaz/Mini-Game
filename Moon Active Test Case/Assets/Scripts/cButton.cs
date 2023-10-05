@@ -11,15 +11,16 @@ public class cButton : MonoBehaviour
     public virtual void OnEnter()
     {
         if(m_IsClicked) return;
-        transform.DOComplete();
+        
+        ResetState();
         transform.DOScale(.1f, .25f).SetRelative(true);
         cSoundManager.Instance.PlayMouseEnter();
     }
     
     public virtual void OnClick()
     {
-        transform.DOComplete();
-        transform.DOScale(.25f, .25f).SetRelative(true);
+        ResetState();
+        transform.DOScale(.15f, .25f).SetLoops(2,LoopType.Yoyo).SetRelative(true);
         cSoundManager.Instance.PlayClick();
 
         m_IsClicked = true;
@@ -32,23 +33,14 @@ public class cButton : MonoBehaviour
     public virtual void OnExit()
     {
         if(m_IsClicked) return;
-        transform.DOComplete();
+        transform.DOKill();
         transform.DOScale(1, .25f);
     }
 
     public virtual void Success()
     {
-        transform.DOComplete();
-
-        transform.DOShakeScale(.3f, .2f);
-
-        foreach (var VARIABLE in GetComponentsInChildren<Image>())
-        {
-            VARIABLE.DOComplete();
-            Color colorToLerp = Color.green;
-            colorToLerp.a = VARIABLE.color.a;
-            VARIABLE.DOColor(colorToLerp, .15f).SetLoops(2, LoopType.Yoyo);
-        }
+        ResetState();
+        transform.SuccessShakeUI();
         
         m_IsClicked = true;
         DOVirtual.DelayedCall(.4f, () =>
@@ -59,22 +51,19 @@ public class cButton : MonoBehaviour
 
     public virtual void Fail()
     {
-        transform.DOComplete();
-
-        transform.DOShakeRotation(.3f, 10, 25);
-
-        foreach (var VARIABLE in GetComponentsInChildren<Image>())
-        {
-            VARIABLE.DOComplete();
-            Color colorToLerp = Color.red;
-            colorToLerp.a = VARIABLE.color.a;
-            VARIABLE.DOColor(colorToLerp, .15f).SetLoops(2, LoopType.Yoyo);
-        }
+        ResetState();
+        transform.FailShakeUI();
         
         m_IsClicked = true;
         DOVirtual.DelayedCall(.4f, () =>
         {
             m_IsClicked = false;
         });
+    }
+
+    public void ResetState()
+    {
+        transform.DOComplete();
+        transform.localScale = Vector3.one;
     }
 }

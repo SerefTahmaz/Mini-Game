@@ -14,13 +14,32 @@ public class cLevelSelectUIController : cView
     [SerializeField] private Image m_BG;
     [SerializeField] private Image m_Icon;
 
+    private List<cLevelSelectButton> m_InsButtons = new List<cLevelSelectButton>();
+
     private void Awake()
     {
-        foreach (var VARIABLE in m_GameLevels)
+        for (var index = 0; index < m_GameLevels.Count; index++)
         {
-            var ins = Instantiate(m_LevelSelectButton,m_LayoutTransform);
+            var VARIABLE = m_GameLevels[index];
+            var ins = Instantiate(m_LevelSelectButton, m_LayoutTransform);
             ins.Init(VARIABLE, this);
+
+            m_InsButtons.Add(ins);
         }
+        
+        
+    }
+
+    public override void Activate()
+    {
+        base.Activate();
+
+        foreach (var VARIABLE in m_InsButtons)
+        {
+            VARIABLE.ResetState();
+        }
+        m_InsButtons[1].OnEnter();
+        m_InsButtons[1].OnExit();
     }
 
     public void Selected(cGameLevelSO gameLevelSo)

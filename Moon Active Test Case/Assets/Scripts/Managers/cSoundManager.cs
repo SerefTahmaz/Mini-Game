@@ -13,7 +13,8 @@ public class cSoundManager : cSingleton<cSoundManager>
     [SerializeField] private List<AudioClip> m_FailSound;
     [SerializeField] private AudioClip m_Click;
     [SerializeField] private AudioClip m_OnMouseEnter;
-    
+    [SerializeField] private AudioClip m_Swoosh;
+
     [SerializeField] private AudioSource m_AudioSource;
     [SerializeField] private AudioSource m_AmbientSource;
 
@@ -54,6 +55,11 @@ public class cSoundManager : cSingleton<cSoundManager>
         m_AudioSource.PlayOneShot(m_OnMouseEnter);
     }
 
+    public void PlaySwoosh()
+    {
+        m_AudioSource.PlayOneShot(m_Swoosh);
+    }
+    
     public void SetActive(bool state)
     {
         m_AudioSource.mute = !state;

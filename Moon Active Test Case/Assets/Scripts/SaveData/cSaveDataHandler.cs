@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using Dan.Main;
 using UnityEditor;
 using UnityEngine;
 
@@ -37,7 +38,7 @@ public static class cSaveDataHandler
     {
         string savePlayerData = JsonUtility.ToJson(GameConfiguration);
         File.WriteAllText(m_SaveFilePath, savePlayerData);
-  
+
         Debug.Log("Save file created at: ");
     }
 
@@ -48,12 +49,14 @@ public static class cSaveDataHandler
         if (File.Exists(m_SaveFilePath))
         {
             File.Delete(m_SaveFilePath);
-            
+            GameConfiguration = new SaveData();
   
             Debug.Log("Save file deleted!");
         }
         else
             Debug.Log("There is nothing to delete!");
+
+        m_Loaded = false;
     }
 
     public static string PlayerName()

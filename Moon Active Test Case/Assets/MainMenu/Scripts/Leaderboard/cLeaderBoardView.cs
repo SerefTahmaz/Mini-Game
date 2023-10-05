@@ -2,69 +2,74 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using AINamesGenerator;
 using Dan.Main;
 using Dan.Models;
 using DG.Tweening;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.UIElements;
+using Random = UnityEngine.Random;
 
 public class cLeaderBoardView : cView
 {
     [SerializeField] private Transform m_LayoutTranform;
-
     [SerializeField] private cLeaderBoardSlotController m_BoardSlotControllerPrefab;
-
-    [Min(0)]
-    [SerializeField] private int m_HiearcyIndex;
-
     [SerializeField] private ScrollRect m_ScrollView;
+    [SerializeField] private GameObject m_EmptyPrefab;
+    [SerializeField] private float m_Speed;
 
     private bool m_Selected;
     private cLeaderBoardSlotController m_PlayerSlot;
+    private List<SmoothLayoutHelper> m_LayoutHelpers = new List<SmoothLayoutHelper>();
+    private Tween m_FlowTween;
+    //Boards
+    private cRandomAILeaderboard m_RandomAILeaderboard = new cRandomAILeaderboard();
+    private cOnlineLeaderboard m_OnlineLeaderboard = new cOnlineLeaderboard();
     
-    public class SmoothLayoutHelper
+    private class SmoothLayoutHelper
     {
         public Transform m_SmoothMainBody;
         public Transform m_StaticTargetBody;
     }
-
-    private List<SmoothLayoutHelper> m_LayoutHelpers = new List<SmoothLayoutHelper>();
-
-    [SerializeField] private GameObject m_EmptyPrefab;
-    [SerializeField] private float m_Speed;
     
-    private Tween m_FlowTween;
-
-    public string publicLeaderboardKey = "59e10e929e180eeaa1f18ea1a5f880a469b063718115098bb55a6a61ccda8197";
-    private string leaderboardKey = "leaderboard-97094";
-
-    private string secretKey =
-        "8d39621defd2f89ba7636bba481ec9611e6fa657b5688a15266d180083e29567c7cf42b8f6d440bc72a22820e0a66ddd304bfb2706458018fce352f43dfcad5a288523bd785b49a5660786db412605678a21ba62191760938d0ac5e24daf34070acdd221341bbc1feb936f32155f6da3c0ebfe78c7b929ad95615ae8d9b303e7";
+    
+    public class LeaderBoardUnitWrapper
+    {
+        public Entry Entry = new Entry();
+        public bool IsPlayer;
+    }
 
     IEnumerator Start()
     {
-        yield return new WaitForSeconds(1);
-        cGameLogicManager.Instance.LeaderBoardView.SetLeaderBoardEntry(PlayerPrefs.GetString("PlayerName","Default"), cCurrencyBarScreen.Instance.PlayerMaxScore);
+        yield return new WaitForSeconds(.5f);
+        SendPlayerEntry();
+        yield return new WaitForSeconds(.5f);
+        CheckBoard();
+        
     }
 
-    public void GetLeaderBoard()
+    public void SendPlayerEntry()
     {
-        LeaderboardCreator.GetLeaderboard(publicLeaderboardKey, ((msg) =>
+        m_OnlineLeaderboard.SetPlayerEntry();
+        DOVirtual.DelayedCall(20, () =>
         {
-            OnLeaderboardLoaded(msg);
+            m_OnlineLeaderboard.SetPlayerEntry();
+            SendPlayerEntry();
+        });
+    }
+
+    public void CheckBoard()
+    {
+        m_OnlineLeaderboard.GetLeaderBoard((success =>
+        {
+            OnLeaderboardLoaded(success ? m_OnlineLeaderboard.m_Entries : m_RandomAILeaderboard.GetRandomEntries(30));
+            DOVirtual.DelayedCall(30, CheckBoard);
         }));
     }
 
-    public void SetLeaderBoardEntry(string userName, int score)
-    {
-        LeaderboardCreator.UploadNewEntry(publicLeaderboardKey, userName, score, ((msg) =>
-        {
-            GetLeaderBoard();
-        }));
-    }
-
-    public void OnLeaderboardLoaded(Entry[] scores)
+    public void OnLeaderboardLoaded(LeaderBoardUnitWrapper[] scores)
     {
         for (int i = m_LayoutHelpers.Count - 1; i >= 0; i--)
         {
@@ -72,19 +77,11 @@ public class cLeaderBoardView : cView
             Destroy(m_LayoutHelpers[i].m_StaticTargetBody.gameObject);
             m_LayoutHelpers.RemoveAt(i);
         }
-    
+
         m_PlayerSlot = null;
-        m_FlowTween.Kill();
         
-        // for (int i = 0; i < 100; i++)
-        // {
-        //     var ins = Instantiate(m_BoardSlotControllerPrefab, m_LayoutTranform);
-        //     ins.Init();
-        //     ins.m_LeaderBoardView = this;
-        //     AddLayout(ins.transform);
-        // }
-    
-    
+        m_FlowTween.Kill();
+
         StartCoroutine(FrameDelay());
     
         IEnumerator FrameDelay()
@@ -97,69 +94,64 @@ public class cLeaderBoardView : cView
                 ins.m_LeaderBoardView = this;
                 AddLayout(ins.transform);
             
-                ins.m_StartCount = (int)leaderboardEntry.Score;
-                ins.m_PlayerName = leaderboardEntry.Username;
-                ins.m_Rank = leaderboardEntry.Rank+1;
+                ins.m_StartCount = (int)leaderboardEntry.Entry.Score;
+                ins.m_PlayerName = leaderboardEntry.Entry.Username;
+                ins.m_Rank = leaderboardEntry.Entry.Rank+1;
                 ins.UpdateUI();
     
-                if (leaderboardEntry.IsMine())
+                if (leaderboardEntry.IsPlayer)
                 {
                     m_PlayerSlot = ins;
                 }
             }
             m_PlayerSlot.Selected();
         
-            var orderedList = m_LayoutHelpers
-                .OrderByDescending((transform1 => transform1.m_SmoothMainBody.GetComponent<cLeaderBoardSlotController>().m_StartCount))
-                .Select((helper => helper.m_StaticTargetBody));
-    
-            foreach (var VARIABLE in orderedList)
-            {
-                VARIABLE.transform.SetParent(null);
-            }
-        
-            foreach (var VARIABLE in orderedList)
-            {
-                VARIABLE.transform.SetParent(m_LayoutTranform);
-            }
-    
-            foreach (var VARIABLE in m_LayoutHelpers)
-            {
-                VARIABLE.m_SmoothMainBody.GetComponent<cLeaderBoardSlotController>().SetRank(VARIABLE.m_StaticTargetBody.GetSiblingIndex());
-            }
-    
-        
-            m_HiearcyIndex = Mathf.Max(m_LayoutHelpers.Count, m_PlayerIndex-5);
-            m_PlayerIndex = GetStaticTransform(m_PlayerSlot.transform).GetSiblingIndex();
-            if (m_IsActive == false)
-            {
-                GetStaticTransform(m_PlayerSlot.transform).SetSiblingIndex(m_HiearcyIndex);
-            }
-            else
-            {
-                UpdateLayoutPos(1);
-                UpdateLayoutPos(1);
-            }
+            FixRanks();
         }
     }
-
-    private int m_PlayerIndex;
 
     public override void Activate()
     {
         base.Activate();
 
-        FlowPlayerAnim();
+        FixRanks();
     }
 
-    public void FlowPlayerAnim()
+    private void FixRanks()
     {
-        m_FlowTween.Kill();
-        m_FlowTween=DOVirtual.Int(m_HiearcyIndex, m_PlayerIndex, 4, value =>
+        if(m_PlayerSlot == null) return;
+        
+        m_PlayerSlot.m_StartCount = cSaveDataHandler.GameConfiguration.MaxCoinCount;
+
+        var baseRank = m_LayoutHelpers
+            .Select((transform1 => transform1.m_SmoothMainBody.GetComponent<cLeaderBoardSlotController>().m_Rank))
+            .OrderByDescending((i => i))
+            .FirstOrDefault();
+
+        var orderedList = m_LayoutHelpers
+            .OrderByDescending((transform1 =>
+                transform1.m_SmoothMainBody.GetComponent<cLeaderBoardSlotController>().m_StartCount))
+            .Select((helper => helper.m_StaticTargetBody));
+
+        foreach (var VARIABLE in orderedList)
         {
-            if(m_PlayerSlot == null) return;
-            GetStaticTransform(m_PlayerSlot.transform).SetSiblingIndex(value);
-        });
+            VARIABLE.transform.SetParent(null);
+        }
+
+        foreach (var VARIABLE in orderedList)
+        {
+            VARIABLE.transform.SetParent(m_LayoutTranform);
+        }
+
+        foreach (var VARIABLE in m_LayoutHelpers)
+        {
+            VARIABLE.m_SmoothMainBody.GetComponent<cLeaderBoardSlotController>().m_Rank =
+                VARIABLE.m_StaticTargetBody.GetSiblingIndex() + 1 + baseRank;
+            
+            VARIABLE.m_SmoothMainBody.GetComponent<cLeaderBoardSlotController>().UpdateUI();
+        }
+
+        cSaveDataHandler.GameConfiguration.CurrentRank = m_PlayerSlot.m_Rank;
     }
 
     public void AddLayout(Transform ins)
@@ -186,8 +178,9 @@ public class cLeaderBoardView : cView
     {
         if (m_PlayerSlot == null) return;
 
-        m_ScrollView.verticalNormalizedPosition = 1 - (float)GetStaticTransform(m_PlayerSlot.transform).GetSiblingIndex()
+        float value = 1 - (float)GetStaticTransform(m_PlayerSlot.transform).GetSiblingIndex()
             / GetStaticTransform(m_PlayerSlot.transform).parent.childCount;
+        m_ScrollView.verticalNormalizedPosition = Mathf.Lerp(-1, 1, value);
 
         foreach (var VARIABLE in m_LayoutHelpers)
         {
@@ -212,5 +205,16 @@ public class cLeaderBoardView : cView
     public int GetIndex(Transform ins)
     {
         return GetStaticTransform(ins).GetSiblingIndex();
+    }
+    
+    [ContextMenu("Delete")]
+    public void DeleteLeaderBoard()
+    {
+        LeaderboardCreator.ResetPlayer();
+    }
+
+    public void SendPlayerData()
+    {
+        m_OnlineLeaderboard.SetPlayerEntry();
     }
 }

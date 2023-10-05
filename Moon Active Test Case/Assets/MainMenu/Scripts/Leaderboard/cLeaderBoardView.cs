@@ -65,7 +65,7 @@ public class cLeaderBoardView : cView
         m_OnlineLeaderboard.GetLeaderBoard((success =>
         {
             OnLeaderboardLoaded(success ? m_OnlineLeaderboard.m_Entries : m_RandomAILeaderboard.GetRandomEntries(30));
-            DOVirtual.DelayedCall(30, CheckBoard);
+            DOVirtual.DelayedCall(360, CheckBoard);
         }));
     }
 

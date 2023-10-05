@@ -18,10 +18,13 @@ public class cSimonSaysController : MonoBehaviour
     private List<cSimonButton> CurrentMatchSelectionList = new List<cSimonButton>();
 
     private int currentIndex = 0;
+
+    private float m_Speed = 1;
     
-    public void Init(List<cSimonButton> buttons)
+    public void Init(List<cSimonButton> buttons, cGameConfiguration gameConfiguration)
     {
         SimonButtons=buttons;
+        m_Speed = gameConfiguration.m_GameSpeed;
     }
 
     private void Update()
@@ -108,8 +111,8 @@ public class cSimonSaysController : MonoBehaviour
         {
             foreach (var VARIABLE in sequence)
             {
-                VARIABLE.Light(.5f);
-                yield return new WaitForSeconds(1);
+                VARIABLE.Light(.5f / m_Speed);
+                yield return new WaitForSeconds(1 / m_Speed);
                 VARIABLE.Unlight();
             }
             

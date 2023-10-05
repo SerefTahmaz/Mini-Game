@@ -20,23 +20,11 @@ public class cOnlineLeaderboard
     public void GetLeaderBoard(Action<bool> successCallback)
     {
         m_Entries = null;
-        DOVirtual.DelayedCall(5, () =>
-        {
-            if (m_Entries == null)
-            {
-                successCallback.Invoke(false);
-            }
-            else
-            {
-                successCallback.Invoke(true);
-            }
-        });
-        
+
         LeaderboardCreator.GetLeaderboard(publicLeaderboardKey, ((msg) =>
         {
             if (msg.Any())
             {
-                Debug.Log(msg.Length);
                 cLeaderBoardView.LeaderBoardUnitWrapper[] onlineEntries = new cLeaderBoardView.LeaderBoardUnitWrapper[msg.Length];
                 
                 for (int i = 0; i < msg.Length; i++)
@@ -45,7 +33,6 @@ public class cOnlineLeaderboard
 
                     if (msg[i].IsMine())
                     {
-                        Debug.Log("ISMINE");
                         onlineEntries[i].IsPlayer = true;
                         cSaveDataHandler.GameConfiguration.CurrentRank = msg[i].Rank;
                         cSaveDataHandler.Save();
@@ -53,15 +40,20 @@ public class cOnlineLeaderboard
                 }
 
                 m_Entries = onlineEntries;
+                successCallback.Invoke(true);
+            }
+            else
+            {
+                successCallback.Invoke(false);
             }
         }));
     }
 
     public void SetLeaderBoardEntry(string userName, int score, Action<bool> successCallback)
     {
-        LeaderboardCreator.Ping((b =>
+        LeaderboardCreator.Ping((hasConnection =>
         {
-            if (b)
+            if (hasConnection)
             {
                 LeaderboardCreator.UploadNewEntry(publicLeaderboardKey, userName, score, ((msg) =>
                 {

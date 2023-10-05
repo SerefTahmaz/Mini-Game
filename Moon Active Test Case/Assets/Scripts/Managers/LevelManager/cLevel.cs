@@ -38,7 +38,7 @@ public class cLevel : MonoBehaviour
                 yield return new WaitForSeconds(.5f);
             }
         
-            m_SimonSaysController.Init(buttons);
+            m_SimonSaysController.Init(buttons, gameConfiguration);
             m_SimonSaysController.AddRound();
         }
     }

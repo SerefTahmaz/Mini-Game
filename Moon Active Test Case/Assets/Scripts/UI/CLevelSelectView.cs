@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class cLevelSelectPage : cPage
+public class CLevelSelectView : cView
 {
     [SerializeField] private cPlayerNameInputController m_NameSelect;
     [SerializeField] private cLevelSelectUIController m_LevelSelect;

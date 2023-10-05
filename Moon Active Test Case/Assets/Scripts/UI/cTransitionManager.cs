@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class cTransitionManager : cPage
+public class cTransitionManager : cView
 {
     [SerializeField] private cDownTransition m_Rotation;
     [SerializeField] private cDownTransition2 m_Lateral;

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class cLevelSelectUIController : cPage
+public class cLevelSelectUIController : cView
 {
     [SerializeField] private List<cGameLevelSO> m_GameLevels;
     [SerializeField] private cLevelSelectButton m_LevelSelectButton;

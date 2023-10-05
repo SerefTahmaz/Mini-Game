@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
 using UnityEngine;
+using UnityEngine.UI;
 using Random = UnityEngine.Random;
 
 public static class cExtensionMethods
@@ -115,6 +116,36 @@ public static class cExtensionMethods
             T temp = list[i];
             list[i] = list[swapIndex];
             list[swapIndex] = temp;
+        }
+    }
+
+    public static void SuccessShakeUI(this Transform transform)
+    {
+        transform.DOComplete();
+
+        transform.DOShakeScale(.3f, .2f);
+
+        foreach (var VARIABLE in transform.GetComponentsInChildren<Image>())
+        {
+            VARIABLE.DOComplete();
+            Color colorToLerp = Color.green;
+            colorToLerp.a = VARIABLE.color.a;
+            VARIABLE.DOColor(colorToLerp, .15f).SetLoops(2, LoopType.Yoyo);
+        }
+    }
+    
+    public static void FailShakeUI(this Transform transform)
+    {
+        transform.DOComplete();
+
+        transform.DOShakeRotation(.3f, 10, 25);
+
+        foreach (var VARIABLE in transform.GetComponentsInChildren<Image>())
+        {
+            VARIABLE.DOComplete();
+            Color colorToLerp = Color.red;
+            colorToLerp.a = VARIABLE.color.a;
+            VARIABLE.DOColor(colorToLerp, .15f).SetLoops(2, LoopType.Yoyo);
         }
     }
 }

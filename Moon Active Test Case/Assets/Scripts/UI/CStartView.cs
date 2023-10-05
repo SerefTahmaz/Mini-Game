@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class cStartPage : cPage
+public class CStartView : cView
 {
     
 }

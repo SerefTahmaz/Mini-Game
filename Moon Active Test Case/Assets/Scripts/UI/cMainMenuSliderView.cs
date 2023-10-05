@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class cMainMenuSliderView : cPage
+public class cMainMenuSliderView : cView
 {
     
 }

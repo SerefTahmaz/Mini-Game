@@ -6,7 +6,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
 
-public class cPlayerNameInputController : cPage
+public class cPlayerNameInputController : cView
 {
     [SerializeField] private UnityEvent m_OnNameSelected;
     [SerializeField] private TMP_Text m_InputText;
@@ -29,18 +29,8 @@ public class cPlayerNameInputController : cPage
     {
         if (m_InputText.text.Length > 1)
         {
-            transform.DOComplete();
+            transform.SuccessShakeUI();
 
-            transform.DOShakeScale(.3f, .2f);
-
-            foreach (var VARIABLE in GetComponentsInChildren<Image>())
-            {
-                VARIABLE.DOComplete();
-                Color colorToLerp = Color.green;
-                colorToLerp.a = VARIABLE.color.a;
-                VARIABLE.DOColor(colorToLerp, .15f).SetLoops(2, LoopType.Yoyo);
-            }
-            
             PlayerPrefs.SetString("PlayerName", m_InputText.text);
 
             DOVirtual.DelayedCall(.35f, () =>
@@ -51,17 +41,7 @@ public class cPlayerNameInputController : cPage
         }
         else
         {
-            transform.DOComplete();
-
-            transform.DOShakeRotation(.3f, 10, 25);
-
-            foreach (var VARIABLE in GetComponentsInChildren<Image>())
-            {
-                VARIABLE.DOComplete();
-                Color colorToLerp = Color.red;
-                colorToLerp.a = VARIABLE.color.a;
-                VARIABLE.DOColor(colorToLerp, .15f).SetLoops(2, LoopType.Yoyo);
-            }
+            transform.FailShakeUI();
         }
     }
 }

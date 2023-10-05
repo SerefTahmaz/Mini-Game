@@ -9,7 +9,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.UIElements;
 
-public class cLeaderBoardView : cPage
+public class cLeaderBoardView : cView
 {
     [SerializeField] private Transform m_LayoutTranform;
 

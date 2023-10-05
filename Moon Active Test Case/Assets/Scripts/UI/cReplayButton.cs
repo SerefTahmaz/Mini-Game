@@ -2,10 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class cReplayButton : MonoBehaviour
+public class cReplayButton : cButton
 {
-    public void Onclick()
+    public override void OnClick()
     {
+        base.OnClick();
         cGameLogicManager.Instance.Replay();
     }
 }

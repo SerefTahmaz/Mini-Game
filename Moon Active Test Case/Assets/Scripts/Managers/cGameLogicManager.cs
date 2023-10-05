@@ -61,6 +61,7 @@ public class cGameLogicManager : cSingleton<cGameLogicManager>
 
     public void Replay()
     {
+        cUIManager.Instance.HidePage(Page.LeaderBoardView);
         cUIManager.Instance.HidePage(Page.FailView);
         cUIManager.Instance.ShowPage(Page.LevelSelect);
     }

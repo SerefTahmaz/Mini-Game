@@ -6,7 +6,7 @@ using UnityEngine;
 public class cUIManager : cSingleton<cUIManager>
 {
     [SerializeField] private Page m_StartPage;
-    [SerializeField] private List<cPage> m_Pages;
+    [SerializeField] private List<cView> m_Pages;
 
     private void Awake()
     {

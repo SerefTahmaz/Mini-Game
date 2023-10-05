@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
-public class cLevelSelectButton : MonoBehaviour
+public class cLevelSelectButton : cButton
 {
     [SerializeField] private TMP_Text m_LevelNameText;
 
@@ -17,7 +17,7 @@ public class cLevelSelectButton : MonoBehaviour
         m_LevelNameText.text = m_GameLevelSo.m_LevelName;
 
     }
-    public void OnClick()
+    public override void OnClick()
     {
         LevelSelectUIController.Selected(m_GameLevelSo);
     }

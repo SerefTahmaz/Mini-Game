@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using DG.Tweening;
 using UnityEngine;
 
-public class cStartButtonController : MonoBehaviour
+public class cStartButtonController : cButton
 {
     [SerializeField] private Transform m_Pivot;
     [SerializeField] private float m_PulseDelay;
@@ -23,7 +23,7 @@ public class cStartButtonController : MonoBehaviour
         });
     }
 
-    public void OnClick()
+    public override void OnClick()
     {
         cGameLogicManager.Instance.OnStartButton();
     }

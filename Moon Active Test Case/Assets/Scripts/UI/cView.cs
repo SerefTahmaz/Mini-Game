@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using DG.Tweening;
 using UnityEngine;
 
-public class cPage : MonoBehaviour
+public class cView : MonoBehaviour
 {
     [SerializeField] private CanvasGroup m_CanvasGroup;
 

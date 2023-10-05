@@ -11,7 +11,7 @@ public class cMainMenuView : MonoBehaviour
     [SerializeField] private Scrollbar m_Scrollbar;
     [SerializeField] private HorizontalLayoutGroup m_HorizontalLayoutGroup;
 
-    [SerializeField] private List<cPage> m_Menus;
+    [SerializeField] private List<cView> m_Menus;
 
 
     private Rect m_StartScale;

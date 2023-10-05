@@ -6,10 +6,14 @@ using UnityEngine.UI;
 
 public class cButton : MonoBehaviour
 {
+    private bool m_IsClicked = false;
 
     public virtual void OnEnter()
     {
-        
+        if(m_IsClicked) return;
+        transform.DOComplete();
+        transform.DOScale(.1f, .25f).SetRelative(true);
+        cSoundManager.Instance.PlayMouseEnter();
     }
     
     public virtual void OnClick()
@@ -17,11 +21,19 @@ public class cButton : MonoBehaviour
         transform.DOComplete();
         transform.DOScale(.25f, .25f).SetRelative(true);
         cSoundManager.Instance.PlayClick();
+
+        m_IsClicked = true;
+        DOVirtual.DelayedCall(.25f, () =>
+        {
+            m_IsClicked = false;
+        });
     }
     
     public virtual void OnExit()
     {
-        
+        if(m_IsClicked) return;
+        transform.DOComplete();
+        transform.DOScale(1, .25f);
     }
 
     public virtual void Success()
@@ -37,6 +49,12 @@ public class cButton : MonoBehaviour
             colorToLerp.a = VARIABLE.color.a;
             VARIABLE.DOColor(colorToLerp, .15f).SetLoops(2, LoopType.Yoyo);
         }
+        
+        m_IsClicked = true;
+        DOVirtual.DelayedCall(.4f, () =>
+        {
+            m_IsClicked = false;
+        });
     }
 
     public virtual void Fail()
@@ -52,5 +70,11 @@ public class cButton : MonoBehaviour
             colorToLerp.a = VARIABLE.color.a;
             VARIABLE.DOColor(colorToLerp, .15f).SetLoops(2, LoopType.Yoyo);
         }
+        
+        m_IsClicked = true;
+        DOVirtual.DelayedCall(.4f, () =>
+        {
+            m_IsClicked = false;
+        });
     }
 }

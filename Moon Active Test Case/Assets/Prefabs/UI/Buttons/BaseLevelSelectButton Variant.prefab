@@ -115,11 +115,31 @@ PrefabInstance:
     - target: {fileID: 4265076307964126475, guid: 78b459d4172cd1d4595b4d537da8cd93,
         type: 3}
       propertyPath: m_Name
-      value: BaseLevelSelectButton
+      value: BaseLevelSelectButton Variant
+      objectReference: {fileID: 0}
+    - target: {fileID: 4265076308644783482, guid: 78b459d4172cd1d4595b4d537da8cd93,
+        type: 3}
+      propertyPath: m_fontSize
+      value: 44.55
+      objectReference: {fileID: 0}
+    - target: {fileID: 5936690567157358065, guid: 78b459d4172cd1d4595b4d537da8cd93,
+        type: 3}
+      propertyPath: m_OnExit.m_PersistentCalls.m_Calls.Array.size
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5936690567157358065, guid: 78b459d4172cd1d4595b4d537da8cd93,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5936690567157358065, guid: 78b459d4172cd1d4595b4d537da8cd93,
+        type: 3}
+      propertyPath: m_OnEnter.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5936690567157358065, guid: 78b459d4172cd1d4595b4d537da8cd93,
+        type: 3}
+      propertyPath: m_OnExit.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5936690567157358065, guid: 78b459d4172cd1d4595b4d537da8cd93,
@@ -129,13 +149,43 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5936690567157358065, guid: 78b459d4172cd1d4595b4d537da8cd93,
         type: 3}
+      propertyPath: m_OnEnter.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5936690567157358065, guid: 78b459d4172cd1d4595b4d537da8cd93,
+        type: 3}
+      propertyPath: m_OnExit.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 513498397}
+    - target: {fileID: 5936690567157358065, guid: 78b459d4172cd1d4595b4d537da8cd93,
+        type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 513498397}
     - target: {fileID: 5936690567157358065, guid: 78b459d4172cd1d4595b4d537da8cd93,
         type: 3}
+      propertyPath: m_OnEnter.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 513498397}
+    - target: {fileID: 5936690567157358065, guid: 78b459d4172cd1d4595b4d537da8cd93,
+        type: 3}
+      propertyPath: m_OnExit.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5936690567157358065, guid: 78b459d4172cd1d4595b4d537da8cd93,
+        type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5936690567157358065, guid: 78b459d4172cd1d4595b4d537da8cd93,
+        type: 3}
+      propertyPath: m_OnEnter.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5936690567157358065, guid: 78b459d4172cd1d4595b4d537da8cd93,
+        type: 3}
+      propertyPath: m_OnExit.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnExit
       objectReference: {fileID: 0}
     - target: {fileID: 5936690567157358065, guid: 78b459d4172cd1d4595b4d537da8cd93,
         type: 3}
@@ -144,16 +194,53 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5936690567157358065, guid: 78b459d4172cd1d4595b4d537da8cd93,
         type: 3}
+      propertyPath: m_OnEnter.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnEnter
+      objectReference: {fileID: 0}
+    - target: {fileID: 5936690567157358065, guid: 78b459d4172cd1d4595b4d537da8cd93,
+        type: 3}
+      propertyPath: m_OnExit.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: cButton, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 5936690567157358065, guid: 78b459d4172cd1d4595b4d537da8cd93,
+        type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
       value: cLevelSelectButton, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 5936690567157358065, guid: 78b459d4172cd1d4595b4d537da8cd93,
+        type: 3}
+      propertyPath: m_OnEnter.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: cLevelSelectButton, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 5936690567157358065, guid: 78b459d4172cd1d4595b4d537da8cd93,
+        type: 3}
+      propertyPath: m_OnExit.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 5936690567157358065, guid: 78b459d4172cd1d4595b4d537da8cd93,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
+    - target: {fileID: 5936690567157358065, guid: 78b459d4172cd1d4595b4d537da8cd93,
+        type: 3}
+      propertyPath: m_OnEnter.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 78b459d4172cd1d4595b4d537da8cd93, type: 3}
+--- !u!114 &7052417681326883901 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4265076308164008504, guid: 78b459d4172cd1d4595b4d537da8cd93,
+    type: 3}
+  m_PrefabInstance: {fileID: 6552632772813430277}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 41f1c5417c9d7ab4b84e531f83f60a4b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7052417681525472014 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 4265076307964126475, guid: 78b459d4172cd1d4595b4d537da8cd93,
@@ -173,6 +260,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_LevelNameText: {fileID: 7052417681937693567}
+  m_BG: {fileID: 7052417681326883901}
 --- !u!114 &7052417681937693567 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 4265076308644783482, guid: 78b459d4172cd1d4595b4d537da8cd93,

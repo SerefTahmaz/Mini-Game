@@ -9,7 +9,7 @@ public class cAudioUIButton : MonoBehaviour
 
     private void Awake()
     {
-        var audiostate = cSaveData.GameConfiguration.AudioState;;
+        var audiostate = cSaveDataHandler.GameConfiguration.AudioState;;
 
         if (audiostate)
         {
@@ -23,7 +23,7 @@ public class cAudioUIButton : MonoBehaviour
 
     public void OnClick()
     {
-        var audiostate = cSaveData.GameConfiguration.AudioState;
+        var audiostate = cSaveDataHandler.GameConfiguration.AudioState;
 
         if (audiostate)
         {
@@ -38,14 +38,14 @@ public class cAudioUIButton : MonoBehaviour
 
     public void EnableAudio()
     {
-        cSaveData.GameConfiguration.AudioState = true;
+        cSaveDataHandler.GameConfiguration.AudioState = true;
         m_DisableGO.SetActive(false);
         cSoundManager.Instance.SetActive( true);
     }
     
     public void DisableAudio()
     {
-        cSaveData.GameConfiguration.AudioState = false;
+        cSaveDataHandler.GameConfiguration.AudioState = false;
         m_DisableGO.SetActive(true);
         cSoundManager.Instance.SetActive( false);
     }

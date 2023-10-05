@@ -15,12 +15,15 @@ public class cGameLogicManager : cSingleton<cGameLogicManager>
 
     private IGameConfig GameConfig;
     private cGameConfiguration m_CurrentGameConfig;
+    private cGameManagerEventController m_GameEvents = new cGameManagerEventController();
 
     public Action m_OnSelected = delegate { };
 
     public cLeaderBoardView LeaderBoardView => m_LeaderBoardView;
 
     public cTransitionManager TransitionManager => m_TransitionManager;
+
+    public cGameManagerEventController GameEvents => m_GameEvents;
 
     private void Awake()
     {

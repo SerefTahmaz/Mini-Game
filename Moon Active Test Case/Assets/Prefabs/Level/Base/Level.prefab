@@ -201,6 +201,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: cabaa4bff48542b43bc460d7d22cdc74, type: 2}
   - {fileID: 11400000, guid: f053240a49123614f8b01ab69d683637, type: 2}
   - {fileID: 11400000, guid: 7dc5f8e9db3dd36429dae3b765711870, type: 2}
+  - {fileID: 11400000, guid: 921e04324d1955142ae56188de482769, type: 2}
   m_SimonSaysController: {fileID: 2283583872309990657}
 --- !u!1 &2014352581104635418
 GameObject:

@@ -5,15 +5,7 @@ using System.IO;
 using UnityEditor;
 using UnityEngine;
 
-public class SaveData
-{
-    public string PlayerName = "";
-    public int CurrentCoinCount;
-    public int MaxCoinCount;
-    public bool AudioState = true;
-}
-
-public static class cSaveData
+public static class cSaveDataHandler
 {
     private static SaveData m_GameConfiguration = new SaveData();
     public static SaveData GameConfiguration

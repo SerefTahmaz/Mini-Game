@@ -110,7 +110,7 @@ GameObject:
   - component: {fileID: 8264466056020319221}
   - component: {fileID: 8721260739502628582}
   m_Layer: 0
-  m_Name: BaseButton
+  m_Name: BaseSimonButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -12,6 +12,7 @@ public class cSoundManager : cSingleton<cSoundManager>
     [SerializeField] private List<AudioClip> m_SuccessSound;
     [SerializeField] private List<AudioClip> m_FailSound;
     [SerializeField] private AudioClip m_Click;
+    [SerializeField] private AudioClip m_OnMouseEnter;
     
     [SerializeField] private AudioSource m_AudioSource;
     [SerializeField] private AudioSource m_AmbientSource;
@@ -46,6 +47,11 @@ public class cSoundManager : cSingleton<cSoundManager>
     public void PlayClick()
     {
         m_AudioSource.PlayOneShot(m_Click);
+    }
+    
+    public void PlayMouseEnter()
+    {
+        m_AudioSource.PlayOneShot(m_OnMouseEnter);
     }
 
     public void SetActive(bool state)

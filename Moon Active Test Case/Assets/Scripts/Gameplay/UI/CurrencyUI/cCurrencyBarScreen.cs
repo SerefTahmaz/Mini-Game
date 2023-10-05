@@ -7,22 +7,22 @@ public class cCurrencyBarScreen : cSingleton<cCurrencyBarScreen>
 
     public int CurrentCurrencyAmount
     {
-        get => cSaveData.GameConfiguration.CurrentCoinCount;
+        get => cSaveDataHandler.GameConfiguration.CurrentCoinCount;
         set
         {
-            cSaveData.GameConfiguration.CurrentCoinCount = value;
+            cSaveDataHandler.GameConfiguration.CurrentCoinCount = value;
             PlayerMaxScore = value;
         }
     }
     
     public int PlayerMaxScore
     {
-        get =>  cSaveData.GameConfiguration.MaxCoinCount;
+        get =>  cSaveDataHandler.GameConfiguration.MaxCoinCount;
         set
         {
             if (value > PlayerMaxScore)
             {
-                cSaveData.GameConfiguration.MaxCoinCount = value;
+                cSaveDataHandler.GameConfiguration.MaxCoinCount = value;
             }
         }
     }

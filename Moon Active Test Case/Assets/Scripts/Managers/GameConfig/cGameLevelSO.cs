@@ -9,4 +9,5 @@ public class cGameLevelSO : ScriptableObject
     public Sprite m_Icon;
     public TextAsset m_ConfigFile;
     public string m_LevelName;
+    public Color m_Color;
 }

@@ -15,7 +15,7 @@ public class cXmlGameConfig : IGameConfig
         set => m_GameConfiguration = value;
     }
 
-    private static string m_FilePath => Application.dataPath + "/ObjectData.xml";
+    private static string m_FilePath => Application.dataPath + "/GameConfig.xml";
 
     public void Save()
     {
@@ -33,7 +33,7 @@ public class cXmlGameConfig : IGameConfig
  
         using (FileStream stream = new FileStream(m_FilePath, FileMode.Open))
         {
-            GameConfiguration = serializer.Deserialize(stream) as cGameConfiguration;
+            GameConfiguration = (cGameConfiguration) serializer.Deserialize(stream);
  
             Debug.Log(GameConfiguration);
         }
@@ -44,7 +44,7 @@ public class cXmlGameConfig : IGameConfig
         var serializer = new XmlSerializer(typeof(cGameConfiguration));
         using(var reader = new System.IO.StringReader(textAsset.text))
         {
-            return serializer.Deserialize(reader) as cGameConfiguration;
+            return (cGameConfiguration) serializer.Deserialize(reader);
         }
     }
     

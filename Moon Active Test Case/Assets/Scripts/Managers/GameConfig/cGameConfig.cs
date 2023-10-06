@@ -1,13 +1,13 @@
 using System;
 
 [Serializable]
-public class cGameConfiguration
+public struct cGameConfiguration
 {
-    public int m_ButtonCount=4;
-    public int m_EachStepPointCount=1;
-    public int m_GameTimeInSeconds=50;
-    public bool m_RepeatMode=true;
-    public float m_GameSpeed = 1;
+    public int m_ButtonCount;
+    public int m_EachStepPointCount;
+    public int m_GameTimeInSeconds;
+    public bool m_RepeatMode;
+    public float m_GameSpeed;
 
     public override string ToString()
     {

@@ -1,20 +1,18 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
-#if UNITY_EDITOR
-using UnityEditor;
-#endif
 using UnityEngine;
 using UnityEngine.UI.ProceduralImage;
 
-public class cDownTransition2 : MonoBehaviour
+public class cRotationalTransition : MonoBehaviour
 {
     [SerializeField] private RectTransform m_Pivot;
     [SerializeField] private RectTransform m_Icon;
     [SerializeField] private RectTransform m_IconOutline;
     [SerializeField] private ProceduralImage m_BG;
     
-    public void Anim()
+    public void Anim(Action onFullCoverScreen, Action onFinish)
     {
         StartCoroutine(Anim());
         
@@ -34,6 +32,8 @@ public class cDownTransition2 : MonoBehaviour
             m_Pivot.DORotate(-Vector3.forward * 120, 1).SetRelative(true);
             
             yield return new WaitForSeconds(.4f);
+            
+            onFullCoverScreen.Invoke();
             
             m_Icon.gameObject.SetActive(true);
             m_Icon.DOScale(.3f, .3f).SetRelative(true);
@@ -71,23 +71,8 @@ public class cDownTransition2 : MonoBehaviour
             
             m_Icon.GetComponent<ProceduralImage>().DOFade(1, 0);
             m_IconOutline.GetComponent<ProceduralImage>().DOFade(.43f, 0);
+            
+            onFinish.Invoke();
         }
     }
 }
-
-
-#if UNITY_EDITOR
-[CustomEditor(typeof(cDownTransition2))]
-class DownTransition2Editor:Editor
-{
-    public override void OnInspectorGUI()
-    {
-        base.OnInspectorGUI();
-        var script = (cDownTransition2)target;
-        if (GUILayout.Button("Test"))
-        {
-            script.Anim();
-        }
-    }
-}
-#endif

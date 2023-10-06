@@ -18,11 +18,15 @@ public class cSoundManager : cSingleton<cSoundManager>
     [SerializeField] private AudioSource m_AudioSource;
     [SerializeField] private AudioSource m_AmbientSource;
 
-    private AudioClip m_LastAmbientSound;
-
     private void Start()
     {
         // m_AudioSource.PlayOneShot(m_forestBGSounds[Random.Range(0, m_forestBGSounds.Count-1)], .25f);
+    }
+    
+    public void SetActive(bool state)
+    {
+        m_AudioSource.mute = !state;
+        m_AmbientSource.mute = !state;
     }
 
     public void PlayPop()
@@ -59,22 +63,6 @@ public class cSoundManager : cSingleton<cSoundManager>
     {
         m_AudioSource.PlayOneShot(m_Swoosh);
     }
-    
-    public void SetActive(bool state)
-    {
-        m_AudioSource.mute = !state;
-        m_AmbientSource.mute = !state;
-
-        // if (state)
-        // {
-        //     PlayAmbient(m_LastAmbientSound);
-        // }
-    }
-    
-    public bool IsActive()
-    {
-        return m_AudioSource.enabled;
-    }
 
     public void PlayAmbient(AudioClip levelSoClip)
     {
@@ -82,7 +70,6 @@ public class cSoundManager : cSingleton<cSoundManager>
         m_AmbientSource.clip = levelSoClip;
         m_AmbientSource.volume = .1f;
         m_AmbientSource.Play();
-        m_LastAmbientSound = levelSoClip;
     }
 
     public void PlayTrack(AudioClip onLightSound)

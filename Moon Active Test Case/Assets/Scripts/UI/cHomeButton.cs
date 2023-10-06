@@ -8,14 +8,16 @@ public class cHomeButton : cButton
     public override void OnClick()
     {
         base.OnClick();
-        cGameLogicManager.Instance.TransitionManager.PlayTransition(cTransitionManager.TransitionType.Rotating);
-        DOVirtual.DelayedCall(.5f, () =>
+        cGameLogicManager.Instance.TransitionManager.PlayTransition(cTransitionManager.TransitionType.Lateral, () =>
         {
             cUIManager.Instance.HidePage(Page.LeaderBoardView);
             cUIManager.Instance.HidePage(Page.FailView);
             cUIManager.Instance.ShowPage(Page.Gameplay);
             cUIManager.Instance.ShowPage(Page.MainMenuSliderView);
             cLevelManager.Instance.RemoveLevel();
+        }, () =>
+        {
+            
         });
     }
 }

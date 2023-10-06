@@ -51,11 +51,11 @@ public class cLeaderBoardView : cView
 
     public void CheckBoard()
     {
-        m_OnlineLeaderboard.GetLeaderBoard((success =>
+        m_OnlineLeaderboard.GetLeaderBoard((success, entries) =>
         {
-            OnLeaderboardLoaded(success ? m_OnlineLeaderboard.m_Entries : m_RandomAILeaderboard.GetRandomEntries(30));
+            OnLeaderboardLoaded(success ? entries : m_RandomAILeaderboard.GetRandomEntries(30));
             DOVirtual.DelayedCall(360, CheckBoard);
-        }));
+        });
     }
 
     public void OnLeaderboardLoaded(LeaderBoardUnitWrapper[] scores)

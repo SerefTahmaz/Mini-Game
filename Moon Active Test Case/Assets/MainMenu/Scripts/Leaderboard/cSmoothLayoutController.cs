@@ -47,10 +47,12 @@ public class cSmoothLayoutController : MonoBehaviour
     {
         if(m_FocusTransform == null) return;
         
-        float value = 1 - (float) m_LayoutDict[m_FocusTransform].StaticTransform.GetSiblingIndex()
-            /  m_StaticGOTransform.childCount;
-        m_ScrollView.verticalNormalizedPosition = Mathf.Lerp(-.2f, 1, value);
-        
+        AdjustScrollView();
+        AdjustVerticalLayout();
+    }
+
+    private void AdjustVerticalLayout()
+    {
         var speed = Time.deltaTime * 5 * m_Speed;
         foreach (var VARIABLE in m_DynamicTransforms)
         {
@@ -70,6 +72,13 @@ public class cSmoothLayoutController : MonoBehaviour
             // rectT.anchoredPosition = new Vector2(temp3.x, temp3.y);
             rectT.sizeDelta = new Vector2(temp3.z, temp3.w);
         }
+    }
+
+    private void AdjustScrollView()
+    {
+        float value = 1 - (float)m_LayoutDict[m_FocusTransform].StaticTransform.GetSiblingIndex()
+            / m_StaticGOTransform.childCount;
+        m_ScrollView.verticalNormalizedPosition = Mathf.Lerp(-.2f, 1, value);
     }
 
     public void ClearAll()

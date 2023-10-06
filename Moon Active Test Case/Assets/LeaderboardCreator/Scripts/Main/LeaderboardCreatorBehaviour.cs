@@ -139,6 +139,7 @@ namespace Dan.Main
         
         private static void HandleError(UnityWebRequest request)
         {
+            return;
             var message = Enum.GetName(typeof(StatusCode), (StatusCode)request.responseCode).SplitByUppercase();
                 
             var downloadHandler = request.downloadHandler;

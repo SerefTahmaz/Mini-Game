@@ -11,13 +11,12 @@ public class cSimonButton : MonoBehaviour
 
     private Tween m_LightTween;
     private cSimonButtonSO m_SimonButtonSO;
-    
-    public bool m_Selected;
-    public bool m_IsSelectable;
+    private bool m_IsSelectable;
 
-    private void Awake()
+    public bool IsSelectable
     {
-        cGameLogicManager.Instance.m_OnSelected += Deselect;
+        get => m_IsSelectable;
+        set => m_IsSelectable = value;
     }
 
     public void Init(cSimonButtonSO simonButtonSo, float scale)
@@ -44,15 +43,11 @@ public class cSimonButton : MonoBehaviour
     public void Deselect()
     {
         DisableLight();
-        m_Selected = false;
     }
 
     public void Select()
     {
-        if(!m_IsSelectable) return;
-        
-        cGameLogicManager.Instance.m_OnSelected.Invoke();
-        m_Selected = true;
+        if(!IsSelectable) return;
         EnableLight(.5f);
     }
 }

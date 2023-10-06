@@ -6,26 +6,28 @@ using DG.Tweening;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-#if UNITY_EDITOR
-using UnityEditor;
-#endif
-
-
 public class cSimonSaysGameLogic : MonoBehaviour
 {
     [SerializeField] private cSimon3DInputHandler m_Simon3DInputHandler;
 
-    private List<cSimonButton> m_SimonButtons = new List<cSimonButton>();
-    private List<cSimonButton> m_CurrentMatchList = new List<cSimonButton>();
-    private int m_CurrentIndex = 0;
     private float m_Speed = 1;
     private bool m_RepeatAllSequence;
+    private int m_CurrentIndex = 0;
+    private List<cSimonButton> m_CurrentMatchList = new List<cSimonButton>();
+    private List<cSimonButton> m_SimonButtons = new List<cSimonButton>();
     private ISimonInputHandler m_SimonInputHandler;
 
     private void Awake()
     {
         m_SimonInputHandler = m_Simon3DInputHandler;
         m_SimonInputHandler.OnInput += CheckInput;
+    }
+    
+    public void Init(List<cSimonButton> buttons, cGameConfiguration gameConfiguration)
+    {
+        m_SimonButtons=buttons;
+        m_Speed = gameConfiguration.m_GameSpeed;
+        m_RepeatAllSequence = gameConfiguration.m_RepeatMode;
     }
 
     private void CheckInput(cSimonButton button)
@@ -39,6 +41,28 @@ public class cSimonSaysGameLogic : MonoBehaviour
             WrongButton();
         }
     }
+    
+    private void NextButton(cSimonButton button)
+    {
+        foreach (var VARIABLE in m_SimonButtons)
+        {
+            VARIABLE.Deselect();
+        }
+        button.Select();
+        
+        m_CurrentIndex++;
+        if (m_CurrentIndex >= m_CurrentMatchList.Count)
+        {
+            m_CurrentIndex = 0;
+            foreach (var VARIABLE in m_SimonButtons)
+            {
+                VARIABLE.IsSelectable = false;
+            }
+
+            cGameLogicManager.Instance.OnSuccessTurn();
+            DOVirtual.DelayedCall(1, () => { AddRound(); });
+        }
+    }
 
     private void WrongButton()
     {
@@ -50,7 +74,7 @@ public class cSimonSaysGameLogic : MonoBehaviour
 
         foreach (var VARIABLE in m_SimonButtons)
         {
-            VARIABLE.m_IsSelectable = false;
+            VARIABLE.IsSelectable = false;
         }
 
         StartCoroutine(WrongAnim());
@@ -81,31 +105,6 @@ public class cSimonSaysGameLogic : MonoBehaviour
         }
     }
 
-    private void NextButton(cSimonButton button)
-    {
-        button.Select();
-        m_CurrentIndex++;
-
-        if (m_CurrentIndex >= m_CurrentMatchList.Count)
-        {
-            m_CurrentIndex = 0;
-            foreach (var VARIABLE in m_SimonButtons)
-            {
-                VARIABLE.m_IsSelectable = false;
-            }
-
-            cGameLogicManager.Instance.OnSuccessTurn();
-            DOVirtual.DelayedCall(1, () => { AddRound(); });
-        }
-    }
-
-    public void Init(List<cSimonButton> buttons, cGameConfiguration gameConfiguration)
-    {
-        m_SimonButtons=buttons;
-        m_Speed = gameConfiguration.m_GameSpeed;
-        m_RepeatAllSequence = gameConfiguration.m_RepeatMode;
-    }
-
     public void AddRound()
     {
         var rndButton = m_SimonButtons.OrderBy((button => Random.value)).FirstOrDefault();
@@ -128,30 +127,15 @@ public class cSimonSaysGameLogic : MonoBehaviour
                 VARIABLE.DisableLight();
             }
 
-            StartPlayerSelection();
+            EnablePlayerSelection();
         }
     }
 
-    private void StartPlayerSelection()
+    private void EnablePlayerSelection()
     {
-        foreach (var VARIABLE in m_SimonButtons)
+        foreach (var button in m_SimonButtons)
         {
-            VARIABLE.m_IsSelectable = true;
+            button.IsSelectable = true;
         }
     }
 }
-
-#if UNITY_EDITOR
-[CustomEditor(typeof(cSimonSaysGameLogic))]
-public class TemplateEditor : Editor
-{
-    public override void OnInspectorGUI()
-    {
-        base.OnInspectorGUI();
-        if (GUILayout.Button("START"))
-        {
-            (target as cSimonSaysGameLogic).AddRound();
-        }
-    }
-}
-#endif

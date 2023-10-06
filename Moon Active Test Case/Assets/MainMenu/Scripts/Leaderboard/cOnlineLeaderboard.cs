@@ -5,6 +5,7 @@ using System.ComponentModel.Design;
 using System.Linq;
 using AINamesGenerator;
 using Dan.Main;
+using Dan.Models;
 using DG.Tweening;
 using UnityEngine;
 
@@ -15,41 +16,36 @@ public class cOnlineLeaderboard
     private string secretKey =
         "0652c98053368103708279f5784aebb2ae18248a80f832ceb39a1453ccac6d1907a420f1841b46a815aa4bd870bd995b4fbf56ea7b33640ee86295b283409961ed5a8ce8a60b198c8b61a628292025e3e7e67d4ae115cf6400e6e67cc4d013e7a67b56e1c69b9f21834facd7278783b83aef65b367fcb7ca82351ba19c4308ea";
 
-    public cLeaderBoardView.LeaderBoardUnitWrapper[] m_Entries;
-    
-    public void GetLeaderBoard(Action<bool> successCallback)
+    public void GetLeaderBoard(Action<bool, cLeaderBoardView.LeaderBoardUnitWrapper[]> successCallback)
     {
-        m_Entries = null;
-
-        LeaderboardCreator.GetLeaderboard(publicLeaderboardKey, ((msg) =>
+        LeaderboardCreator.GetLeaderboard(publicLeaderboardKey, ((entries) =>
         {
-            if (msg.Any())
+            if (entries.Any())
             {
-                cLeaderBoardView.LeaderBoardUnitWrapper[] onlineEntries = new cLeaderBoardView.LeaderBoardUnitWrapper[msg.Length];
+                cLeaderBoardView.LeaderBoardUnitWrapper[] onlineEntries = new cLeaderBoardView.LeaderBoardUnitWrapper[entries.Length];
                 
-                for (int i = 0; i < msg.Length; i++)
+                for (int i = 0; i < entries.Length; i++)
                 {
-                    onlineEntries[i] = new cLeaderBoardView.LeaderBoardUnitWrapper() { Entry = msg[i] };
+                    onlineEntries[i] = new cLeaderBoardView.LeaderBoardUnitWrapper() { Entry = entries[i] };
 
-                    if (msg[i].IsMine())
+                    if (entries[i].IsMine())
                     {
                         onlineEntries[i].IsPlayer = true;
-                        cSaveDataHandler.GameConfiguration.CurrentRank = msg[i].Rank;
+                        cSaveDataHandler.GameConfiguration.CurrentRank = entries[i].Rank;
                         cSaveDataHandler.Save();
                     }
                 }
 
-                m_Entries = onlineEntries;
-                successCallback.Invoke(true);
+                successCallback.Invoke(true,onlineEntries);
             }
             else
             {
-                successCallback.Invoke(false);
+                successCallback.Invoke(false,null);
             }
         }));
     }
 
-    public void SetLeaderBoardEntry(string userName, int score, Action<bool> successCallback)
+    private void SetLeaderBoardEntry(string userName, int score, Action<bool> successCallback)
     {
         LeaderboardCreator.Ping((hasConnection =>
         {

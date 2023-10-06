@@ -13,7 +13,7 @@ public class cSimon3DInputHandler : MonoBehaviour, ISimonInputHandler
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition + new Vector3(0, 0, 5));
         if (Physics.Raycast(ray, out var hit) && Input.GetMouseButtonDown(0))
         {
-            if (hit.collider.attachedRigidbody&& hit.collider.attachedRigidbody.TryGetComponent(out cSimonButton button) && button.m_IsSelectable)
+            if (hit.collider.attachedRigidbody&& hit.collider.attachedRigidbody.TryGetComponent(out cSimonButton button) && button.IsSelectable)
             {
                 OnInput.Invoke(button);
             }

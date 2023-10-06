@@ -1,21 +1,18 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
 using UnityEngine;
 using UnityEngine.UI.ProceduralImage;
 
-#if UNITY_EDITOR
-using UnityEditor;
-#endif
-
-public class cDownTransition : MonoBehaviour
+public class cLateralTransition : MonoBehaviour
 {
     [SerializeField] private Transform m_Left;
     [SerializeField] private Transform m_Right;
     [SerializeField] private ProceduralImage m_Image;
 
     [ContextMenu("Anim")]
-    public void Anim()
+    public void Anim(Action onFullCoverScreen, Action onFinish)
     {
         StartCoroutine(Anim());
         IEnumerator Anim()
@@ -26,6 +23,7 @@ public class cDownTransition : MonoBehaviour
             m_Right.DOLocalMove(-Vector3.right, .4f);
             yield return new WaitForSeconds(.4f);
             
+            onFullCoverScreen.Invoke();
             cSoundManager.Instance.PlaySwoosh();
             
             color.a = 1;
@@ -35,25 +33,8 @@ public class cDownTransition : MonoBehaviour
             yield return new WaitForSeconds(.4f);
             m_Left.DOLocalMove(-Vector3.right*500,.4f);
             m_Right.DOLocalMove(Vector3.right*500, .4f);
-        }
-    }
-
-    
-}
-
-
-#if UNITY_EDITOR
-[CustomEditor(typeof(cDownTransition))]
-class cDownTransitionEditor:Editor
-{
-    public override void OnInspectorGUI()
-    {
-        base.OnInspectorGUI();
-        var script = (cDownTransition)target;
-        if (GUILayout.Button("Test"))
-        {
-            script.Anim();
+            yield return new WaitForSeconds(.4f);
+            onFinish.Invoke();
         }
     }
 }
-#endif

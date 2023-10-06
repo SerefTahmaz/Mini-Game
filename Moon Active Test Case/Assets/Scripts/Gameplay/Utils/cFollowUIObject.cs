@@ -14,12 +14,12 @@ public class cFollowUIObject : MonoBehaviour
     {
         if (m_Alltime == false)
         {
-            var pos =  Main.Instance.UiCamera.WorldToScreenPoint(m_FollowObject.position);
+            var pos =  cCameraManager.Instance.UiCamera.WorldToScreenPoint(m_FollowObject.position);
             pos += m_Offset;
-            transform.position = Main.Instance.MainCamera.ScreenToWorldPoint( (m_PositionScale*pos));
-            transform.rotation = Main.Instance.MainCamera.transform.rotation;
+            transform.position = cCameraManager.Instance.MainCamera.ScreenToWorldPoint( (m_PositionScale*pos));
+            transform.rotation = cCameraManager.Instance.MainCamera.transform.rotation;
         
-            transform.SetParent(Main.Instance.MainCamera.transform);
+            transform.SetParent(cCameraManager.Instance.MainCamera.transform);
         }
     }
 
@@ -27,10 +27,10 @@ public class cFollowUIObject : MonoBehaviour
     {
         if (m_Alltime)
         {
-            var pos =  Main.Instance.UiCamera.WorldToScreenPoint(m_FollowObject.position);
+            var pos =  cCameraManager.Instance.UiCamera.WorldToScreenPoint(m_FollowObject.position);
             pos += m_Offset;
-            transform.position = Main.Instance.MainCamera.ScreenToWorldPoint( (m_PositionScale*pos));
-            transform.rotation = Main.Instance.MainCamera.transform.rotation;
+            transform.position = cCameraManager.Instance.MainCamera.ScreenToWorldPoint( (m_PositionScale*pos));
+            transform.rotation = cCameraManager.Instance.MainCamera.transform.rotation;
         }
     }
 }

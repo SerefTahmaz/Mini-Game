@@ -17,12 +17,8 @@ public class cGameLogicManager : cSingleton<cGameLogicManager>
     private cGameConfiguration m_CurrentGameConfig;
     private cGameManagerEventController m_GameEvents = new cGameManagerEventController();
 
-    public Action m_OnSelected = delegate { };
-
     public cLeaderBoardView LeaderBoardView => m_LeaderBoardView;
-
     public cTransitionManager TransitionManager => m_TransitionManager;
-
     public cGameManagerEventController GameEvents => m_GameEvents;
 
     private void Awake()
@@ -33,7 +29,6 @@ public class cGameLogicManager : cSingleton<cGameLogicManager>
     public void SetLevel(TextAsset textAsset)
     {
         m_CurrentGameConfig = GameConfig.Load(textAsset);
-        m_OnSelected = delegate { };
         cLevelManager.Instance.LoadCurrentLevel();
         cLevelManager.Instance.m_CurrentLevel.InitLevel(m_CurrentGameConfig);
     }
@@ -48,12 +43,14 @@ public class cGameLogicManager : cSingleton<cGameLogicManager>
 
     public void OnStartButton()
     {
-        m_TransitionManager.PlayTransition(cTransitionManager.TransitionType.Lateral);
-        DOVirtual.DelayedCall(.5f, () =>
+        m_TransitionManager.PlayTransition(cTransitionManager.TransitionType.Rotating, () =>
         {
             cUIManager.Instance.HidePage(Page.Start);
             cUIManager.Instance.HidePage(Page.MainMenuSliderView);
             cUIManager.Instance.ShowPage(Page.LevelSelect);
+        }, () =>
+        {
+            
         });
     }
 
@@ -68,6 +65,7 @@ public class cGameLogicManager : cSingleton<cGameLogicManager>
         cUIManager.Instance.HidePage(Page.LeaderBoardView);
         cUIManager.Instance.HidePage(Page.FailView);
         cUIManager.Instance.ShowPage(Page.LevelSelect);
+        cLevelManager.Instance.RemoveLevel();
     }
 }
 

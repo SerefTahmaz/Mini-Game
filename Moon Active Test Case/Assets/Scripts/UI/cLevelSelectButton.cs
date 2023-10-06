@@ -29,6 +29,7 @@ public class cLevelSelectButton : cButton
 
     public override void OnEnter()
     {
+        Debug.Log("Entered");
         base.OnEnter();
         LevelSelectUIController.OnEnter(m_GameLevelSo);
     }

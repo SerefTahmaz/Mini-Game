@@ -5,8 +5,8 @@ using UnityEngine;
 
 public class cTransitionManager : cView
 {
-    [SerializeField] private cDownTransition m_Rotation;
-    [SerializeField] private cDownTransition2 m_Lateral;
+    [SerializeField] private cLateralTransition m_Lateral;
+    [SerializeField] private cRotationalTransition m_Rotation;
     
     public enum TransitionType
     {
@@ -14,15 +14,15 @@ public class cTransitionManager : cView
         Lateral
     }
 
-    public void PlayTransition(TransitionType transitionType)
+    public void PlayTransition(TransitionType transitionType, Action onFullCoverScreen, Action onFinish)
     {
         switch (transitionType)
         {
             case TransitionType.Rotating:
-                m_Rotation.Anim();
+                m_Rotation.Anim(onFullCoverScreen, onFinish);
                 break;
             case TransitionType.Lateral:
-                m_Lateral.Anim();
+                m_Lateral.Anim(onFullCoverScreen, onFinish);
                 break;
             default:
                 throw new ArgumentOutOfRangeException(nameof(transitionType), transitionType, null);

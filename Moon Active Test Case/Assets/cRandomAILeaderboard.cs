@@ -11,18 +11,20 @@ public class cRandomAILeaderboard
         cLeaderBoardView.LeaderBoardUnitWrapper[] aiEntries = new cLeaderBoardView.LeaderBoardUnitWrapper[size];
         for (int i = 0; i < aiEntries.Length; i++)
         {
+            aiEntries[i] = new cLeaderBoardView.LeaderBoardUnitWrapper();
             aiEntries[i].Entry.Username = Utils.GetRandomName();
-            var rangeScaler = Mathf.Max(Random.Range(-10, 10) * 5, 0);
-            aiEntries[i].Entry.Score = rangeScaler * cSaveDataHandler.GameConfiguration.MaxCoinCount + 20;
+            var rangeScaler = Mathf.Max(Random.Range(-25, 100) * 100, 0);
+            aiEntries[i].Entry.Score = rangeScaler + cSaveDataHandler.GameConfiguration.MaxCoinCount;
         }
 
         aiEntries[0].Entry.Rank = cSaveDataHandler.GameConfiguration.CurrentRank;
         aiEntries[0].Entry.Score = cSaveDataHandler.GameConfiguration.MaxCoinCount;
+        aiEntries[0].Entry.Username = cSaveDataHandler.PlayerName();
         aiEntries[0].IsPlayer = true;
 
-        aiEntries = FixRanks(aiEntries);
+        var temp = FixRanks(aiEntries);
 
-        return aiEntries;
+        return temp;
     }
 
     public cLeaderBoardView.LeaderBoardUnitWrapper[] FixRanks(cLeaderBoardView.LeaderBoardUnitWrapper[] entries)
@@ -31,11 +33,11 @@ public class cRandomAILeaderboard
         var playerEntry = entries.Where((wrapper => wrapper.IsPlayer)).FirstOrDefault();
         var indexPlayer = tempA.IndexOf(playerEntry);
 
-        for (int i = 0; i < entries.Length; i++)
+        for (int i = 0; i < tempA.Count; i++)
         {
-            entries[i].Entry.Rank = (i + 1) + (cSaveDataHandler.GameConfiguration.CurrentRank - indexPlayer);
+            tempA[i].Entry.Rank = (i) + (cSaveDataHandler.GameConfiguration.CurrentRank - indexPlayer);
         }
 
-        return entries.Where((wrapper => wrapper.Entry.Rank > 0)).ToArray();
+        return tempA.Where((wrapper => wrapper.Entry.Rank > 0)).ToArray();
     }
 }

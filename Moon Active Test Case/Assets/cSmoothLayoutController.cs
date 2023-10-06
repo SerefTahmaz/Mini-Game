@@ -49,7 +49,7 @@ public class cSmoothLayoutController : MonoBehaviour
         
         float value = 1 - (float) m_LayoutDict[m_FocusTransform].StaticTransform.GetSiblingIndex()
             /  m_StaticGOTransform.childCount;
-        m_ScrollView.verticalNormalizedPosition = Mathf.Lerp(-1, 1, value);
+        m_ScrollView.verticalNormalizedPosition = Mathf.Lerp(-.2f, 1, value);
         
         var speed = Time.deltaTime * 5 * m_Speed;
         foreach (var VARIABLE in m_DynamicTransforms)

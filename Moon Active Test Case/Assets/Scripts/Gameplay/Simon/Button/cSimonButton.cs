@@ -27,15 +27,15 @@ public class cSimonButton : MonoBehaviour
         m_Center.transform.localScale = Vector3.one * scale;
     }
 
-    public void Light(float duration=Single.PositiveInfinity)
+    public void EnableLight(float duration=Single.PositiveInfinity)
     {
         m_LightTween.Kill();
         m_Rend.material.EnableKeyword("_EMISSION");
-        m_LightTween=DOVirtual.DelayedCall(duration, Unlight);
+        m_LightTween=DOVirtual.DelayedCall(duration, DisableLight);
         cSoundManager.Instance.PlayTrack(m_SimonButtonSO.m_OnLightSound);
     }
     
-    public void Unlight()
+    public void DisableLight()
     {
         m_LightTween.Kill();
         m_Rend.material.DisableKeyword("_EMISSION");
@@ -43,7 +43,7 @@ public class cSimonButton : MonoBehaviour
     
     public void Deselect()
     {
-        Unlight();
+        DisableLight();
         m_Selected = false;
     }
 
@@ -53,6 +53,6 @@ public class cSimonButton : MonoBehaviour
         
         cGameLogicManager.Instance.m_OnSelected.Invoke();
         m_Selected = true;
-        Light(.5f);
+        EnableLight(.5f);
     }
 }

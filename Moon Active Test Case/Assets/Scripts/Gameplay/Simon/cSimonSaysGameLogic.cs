@@ -21,6 +21,11 @@ public class cSimonSaysGameLogic : MonoBehaviour
     {
         m_SimonInputHandler = m_Simon3DInputHandler;
         m_SimonInputHandler.OnInput += CheckInput;
+
+        cGameLogicManager.Instance.GameEvents.OnTimeIsUpEvent += () =>
+        {
+            WrongButton();
+        };
     }
     
     public void Init(List<cSimonButton> buttons, cGameConfiguration gameConfiguration)
@@ -66,6 +71,8 @@ public class cSimonSaysGameLogic : MonoBehaviour
 
     private void WrongButton()
     {
+        cGameLogicManager.Instance.GameEvents.OnWrongButtonEvent.Invoke();
+        
         m_CurrentIndex = 0;
         foreach (var VARIABLE in m_SimonButtons)
         {
@@ -107,6 +114,7 @@ public class cSimonSaysGameLogic : MonoBehaviour
 
     public void AddRound()
     {
+        
         var rndButton = m_SimonButtons.OrderBy((button => Random.value)).FirstOrDefault();
         m_CurrentMatchList.Add(rndButton);
         ShowSequence(m_CurrentMatchList);
@@ -123,7 +131,7 @@ public class cSimonSaysGameLogic : MonoBehaviour
             {
                 var VARIABLE = sequence[index];
                 VARIABLE.EnableLight(.5f / m_Speed);
-                yield return new WaitForSeconds(1 / m_Speed);
+                yield return new WaitForSeconds(.75f / m_Speed);
                 VARIABLE.DisableLight();
             }
 
@@ -133,6 +141,7 @@ public class cSimonSaysGameLogic : MonoBehaviour
 
     private void EnablePlayerSelection()
     {
+        cGameLogicManager.Instance.GameEvents.OnPlayerInputStartEvent.Invoke();
         foreach (var button in m_SimonButtons)
         {
             button.IsSelectable = true;

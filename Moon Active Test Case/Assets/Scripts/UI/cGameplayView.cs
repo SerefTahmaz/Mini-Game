@@ -7,6 +7,5 @@ public class cGameplayView : cView
     public override void Activate()
     {
         base.Activate();
-        cUIManager.Instance.ShowPage(Page.Start);
     }
 }

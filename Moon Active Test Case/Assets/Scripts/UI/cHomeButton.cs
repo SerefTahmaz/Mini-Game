@@ -12,7 +12,7 @@ public class cHomeButton : cButton
         {
             cUIManager.Instance.HidePage(Page.LeaderBoardView);
             cUIManager.Instance.HidePage(Page.FailView);
-            cUIManager.Instance.ShowPage(Page.Gameplay);
+            cUIManager.Instance.ShowPage(Page.Start);
             cUIManager.Instance.ShowPage(Page.MainMenuSliderView);
             cLevelManager.Instance.RemoveLevel();
         }, () =>

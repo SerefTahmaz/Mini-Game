@@ -28,17 +28,22 @@ public class cGameLogicManager : cSingleton<cGameLogicManager>
 
     public void SetLevel(TextAsset textAsset)
     {
+        GameEvents.OnTimeIsUpEvent = delegate {  };
         m_CurrentGameConfig = GameConfig.Load(textAsset);
         cLevelManager.Instance.LoadCurrentLevel();
         cLevelManager.Instance.m_CurrentLevel.InitLevel(m_CurrentGameConfig);
+        
+        cUIManager.Instance.ShowPage(Page.Gameplay);
+        cUIManager.Instance.Fillbar.Init(m_CurrentGameConfig.m_GameTimeInSeconds);
     }
 
     public void OnSuccessTurn()
     {
         var go = cObjectPooler.Instance.Spawn("MoneyUI", cCurrencyBarScreen.Instance.transform).transform;
         go.localScale = Vector3.one * 1.25f;
-        go.gameObject.GetComponent<cMoneyUI>().Fly();
+        go.gameObject.GetComponent<cMoneyUI>().Fly(m_CurrentGameConfig.m_EachStepPointCount);
         cSoundManager.Instance.SuccessSound();
+        GameEvents.OnSuccessTurn.Invoke();
     }
 
     public void OnStartButton()

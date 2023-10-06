@@ -2,38 +2,45 @@ using System;
 
 public class cGameManagerEventController
 {
-    private Action m_OnStartButtonEvent = delegate {  };
-    private Action m_OnGameStartEvent = delegate {  };
-    private Action m_OnDeadEvent = delegate {  };
-    private Action m_OnLevelCompleteEvent = delegate {  };
+    private Action m_OnPlayerInputStartEvent = delegate {  };
+    private Action m_OnGameplayStartEvent = delegate {  };
+    private Action m_OnTimeIsUpEvent = delegate {  };
+    private Action m_OnWrongButtonEvent = delegate {  };
+    private Action m_OnSuccessTurn = delegate {  };
     private Action m_OnGameStartBeforeLevelDestroy = delegate {  };
     
-    public Action OnStartButtonEvent
+    public Action OnPlayerInputStartEvent
     {
-        get => m_OnStartButtonEvent;
-        set => m_OnStartButtonEvent = value;
+        get => m_OnPlayerInputStartEvent;
+        set => m_OnPlayerInputStartEvent = value;
     }
-    public Action OnGameStartEvent
+    public Action OnGameplayStartEvent
     {
-        get => m_OnGameStartEvent;
-        set => m_OnGameStartEvent = value;
-    }
-    
-    public Action OnDeadEvent
-    {
-        get => m_OnDeadEvent;
-        set => m_OnDeadEvent = value;
+        get => m_OnGameplayStartEvent;
+        set => m_OnGameplayStartEvent = value;
     }
     
-    public Action OnLevelCompleteEvent
+    public Action OnTimeIsUpEvent
     {
-        get => m_OnLevelCompleteEvent;
-        set => m_OnLevelCompleteEvent = value;
+        get => m_OnTimeIsUpEvent;
+        set => m_OnTimeIsUpEvent = value;
+    }
+    
+    public Action OnSuccessTurn
+    {
+        get => m_OnSuccessTurn;
+        set => m_OnSuccessTurn = value;
     }
     
     public Action OnGameStartBeforeLevelDestroy
     {
         get => m_OnGameStartBeforeLevelDestroy;
         set => m_OnGameStartBeforeLevelDestroy = value;
+    }
+
+    public Action OnWrongButtonEvent
+    {
+        get => m_OnWrongButtonEvent;
+        set => m_OnWrongButtonEvent = value;
     }
 }

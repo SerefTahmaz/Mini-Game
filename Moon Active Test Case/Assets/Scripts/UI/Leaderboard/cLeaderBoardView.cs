@@ -18,7 +18,8 @@ public class cLeaderBoardView : cView
 {
     [SerializeField] private Transform m_LayoutTranform;
     [SerializeField] private cSmoothLayoutController m_SmoothLayoutController;
-    [Inject] private cObjectPooler m_ObjectPooler;
+    [Inject] private IObjectPooler m_ObjectPooler;
+    [Inject] private ISaveManager m_SaveManager;
     
     private bool m_Selected;
     private cLeaderBoardSlotController m_PlayerSlot;
@@ -47,8 +48,8 @@ public class cLeaderBoardView : cView
     {
         while (true)
         {
-            cOnlineLeaderboard.SetPlayerEntry();
-            await UniTask.Delay(TimeSpan.FromSeconds(5));
+            cOnlineLeaderboard.SetPlayerEntry(m_SaveManager);
+            await UniTask.Delay(TimeSpan.FromSeconds(20));
         }
     }
 
@@ -56,11 +57,23 @@ public class cLeaderBoardView : cView
     {
         while (true)
         {
-            cOnlineLeaderboard.GetLeaderBoard((success, entries) =>
+            cOnlineLeaderboard.GetLeaderBoard((success, entries,player) =>
             {
-                OnLeaderboardLoaded(success ? entries : cRandomAILeaderboard.GetRandomEntries(30)).Forget();
+                LeaderBoardUnitWrapper[] selectedEntries;
+                if (success)
+                {
+                    selectedEntries = entries;
+                    m_SaveManager.SaveData.m_CurrentRank = player.Entry.Rank;
+                    m_SaveManager.Save();
+                }
+                else
+                {
+                    selectedEntries = cRandomAILeaderboard.GetRandomEntries(30, m_SaveManager);
+                }
+                
+                OnLeaderboardLoaded(selectedEntries).Forget();
             });
-            await UniTask.Delay(TimeSpan.FromSeconds(10));
+            await UniTask.Delay(TimeSpan.FromSeconds(360));
         }
     }
 
@@ -113,7 +126,7 @@ public class cLeaderBoardView : cView
     {
         if(m_PlayerSlot == null) return;
         
-        m_PlayerSlot.m_StartCount = cSaveDataHandler.GameConfiguration.m_MaxCoinCount;
+        m_PlayerSlot.m_StartCount = m_SaveManager.SaveData.m_MaxCoinCount;
 
         var baseRank = m_Slots
             .Select((slot => slot.m_Rank))
@@ -131,7 +144,7 @@ public class cLeaderBoardView : cView
             VARIABLE.UpdateUI();
         }
 
-        cSaveDataHandler.GameConfiguration.m_CurrentRank = m_PlayerSlot.m_Rank;
+        m_SaveManager.SaveData.m_CurrentRank = m_PlayerSlot.m_Rank;
 
         foreach (var VARIABLE in m_Slots)
         {

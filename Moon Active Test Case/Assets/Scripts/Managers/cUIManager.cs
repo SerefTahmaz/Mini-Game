@@ -11,10 +11,14 @@ public class cUIManager : MonoBehaviour
     [SerializeField] private CanvasGroup m_CanvasGroup;
     [SerializeField] private cLeaderBoardView m_LeaderBoardView;
     [SerializeField] private cTransitionManager m_TransitionManager;
+    [SerializeField] private cCurrencyBarScreen m_CurrencyManager;
+    
 
     public cFillbarController Fillbar => m_FillbarController;
     public cLeaderBoardView LeaderBoardView => m_LeaderBoardView;
     public cTransitionManager TransitionManager => m_TransitionManager;
+
+    public cCurrencyBarScreen CurrencyManager => m_CurrencyManager;
 
     private void Awake()
     {

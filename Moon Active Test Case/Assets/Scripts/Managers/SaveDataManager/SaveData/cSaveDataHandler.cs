@@ -2,37 +2,31 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using Cysharp.Threading.Tasks;
 using Dan.Main;
 using UnityEditor;
 using UnityEngine;
 
 public static class cSaveDataHandler
 {
-    private static cSaveData m_GameConfiguration = new cSaveData();
-    public static cSaveData GameConfiguration
+    private static cSaveData m_SaveData = new cSaveData();
+    public static cSaveData SaveData
     {
-        get
-        {
-            Load();
-            return m_GameConfiguration;
-        }
-        set
-        {
-            m_GameConfiguration = value;
-        }
+        get => m_SaveData;
+        set => m_SaveData = value;
     }
 
     private static bool m_Loaded = false;
 
     private static string m_SaveFilePath => Application.persistentDataPath + "/SavaData.json";
 
-    private static void Load(){
+    public static void Load(){
         if(m_Loaded) return;
         
         if (File.Exists(m_SaveFilePath))
         {
             string loadPlayerData = File.ReadAllText(m_SaveFilePath);
-            GameConfiguration = JsonUtility.FromJson<cSaveData>(loadPlayerData);
+            SaveData = JsonUtility.FromJson<cSaveData>(loadPlayerData);
   
             Debug.Log("Load game complete!");
             m_Loaded = true;
@@ -44,7 +38,7 @@ public static class cSaveDataHandler
 
     public static void Save()
     {
-        string savePlayerData = JsonUtility.ToJson(GameConfiguration);
+        string savePlayerData = JsonUtility.ToJson(SaveData);
         File.WriteAllText(m_SaveFilePath, savePlayerData);
 
         Debug.Log("Save file created at: ");
@@ -57,7 +51,7 @@ public static class cSaveDataHandler
         if (File.Exists(m_SaveFilePath))
         {
             File.Delete(m_SaveFilePath);
-            GameConfiguration = new cSaveData();
+            SaveData = new cSaveData();
   
             Debug.Log("Save file deleted!");
         }
@@ -69,6 +63,6 @@ public static class cSaveDataHandler
 
     public static string PlayerName()
     {
-        return GameConfiguration.m_PlayerName;
+        return SaveData.m_PlayerName;
     }
 }

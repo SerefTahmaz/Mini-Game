@@ -4,16 +4,17 @@ using UnityEngine;
 
 public class cCurrencyBar : MonoBehaviour
 {
-    public TextMeshProUGUI m_CurrencyText;
-    RectTransform m_CurrencyTextTransform;
-    Vector3 m_TextScale = new Vector3(1,1 ,1);
-    float m_fMeshSpinSpeed;
+    [SerializeField] private cCurrencyBarScreen m_CurrencyBarScreen;
+    [SerializeField] private TextMeshProUGUI m_CurrencyText;
+    private RectTransform m_CurrencyTextTransform;
+    private Vector3 m_TextScale = new Vector3(1,1 ,1);
+    private float m_fMeshSpinSpeed;
     
     void Start()
     {
-        cCurrencyBarScreen.Instance.RegisterBar(this);
+        m_CurrencyBarScreen.RegisterBar(this);
         m_CurrencyTextTransform = m_CurrencyText.rectTransform;
-        Refresh(cCurrencyBarScreen.Instance.CurrentCurrencyAmount);
+        Refresh(m_CurrencyBarScreen.CurrentCurrencyAmount);
     }
     
     void Update()

@@ -49,6 +49,7 @@ public class cButton : MonoBehaviour
         {
             m_IsClicked = false;
         });
+        m_SoundManager.SuccessSound();
     }
 
     public virtual void Fail()
@@ -61,6 +62,7 @@ public class cButton : MonoBehaviour
         {
             m_IsClicked = false;
         });
+        m_SoundManager.FailSound();
     }
 
     public void ResetState()

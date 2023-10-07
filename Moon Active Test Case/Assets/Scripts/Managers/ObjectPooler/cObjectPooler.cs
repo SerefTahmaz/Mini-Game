@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Zenject;
 
-public class cObjectPooler : MonoBehaviour
+public class cObjectPooler : MonoBehaviour, IObjectPooler
 {
     [Serializable]
     public class Pool
@@ -30,17 +30,6 @@ public class cObjectPooler : MonoBehaviour
     private void Awake()
     {
         InitPool();
-
-        m_GameManager.GameEvents.OnGameStartBeforeLevelDestroy += () =>
-        {
-            foreach (var VARIABLE in PoolDictionary)
-            {
-                foreach (var t in VARIABLE.Value)
-                {
-                    DeSpawn(t);
-                }
-            }
-        };
     }
 
     private void InitPool()

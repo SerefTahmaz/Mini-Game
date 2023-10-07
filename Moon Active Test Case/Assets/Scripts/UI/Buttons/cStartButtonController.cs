@@ -11,6 +11,7 @@ public class cStartButtonController : cButton
     [SerializeField] private Transform m_Pivot;
     [SerializeField, Min(0.001f)] private float m_PulseDelay;
     [Inject] private cGameManagerStateMachine m_GameManager;
+    [Inject] private cUIManager m_UIManager;
 
     private void Awake()
     {
@@ -29,6 +30,15 @@ public class cStartButtonController : cButton
     public override void OnClick()
     {
         base.OnClick();
-        m_GameManager.ChangeState(m_GameManager.GameplayState);
+        
+        m_UIManager.SetInteractable(false);
+        m_UIManager.TransitionManager.PlayTransition(cTransitionManager.TransitionType.Rotating, () =>
+        {
+            
+            m_GameManager.ChangeState(m_GameManager.GameplayState);
+        }, () =>
+        {
+            m_UIManager.SetInteractable(true);
+        });
     }
 }

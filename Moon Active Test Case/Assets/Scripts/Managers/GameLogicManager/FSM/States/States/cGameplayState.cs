@@ -18,21 +18,14 @@ namespace FiniteStateMachine
         public override void Enter()
         {
             base.Enter();
-            m_UIManager.SetInteractable(false);
-            m_UIManager.TransitionManager.PlayTransition(cTransitionManager.TransitionType.Rotating, () =>
-            {
-                m_UIManager.HidePage(Page.Start);
-                m_UIManager.HidePage(Page.MainMenuSliderView);
-                m_UIManager.ShowPage(Page.LevelSelect);
-            }, () =>
-            {
-                m_UIManager.SetInteractable(true);
-            });
+            m_UIManager.ShowPage(Page.LevelSelect);
         }
 
         public override void Exit()
         {
             base.Exit();
+            m_UIManager.HidePage(Page.LevelSelect);
+            m_UIManager.HidePage(Page.Gameplay);
         }
     }
 }

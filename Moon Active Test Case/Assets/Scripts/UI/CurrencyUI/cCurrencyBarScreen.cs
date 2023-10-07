@@ -1,28 +1,30 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+using Zenject;
 
-public class cCurrencyBarScreen : cSingleton<cCurrencyBarScreen>
+public class cCurrencyBarScreen : MonoBehaviour
 {
     List<cCurrencyBar> m_CurrencyBars = new List<cCurrencyBar>();
+    [Inject] private ISaveManager m_SaveManager;
 
     public int CurrentCurrencyAmount
     {
-        get => cSaveDataHandler.GameConfiguration.m_CurrentCoinCount;
+        get => m_SaveManager.SaveData.m_CurrentCoinCount;
         set
         {
-            cSaveDataHandler.GameConfiguration.m_CurrentCoinCount = value;
+            m_SaveManager.SaveData.m_CurrentCoinCount = value;
             PlayerMaxScore = value;
         }
     }
     
     public int PlayerMaxScore
     {
-        get =>  cSaveDataHandler.GameConfiguration.m_MaxCoinCount;
+        get =>  m_SaveManager.SaveData.m_MaxCoinCount;
         set
         {
             if (value > PlayerMaxScore)
             {
-                cSaveDataHandler.GameConfiguration.m_MaxCoinCount = value;
+                m_SaveManager.SaveData.m_MaxCoinCount = value;
             }
         }
     }

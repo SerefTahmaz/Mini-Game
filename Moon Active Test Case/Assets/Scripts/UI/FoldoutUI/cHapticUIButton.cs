@@ -1,14 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Zenject;
 
 public class cHapticUIButton : MonoBehaviour
 {
     [SerializeField] private GameObject m_DisableGO;
+    [Inject] private ISaveManager m_SaveManager;
 
     private void Awake()
     {
-        var audiostate = cSaveDataHandler.GameConfiguration.m_HapticState;;
+        var audiostate = m_SaveManager.SaveData.m_HapticState;;
 
         if (audiostate)
         {
@@ -22,7 +24,7 @@ public class cHapticUIButton : MonoBehaviour
 
     public void OnClick()
     {
-        var audiostate = cSaveDataHandler.GameConfiguration.m_HapticState;
+        var audiostate = m_SaveManager.SaveData.m_HapticState;
 
         if (audiostate)
         {
@@ -36,13 +38,13 @@ public class cHapticUIButton : MonoBehaviour
 
     public void EnableAudio()
     {
-        cSaveDataHandler.GameConfiguration.m_HapticState = true;
+        m_SaveManager.SaveData.m_HapticState = true;
         m_DisableGO.SetActive(false);
     }
     
     public void DisableAudio()
     {
-        cSaveDataHandler.GameConfiguration.m_HapticState = false;
+        m_SaveManager.SaveData.m_HapticState = false;
         m_DisableGO.SetActive(true);
     }
 }

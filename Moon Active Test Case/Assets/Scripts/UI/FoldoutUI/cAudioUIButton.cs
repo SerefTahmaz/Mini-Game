@@ -7,11 +7,19 @@ using Zenject;
 public class cAudioUIButton : MonoBehaviour
 {
     [SerializeField] private GameObject m_DisableGO;
-    [Inject] private ISoundManager m_SoundManager;
+    private ISoundManager m_SoundManager;
+    private ISaveManager m_SaveManager;
+    
+    [Inject]
+    public void Initialize(ISoundManager soundManager, ISaveManager saveManager) 
+    {
+        m_SoundManager = soundManager;
+        m_SaveManager = saveManager;
+    }
 
     private void Awake()
     {
-        var audiostate = cSaveDataHandler.GameConfiguration.m_AudioState;;
+        var audiostate = m_SaveManager.SaveData.m_AudioState;;
 
         if (audiostate)
         {
@@ -25,7 +33,7 @@ public class cAudioUIButton : MonoBehaviour
 
     public void OnClick()
     {
-        var audiostate = cSaveDataHandler.GameConfiguration.m_AudioState;
+        var audiostate = m_SaveManager.SaveData.m_AudioState;
 
         if (audiostate)
         {
@@ -40,14 +48,14 @@ public class cAudioUIButton : MonoBehaviour
 
     public void EnableAudio()
     {
-        cSaveDataHandler.GameConfiguration.m_AudioState = true;
+        m_SaveManager.SaveData.m_AudioState = true;
         m_DisableGO.SetActive(false);
         m_SoundManager.SetActive( true);
     }
     
     public void DisableAudio()
     {
-        cSaveDataHandler.GameConfiguration.m_AudioState = false;
+        m_SaveManager.SaveData.m_AudioState = false;
         m_DisableGO.SetActive(true);
         m_SoundManager.SetActive( false);
     }

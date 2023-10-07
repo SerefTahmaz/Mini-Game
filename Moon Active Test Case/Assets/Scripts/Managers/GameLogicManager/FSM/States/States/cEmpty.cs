@@ -7,7 +7,6 @@ namespace FiniteStateMachine
 {
     public class cEmpty : cStateBase
     {
-
         public override void Enter()
         {
             base.Enter();

@@ -11,7 +11,7 @@ public class cSmoothLayoutController : MonoBehaviour
     [SerializeField] private Transform m_DynamicGOTransform;
     [SerializeField] private ScrollRect m_ScrollView;
     [SerializeField] private float m_Speed = 1;
-    [Inject] private cObjectPooler m_ObjectPooler;
+    [Inject] private IObjectPooler m_ObjectPooler;
     
     private Dictionary<Transform, LayoutHelper> m_LayoutDict = new Dictionary<Transform, LayoutHelper>();
     private List<Transform> m_DynamicTransforms = new List<Transform>();

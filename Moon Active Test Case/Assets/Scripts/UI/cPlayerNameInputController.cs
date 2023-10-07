@@ -12,7 +12,16 @@ public class cPlayerNameInputController : cView
     [SerializeField] private UnityEvent m_OnNameSelected;
     [SerializeField] private TMP_Text m_InputText;
     [SerializeField] private GameObject m_DisableInteractableGO;
-    [Inject] private cUIManager m_UIManager;
+    private cUIManager m_UIManager;
+    private ISoundManager m_SoundManager;
+    private ISaveManager m_SaveManager;
+    
+    [Inject]
+    public void Initialize(cUIManager uiManager, ISoundManager soundManager, ISaveManager saveManager) {
+        m_UIManager = uiManager;
+        m_SoundManager = soundManager;
+        m_SaveManager = saveManager;
+    }
 
     public override void Activate()
     {
@@ -33,18 +42,21 @@ public class cPlayerNameInputController : cView
         {
             transform.SuccessShakeUI();
 
-            cSaveDataHandler.GameConfiguration.m_PlayerName = m_InputText.text;
-            cSaveDataHandler.Save();
+            m_SaveManager.SaveData.m_PlayerName = m_InputText.text;
+            m_SaveManager.SaveData.m_IsPlayerSetName = true;
+            m_SaveManager.Save();
 
             DOVirtual.DelayedCall(.35f, () =>
             {
                 m_UIManager.LeaderBoardView.SendPlayerEntry().Forget();
                 m_OnNameSelected.Invoke();
             });
+            m_SoundManager.SuccessSound();
         }
         else
         {
             transform.FailShakeUI();
+            m_SoundManager.FailSound();
         }
     }
 }

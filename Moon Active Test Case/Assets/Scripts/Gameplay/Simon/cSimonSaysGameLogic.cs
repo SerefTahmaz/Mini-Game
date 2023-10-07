@@ -106,7 +106,7 @@ public class cSimonSaysGameLogic : MonoBehaviour
         }
 
         await UniTask.Delay(TimeSpan.FromSeconds(.5f));
-
+        
         m_CurrentMatchList.Clear();
         m_GameManager.ChangeState(m_GameManager.FailState);
     }

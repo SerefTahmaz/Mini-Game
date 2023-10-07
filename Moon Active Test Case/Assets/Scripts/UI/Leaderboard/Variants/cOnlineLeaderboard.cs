@@ -13,13 +13,33 @@ public static class cOnlineLeaderboard
 {
     private static string publicLeaderboardKey = "38ed723f6061e48ab4c7b9d7d25b29d2b2da42c43b222cf506b6fc2e0f388a08";
     
-    public static void GetLeaderBoard(Action<bool, cLeaderBoardView.LeaderBoardUnitWrapper[]> successCallback)
+    public static void GetLeaderBoard(Action<bool, cLeaderBoardView.LeaderBoardUnitWrapper[],cLeaderBoardView.LeaderBoardUnitWrapper> successCallback)
     {
+        bool timeout=false;
+
+        DOVirtual.DelayedCall(4, () =>
+        {
+            if (timeout)
+            {
+                return;
+            }
+            timeout = true;
+            successCallback.Invoke(false,null,null);
+        });
+        
+        
         LeaderboardCreator.GetLeaderboard(publicLeaderboardKey, ((entries) =>
         {
+            if (timeout)
+            {
+                return;
+            }
+            timeout = true;
+            
             if (entries.Any())
             {
                 cLeaderBoardView.LeaderBoardUnitWrapper[] onlineEntries = new cLeaderBoardView.LeaderBoardUnitWrapper[entries.Length];
+                cLeaderBoardView.LeaderBoardUnitWrapper player=null;
                 
                 for (int i = 0; i < entries.Length; i++)
                 {
@@ -28,16 +48,15 @@ public static class cOnlineLeaderboard
                     if (entries[i].IsMine())
                     {
                         onlineEntries[i].IsPlayer = true;
-                        cSaveDataHandler.GameConfiguration.m_CurrentRank = entries[i].Rank;
-                        cSaveDataHandler.Save();
+                        player = onlineEntries[i];
                     }
                 }
 
-                successCallback.Invoke(true,onlineEntries);
+                successCallback.Invoke(true,onlineEntries,player);
             }
             else
             {
-                successCallback.Invoke(false,null);
+                successCallback.Invoke(false,null,null);
             }
         }));
     }
@@ -71,8 +90,8 @@ public static class cOnlineLeaderboard
         
     }
 
-    public static void SetPlayerEntry()
+    public static void SetPlayerEntry(ISaveManager saveManager)
     {
-        SetLeaderBoardEntry(cSaveDataHandler.PlayerName(), cSaveDataHandler.GameConfiguration.m_MaxCoinCount, b => {});
+        SetLeaderBoardEntry(saveManager.SaveData.m_PlayerName, saveManager.SaveData.m_MaxCoinCount, b => {});
     }
 }

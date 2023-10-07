@@ -10,10 +10,10 @@ namespace FiniteStateMachine
         public string m_StateName;
         protected cStateMachine m_StateMachine;
 
-        public virtual void InitializeState(string stateName, cStateMachine playerStateMachine)
+        public virtual void InitializeState(string stateName, cStateMachine gameManagerSM)
         {
             this.m_StateName = stateName;
-            this.m_StateMachine = playerStateMachine;
+            this.m_StateMachine = gameManagerSM;
         }
 
         public virtual void Enter()

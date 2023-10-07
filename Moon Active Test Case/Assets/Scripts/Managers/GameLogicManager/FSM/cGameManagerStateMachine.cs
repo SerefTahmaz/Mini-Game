@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using FiniteStateMachine;
 using UnityEngine;
@@ -13,7 +14,7 @@ public class cGameManagerStateMachine : cStateMachine
     {
         #region PritaveFields
         [SerializeField] private cStatesBlackboard m_StatesBlackboard;
-        [Inject] private cObjectPooler m_ObjectPooler;
+        [Inject] private IObjectPooler m_ObjectPooler;
         [Inject] private cUIManager m_UIManager;
         [Inject] private ISoundManager m_SoundManager;
         [Inject] private ILevelManager m_LevelManager;
@@ -37,12 +38,15 @@ public class cGameManagerStateMachine : cStateMachine
         private void Awake()
         {
             m_GameConfigHandler = new cJsonGameConfigHandler();
-            
+
             Empty.InitializeState("Empty", this);
             MenuState.InitializeState("Menu", this);
             GameplayState.InitializeState("Gameplay", this);
             FailState.InitializeState("Fail", this);
         }
+
+        
+            
 
         protected override cStateBase GetInitialState()
         {
@@ -51,7 +55,7 @@ public class cGameManagerStateMachine : cStateMachine
         
         public void OnSuccessTurn()
         {
-            var go = m_ObjectPooler.Spawn("MoneyUI", cCurrencyBarScreen.Instance.transform).transform;
+            var go = m_ObjectPooler.Spawn("MoneyUI", m_UIManager.CurrencyManager.transform).transform;
             go.localScale = Vector3.one * 1.25f;
             go.gameObject.GetComponent<cMoneyUI>().Fly(m_CurrentGameConfig.m_EachStepPointCount);
             m_SoundManager.SuccessSound();
@@ -60,10 +64,7 @@ public class cGameManagerStateMachine : cStateMachine
         
         public void Replay()
         {
-            m_UIManager.HidePage(Page.LeaderBoardView);
-            m_UIManager.HidePage(Page.FailView);
-            m_UIManager.ShowPage(Page.LevelSelect);
-            m_LevelManager.RemoveCurrentLevel();
+            ChangeState(GameplayState);
         }
         
         public void SetLevel(TextAsset textAsset)

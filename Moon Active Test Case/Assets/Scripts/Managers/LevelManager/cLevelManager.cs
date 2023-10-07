@@ -46,13 +46,8 @@ public class cLevelManager : MonoBehaviour, ILevelManager
         if ( m_Level != null )
         {
             m_GameManager.GameEvents.OnGameStartBeforeLevelDestroy.Invoke();
+            m_GameManager.GameEvents.OnGameStartBeforeLevelDestroy= delegate {  };
             Destroy( m_Level.gameObject );
         }
     }
-}
-
-public interface ILevelManager
-{
-    public void LoadCurrentLevel(cGameConfiguration gameConfiguration);
-    public void RemoveCurrentLevel();
 }

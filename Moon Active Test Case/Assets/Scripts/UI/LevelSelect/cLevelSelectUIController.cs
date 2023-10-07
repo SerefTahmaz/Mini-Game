@@ -9,20 +9,21 @@ using Zenject;
 public class cLevelSelectUIController : cView
 {
     [SerializeField] private List<cGameLevelSO> m_GameLevels;
-    [SerializeField] private cLevelSelectButton m_LevelSelectButton;
     [SerializeField] private Transform m_LayoutTransform;
     [SerializeField] private UnityEvent m_OnSelected;
     [SerializeField] private Image m_BG;
     [SerializeField] private Image m_Icon;
     
-    private cGameManagerStateMachine m_GameManager;
     private List<cLevelSelectButton> m_InsButtons = new List<cLevelSelectButton>();
-    private IInstantiator m_Instantiator;
+    private cGameManagerStateMachine m_GameManager;
+    private LevelSelectButtonFactory m_LevelSelectButtonFactory;
+   
 
     [Inject]
-    public void Initialize(IInstantiator instantiator, cGameManagerStateMachine gameManager) {
-        m_Instantiator = instantiator;
+    public void Initialize(cGameManagerStateMachine gameManager, LevelSelectButtonFactory levelSelectButtonFactory) 
+    {
         m_GameManager = gameManager;
+        m_LevelSelectButtonFactory = levelSelectButtonFactory;
     }
 
     private void Awake()
@@ -30,13 +31,13 @@ public class cLevelSelectUIController : cView
         for (var index = 0; index < m_GameLevels.Count; index++)
         {
             var VARIABLE = m_GameLevels[index];
-            var ins = m_Instantiator.InstantiatePrefabForComponent<cLevelSelectButton>(m_LevelSelectButton, m_LayoutTransform);
+            var ins = m_LevelSelectButtonFactory.Create();
+            ins.transform.SetParent(m_LayoutTransform);
+            ins.transform.ResetTransform();
             ins.Init(VARIABLE, this);
 
             m_InsButtons.Add(ins);
         }
-        
-        
     }
 
     public override void Activate()

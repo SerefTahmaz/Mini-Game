@@ -38,7 +38,7 @@ public class cPlayerNameInputController : cView
 
             DOVirtual.DelayedCall(.35f, () =>
             {
-                m_GameManager.LeaderBoardView.SendPlayerEntry();
+                m_GameManager.LeaderBoardView.SendPlayerEntry().Forget();
                 m_OnNameSelected.Invoke();
             });
         }

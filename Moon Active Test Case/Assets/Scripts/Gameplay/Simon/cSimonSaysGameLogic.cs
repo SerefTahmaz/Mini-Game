@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using UnityEngine;
 using Zenject;
@@ -26,7 +27,7 @@ public class cSimonSaysGameLogic : MonoBehaviour
 
         m_GameManager.GameEvents.OnTimeIsUpEvent += () =>
         {
-            WrongButton();
+            WrongButton().Forget();
         };
     }
     
@@ -41,15 +42,15 @@ public class cSimonSaysGameLogic : MonoBehaviour
     {
         if (button == m_CurrentMatchList[m_CurrentIndex])
         {
-            NextButton(button);
+            NextButton(button).Forget();
         }
         else
         {
-            WrongButton();
+            WrongButton().Forget();
         }
     }
     
-    private void NextButton(cSimonButton button)
+    private async UniTaskVoid NextButton(cSimonButton button)
     {
         foreach (var VARIABLE in m_SimonButtons)
         {
@@ -67,11 +68,12 @@ public class cSimonSaysGameLogic : MonoBehaviour
             }
 
             m_GameManager.OnSuccessTurn();
-            DOVirtual.DelayedCall(1, () => { AddRound(); });
+            await UniTask.Delay(TimeSpan.FromSeconds(1));
+            AddRound();
         }
     }
 
-    private void WrongButton()
+    private async UniTaskVoid WrongButton()
     {
         m_GameManager.GameEvents.OnWrongButtonEvent.Invoke();
         
@@ -86,32 +88,27 @@ public class cSimonSaysGameLogic : MonoBehaviour
             VARIABLE.IsSelectable = false;
         }
 
-        StartCoroutine(WrongAnim());
-
-        IEnumerator WrongAnim()
+        for (int i = 0; i < 5; i++)
         {
-            for (int i = 0; i < 5; i++)
+            foreach (var VARIABLE in m_SimonButtons)
             {
-                foreach (var VARIABLE in m_SimonButtons)
-                {
-                    VARIABLE.EnableLight();
-                }
-
-                yield return new WaitForSeconds(.15f);
-
-                foreach (var VARIABLE in m_SimonButtons)
-                {
-                    VARIABLE.DisableLight();
-                }
-
-                yield return new WaitForSeconds(.15f);
+                VARIABLE.EnableLight();
             }
 
-            yield return new WaitForSeconds(.5f);
+            await UniTask.Delay(TimeSpan.FromSeconds(.15f));
 
-            m_CurrentMatchList.Clear();
-            m_GameManager.ChangeState(m_GameManager.FailState);
+            foreach (var VARIABLE in m_SimonButtons)
+            {
+                VARIABLE.DisableLight();
+            }
+
+            await UniTask.Delay(TimeSpan.FromSeconds(.15f));
         }
+
+        await UniTask.Delay(TimeSpan.FromSeconds(.5f));
+
+        m_CurrentMatchList.Clear();
+        m_GameManager.ChangeState(m_GameManager.FailState);
     }
 
     public void AddRound()
@@ -119,26 +116,22 @@ public class cSimonSaysGameLogic : MonoBehaviour
         
         var rndButton = m_SimonButtons.OrderBy((button => Random.value)).FirstOrDefault();
         m_CurrentMatchList.Add(rndButton);
-        ShowSequence(m_CurrentMatchList);
+        ShowSequenceAsync(m_CurrentMatchList).Forget();
     }
 
-    private void ShowSequence(List<cSimonButton> sequence)
+    private async UniTaskVoid ShowSequenceAsync(List<cSimonButton> sequence)
     {
-        StartCoroutine(SequenceAnim());
-        IEnumerator SequenceAnim()
-        {
-            var sequenceStart = m_RepeatAllSequence ? 0 : sequence.Count-1;
+        var sequenceStart = m_RepeatAllSequence ? 0 : sequence.Count-1;
             
-            for (var index = sequenceStart; index < sequence.Count; index++)
-            {
-                var VARIABLE = sequence[index];
-                VARIABLE.EnableLight(.5f / m_Speed);
-                yield return new WaitForSeconds(.75f / m_Speed);
-                VARIABLE.DisableLight();
-            }
-
-            EnablePlayerSelection();
+        for (var index = sequenceStart; index < sequence.Count; index++)
+        {
+            var VARIABLE = sequence[index];
+            VARIABLE.EnableLight(.5f / m_Speed);
+            await UniTask.Delay(TimeSpan.FromSeconds(.75f / m_Speed));
+            VARIABLE.DisableLight();
         }
+
+        EnablePlayerSelection();
     }
 
     private void EnablePlayerSelection()

@@ -19,10 +19,10 @@ public class cTransitionManager : cView
         switch (transitionType)
         {
             case TransitionType.Rotating:
-                m_Rotation.Anim(onFullCoverScreen, onFinish);
+                m_Rotation.Anim(onFullCoverScreen, onFinish).Forget();
                 break;
             case TransitionType.Lateral:
-                m_Lateral.Anim(onFullCoverScreen, onFinish);
+                m_Lateral.Anim(onFullCoverScreen, onFinish).Forget();
                 break;
             default:
                 throw new ArgumentOutOfRangeException(nameof(transitionType), transitionType, null);

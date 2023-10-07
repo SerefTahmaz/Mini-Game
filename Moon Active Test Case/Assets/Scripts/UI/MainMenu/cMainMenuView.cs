@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using UnityEngine;
 using UnityEngine.UI;
@@ -9,91 +10,82 @@ using Zenject;
 public class cMainMenuView : MonoBehaviour
 {
     [SerializeField] private List<RectTransform> m_MenuImages;
-    [SerializeField] private Scrollbar m_Scrollbar;
     [SerializeField] private HorizontalLayoutGroup m_HorizontalLayoutGroup;
     [SerializeField] private List<cView> m_Menus;
     [Inject] private ISoundManager m_SoundManager;
-
-
+    
     private Rect m_StartScale;
-
     private int m_ActiveIndex=-1;
+    private Tween t;
+    private int callNumber;
 
     private void Start()
     {
         m_StartScale = m_MenuImages[0].rect;
-        
-        OnValueChanged((float)2/3);
+
+        OnValueChanged((float)2 / 3);
     }
-
-    private Tween t;
-
-    private int callNumber;
 
     public void OnValueChanged(float value)
     {
-        StartCoroutine(test());
+        OnValueChangedTask(value).Forget();
+    }
 
-        IEnumerator test()
-        {
-            callNumber++;
-            int t2 = callNumber;
-            yield return new WaitForSeconds(0.05f);
-            if(callNumber != t2) yield break;
+    private async UniTaskVoid OnValueChangedTask(float value)
+    {
+        callNumber++;
+        int t2 = callNumber;
+        await UniTask.Delay(TimeSpan.FromSeconds(.05f));
+        if(callNumber != t2) return;
             
-            int nextIndex = Mathf.FloorToInt(value * 2);
+        int nextIndex = Mathf.FloorToInt(value * 2);
         
-            t.Complete(true);
+        t.Complete(true);
+            
+        int activeIndex = m_ActiveIndex;
+            
+        m_Menus[nextIndex].Activate();
+        if (activeIndex != -1)
+        {
+            m_Menus[activeIndex].Deactivate();
+        }
+            
+        m_SoundManager.PlayClick();
 
-            // Debug.Log(value);
-            
-            int activeIndex = m_ActiveIndex;
-            
-            // m_Menus[nextIndex].SetActive(true);
-            m_Menus[nextIndex].Activate();
+
+        t=DOVirtual.Float(0, 1, .5f, f =>
+        {
+            m_MenuImages[nextIndex].sizeDelta = Vector2.Lerp( new Vector2(m_StartScale.width, m_StartScale.height) , 
+                1.41f *  new Vector2(m_StartScale.width, m_StartScale.height), f);
+                
             if (activeIndex != -1)
             {
-                // m_Menus[activeIndex].SetActive(false);
-                m_Menus[activeIndex].Deactivate();
+                m_MenuImages[activeIndex].sizeDelta =  Vector2.Lerp( new Vector2(m_StartScale.width, m_StartScale.height) , 
+                    1.41f *  new Vector2(m_StartScale.width, m_StartScale.height), 1-f);
             }
-            
-            m_SoundManager.PlayClick();
+                
+            m_HorizontalLayoutGroup.CalculateLayoutInputHorizontal();
+            m_HorizontalLayoutGroup.CalculateLayoutInputVertical();
+            m_HorizontalLayoutGroup.SetLayoutHorizontal();
+            m_HorizontalLayoutGroup.SetLayoutVertical();
 
-
-            t=DOVirtual.Float(0, 1, .5f, f =>
+        }).OnComplete((() =>
+        {
+            m_MenuImages[nextIndex].sizeDelta = Vector2.Lerp( new Vector2(m_StartScale.width, m_StartScale.height) , 
+                1.41f *  new Vector2(m_StartScale.width, m_StartScale.height), 1);
+                
+            if (activeIndex != -1)
             {
-                m_MenuImages[nextIndex].sizeDelta = Vector2.Lerp( new Vector2(m_StartScale.width, m_StartScale.height) , 
-                    1.41f *  new Vector2(m_StartScale.width, m_StartScale.height), f);
+                m_MenuImages[activeIndex].sizeDelta =  Vector2.Lerp( new Vector2(m_StartScale.width, m_StartScale.height) , 
+                    1.41f *  new Vector2(m_StartScale.width, m_StartScale.height), 0);
+            }
                 
-                if (activeIndex != -1)
-                {
-                    m_MenuImages[activeIndex].sizeDelta =  Vector2.Lerp( new Vector2(m_StartScale.width, m_StartScale.height) , 
-                        1.41f *  new Vector2(m_StartScale.width, m_StartScale.height), 1-f);
-                }
+            m_HorizontalLayoutGroup.CalculateLayoutInputHorizontal();
+            m_HorizontalLayoutGroup.CalculateLayoutInputVertical();
+            m_HorizontalLayoutGroup.SetLayoutHorizontal();
+            m_HorizontalLayoutGroup.SetLayoutVertical();
                 
-                m_HorizontalLayoutGroup.CalculateLayoutInputHorizontal();
-                m_HorizontalLayoutGroup.CalculateLayoutInputVertical();
-                m_HorizontalLayoutGroup.SetLayoutHorizontal();
-                m_HorizontalLayoutGroup.SetLayoutVertical();
-
-            }).OnComplete((() =>
-            {
-                m_MenuImages[nextIndex].sizeDelta = Vector2.Lerp( new Vector2(m_StartScale.width, m_StartScale.height) , 
-                    1.41f *  new Vector2(m_StartScale.width, m_StartScale.height), 1);
-                
-                if (activeIndex != -1)
-                {
-                    m_MenuImages[activeIndex].sizeDelta =  Vector2.Lerp( new Vector2(m_StartScale.width, m_StartScale.height) , 
-                        1.41f *  new Vector2(m_StartScale.width, m_StartScale.height), 0);
-                }
-                
-                m_HorizontalLayoutGroup.CalculateLayoutInputHorizontal();
-                m_HorizontalLayoutGroup.CalculateLayoutInputVertical();
-                m_HorizontalLayoutGroup.SetLayoutHorizontal();
-                m_HorizontalLayoutGroup.SetLayoutVertical();
-                
-            }));
-            m_ActiveIndex = nextIndex;
-        }
+        }));
+        m_ActiveIndex = nextIndex;
     }
 }

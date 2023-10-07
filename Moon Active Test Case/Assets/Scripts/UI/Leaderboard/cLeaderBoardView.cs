@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using AINamesGenerator;
+using Cysharp.Threading.Tasks;
 using Dan.Main;
 using Dan.Models;
 using DG.Tweening;
@@ -33,31 +34,39 @@ public class cLeaderBoardView : cView
         public bool IsPlayer;
     }
 
-    IEnumerator Start()
+    void Start()
     {
-        yield return new WaitForSeconds(.5f);
-        SendPlayerEntry();
-        yield return new WaitForSeconds(.5f);
-        CheckBoard();
+        StartAsync().Forget();
     }
 
-    public void SendPlayerEntry()
+    private async UniTaskVoid StartAsync()
     {
-        m_OnlineLeaderboard.SetPlayerEntry();
-        DOVirtual.DelayedCall(5, () =>
+        await UniTask.Delay(TimeSpan.FromSeconds(.5f));
+        SendPlayerEntry().Forget();
+        await UniTask.Delay(TimeSpan.FromSeconds(.5f));
+        CheckBoard().Forget();
+    }
+
+    public async UniTaskVoid SendPlayerEntry()
+    {
+        while (true)
         {
             m_OnlineLeaderboard.SetPlayerEntry();
-            SendPlayerEntry();
-        });
+            await UniTask.Delay(TimeSpan.FromSeconds(5));
+            m_OnlineLeaderboard.SetPlayerEntry();
+        }
     }
 
-    public void CheckBoard()
+    private async UniTaskVoid CheckBoard()
     {
-        m_OnlineLeaderboard.GetLeaderBoard((success, entries) =>
+        while (true)
         {
-            OnLeaderboardLoaded(success ? entries : m_RandomAILeaderboard.GetRandomEntries(30));
-            DOVirtual.DelayedCall(10, CheckBoard);
-        });
+            m_OnlineLeaderboard.GetLeaderBoard((success, entries) =>
+            {
+                OnLeaderboardLoaded(success ? entries : m_RandomAILeaderboard.GetRandomEntries(30));
+            });
+            await UniTask.Delay(TimeSpan.FromSeconds(10));
+        }
     }
 
     public void OnLeaderboardLoaded(LeaderBoardUnitWrapper[] scores)

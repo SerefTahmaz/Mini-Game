@@ -10,6 +10,7 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.UIElements;
+using Zenject;
 using Random = UnityEngine.Random;
 
 public class cLeaderBoardView : cView
@@ -17,6 +18,7 @@ public class cLeaderBoardView : cView
     [SerializeField] private Transform m_LayoutTranform;
     [SerializeField] private cLeaderBoardSlotController m_BoardSlotControllerPrefab;
     [SerializeField] private cSmoothLayoutController m_SmoothLayoutController;
+    [Inject] private cObjectPooler m_ObjectPooler;
     
     private bool m_Selected;
     private cLeaderBoardSlotController m_PlayerSlot;
@@ -42,7 +44,7 @@ public class cLeaderBoardView : cView
     public void SendPlayerEntry()
     {
         m_OnlineLeaderboard.SetPlayerEntry();
-        DOVirtual.DelayedCall(20, () =>
+        DOVirtual.DelayedCall(5, () =>
         {
             m_OnlineLeaderboard.SetPlayerEntry();
             SendPlayerEntry();
@@ -54,7 +56,7 @@ public class cLeaderBoardView : cView
         m_OnlineLeaderboard.GetLeaderBoard((success, entries) =>
         {
             OnLeaderboardLoaded(success ? entries : m_RandomAILeaderboard.GetRandomEntries(30));
-            DOVirtual.DelayedCall(360, CheckBoard);
+            DOVirtual.DelayedCall(10, CheckBoard);
         });
     }
 
@@ -64,7 +66,7 @@ public class cLeaderBoardView : cView
         m_SmoothLayoutController.ClearAll();
         for (int i = m_Slots.Count - 1; i >= 0; i--)
         {
-            Destroy(m_Slots[i].gameObject);
+            m_ObjectPooler.DeSpawn(m_Slots[i].gameObject);
             m_Slots.RemoveAt(i);
         }
 
@@ -77,7 +79,8 @@ public class cLeaderBoardView : cView
             yield return null;
             
             foreach (var leaderboardEntry in scores) {
-                var ins = Instantiate(m_BoardSlotControllerPrefab, m_LayoutTranform);
+                var ins = m_ObjectPooler.Spawn<cLeaderBoardSlotController>("LeaderboardSlot", m_LayoutTranform);
+                ins.transform.ResetTransform();
                 ins.Init();
                 ins.m_LeaderBoardView = this;
                 ins.m_StartCount = (int)leaderboardEntry.Entry.Score;

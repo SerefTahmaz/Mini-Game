@@ -6,18 +6,14 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using Zenject;
 
-#if UNITY_EDITOR
-using UnityEditor;
-#endif
-
-public class cGameLogicManager : MonoBehaviour
+public class cOldGameLogicManager : MonoBehaviour
 {
     [SerializeField] private cLeaderBoardView m_LeaderBoardView;
     [SerializeField] private cTransitionManager m_TransitionManager;
     [Inject] private cObjectPooler m_ObjectPooler;
     [Inject] private cUIManager m_UIManager;
     [Inject] private ISoundManager m_SoundManager;
-    [Inject] private cLevelManager m_LevelManager;
+    [Inject] private ILevelManager m_LevelManager;
 
     private IGameConfig GameConfig;
     private cGameConfiguration m_CurrentGameConfig;
@@ -36,8 +32,7 @@ public class cGameLogicManager : MonoBehaviour
     {
         GameEvents.OnTimeIsUpEvent = delegate {  };
         m_CurrentGameConfig = GameConfig.Load(textAsset);
-        m_LevelManager.LoadCurrentLevel();
-        m_LevelManager.m_CurrentLevel.InitLevel(m_CurrentGameConfig);
+        m_LevelManager.LoadCurrentLevel(m_CurrentGameConfig);
         
         m_UIManager.ShowPage(Page.Gameplay);
         m_UIManager.Fillbar.Init(m_CurrentGameConfig.m_GameTimeInSeconds);
@@ -77,22 +72,6 @@ public class cGameLogicManager : MonoBehaviour
         m_UIManager.HidePage(Page.LeaderBoardView);
         m_UIManager.HidePage(Page.FailView);
         m_UIManager.ShowPage(Page.LevelSelect);
-        m_LevelManager.RemoveLevel();
+        m_LevelManager.RemoveCurrentLevel();
     }
 }
-
-
-#if UNITY_EDITOR
-[CustomEditor(typeof(cGameLogicManager))]
-public class cGameLogicManagerEditor : Editor
-{
-    public override void OnInspectorGUI()
-    {
-        base.OnInspectorGUI();
-        if (GUILayout.Button("Click"))
-        {
-            // (target as cGameLogicManager).SetLevel();
-        }
-    }
-}
-#endif

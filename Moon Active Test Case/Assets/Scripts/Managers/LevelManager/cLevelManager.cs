@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Zenject;
 
-public class cLevelManager : MonoBehaviour
+public class cLevelManager : MonoBehaviour, ILevelManager
 {
     [SerializeField] private GameObject[] m_LevelPrefabs;
     [SerializeField] private GameObject m_TestLevel;
@@ -19,7 +19,7 @@ public class cLevelManager : MonoBehaviour
         _instantiator = instantiator;
     }
     
-    public void LoadCurrentLevel()
+    public void LoadCurrentLevel(cGameConfiguration gameConfiguration)
     {
         if ( m_Level != null )
         {
@@ -37,18 +37,20 @@ public class cLevelManager : MonoBehaviour
 
         m_Level = _instantiator.InstantiatePrefab(levelPrefab, transform);
         m_CurrentLevel = m_Level.GetComponent<cLevel>();
+        m_CurrentLevel.InitLevel(gameConfiguration);
     }
 
-    public GameObject GetCurrentLevel()
-    {
-        return m_Level;
-    }
-
-    public void RemoveLevel()
+    public void RemoveCurrentLevel()
     {
         if ( m_Level != null )
         {
             Destroy( m_Level.gameObject );
         }
     }
+}
+
+public interface ILevelManager
+{
+    public void LoadCurrentLevel(cGameConfiguration gameConfiguration);
+    public void RemoveCurrentLevel();
 }

@@ -93,6 +93,16 @@ public class cObjectPooler : MonoBehaviour
         obj.transform.forward = parent.forward;
         return obj;
     }
+    
+    public T Spawn<T>(string poolTag, Transform parent) where T: Component
+    {
+        GameObject obj = SpawnFromPool(poolTag);
+
+        obj.transform.SetParent(parent);
+        obj.transform.localPosition = Vector3.zero;
+        obj.transform.forward = parent.forward;
+        return obj.GetComponent<T>();
+    }
 
     /// <summary>
     /// Spawns the pooled object to given position and parents the object to given Transform
@@ -163,5 +173,26 @@ public class cObjectPooler : MonoBehaviour
         }
 
         PoolDictionary.Add(poolTag, queue);
+    }
+
+    public void DeSpawn(GameObject ins)
+    {
+        bool notContain = true;
+        foreach (var VARIABLE in PoolDictionary.Values)
+        {
+            if (VARIABLE.Contains(ins))
+            {
+                notContain = false;
+            }
+        }
+
+        if (notContain)
+        {
+            Debug.LogError("Not a pooled object");
+            return;
+        }
+        
+        ins.SetActive(false);
+        ins.transform.SetParent(transform);
     }
 }

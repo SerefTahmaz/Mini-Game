@@ -12,7 +12,7 @@ public class cPlayerNameInputController : cView
     [SerializeField] private UnityEvent m_OnNameSelected;
     [SerializeField] private TMP_Text m_InputText;
     [SerializeField] private GameObject m_DisableInteractableGO;
-    [Inject] private cGameLogicManager m_GameLogicManager;
+    [Inject] private cGameLogicStateMachine m_GameLogicManager;
 
     public override void Activate()
     {

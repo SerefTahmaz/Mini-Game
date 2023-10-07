@@ -14,7 +14,7 @@ public class cLevelSelectUIController : cView
     [SerializeField] private UnityEvent m_OnSelected;
     [SerializeField] private Image m_BG;
     [SerializeField] private Image m_Icon;
-    [Inject] private cGameLogicManager m_GameLogicManager;
+    [Inject] private cGameLogicStateMachine m_GameLogicManager;
 
     private List<cLevelSelectButton> m_InsButtons = new List<cLevelSelectButton>();
     

@@ -3,14 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
+using Zenject;
 
 public class cSmoothLayoutController : MonoBehaviour
 {
     [SerializeField] private Transform m_StaticGOTransform;
     [SerializeField] private Transform m_DynamicGOTransform;
     [SerializeField] private ScrollRect m_ScrollView;
-    [SerializeField] private GameObject m_EmptyGO;
     [SerializeField] private float m_Speed = 1;
+    [Inject] private cObjectPooler m_ObjectPooler;
     
     private Dictionary<Transform, LayoutHelper> m_LayoutDict = new Dictionary<Transform, LayoutHelper>();
     private List<Transform> m_DynamicTransforms = new List<Transform>();
@@ -24,7 +25,7 @@ public class cSmoothLayoutController : MonoBehaviour
 
     public void AddLayoutUnit(Transform ins, int rank)
     {
-        var staticBody = Instantiate(m_EmptyGO, m_StaticGOTransform).transform;
+        var staticBody = m_ObjectPooler.Spawn("SmoothLayoutSlot", m_StaticGOTransform).transform;
         staticBody.SetParentResetTransform(ins);
         staticBody.SetParent(m_StaticGOTransform);
         ins.SetParent(m_DynamicGOTransform);
@@ -86,11 +87,12 @@ public class cSmoothLayoutController : MonoBehaviour
         for (var index = m_DynamicTransforms.Count - 1; index >= 0; index--)
         {
             var VARIABLE = m_DynamicTransforms[index];
-            Destroy(m_LayoutDict[VARIABLE].StaticTransform);
+            m_ObjectPooler.DeSpawn(m_LayoutDict[VARIABLE].StaticTransform.gameObject);
             m_DynamicTransforms.RemoveAt(index);
         }
 
         m_FocusTransform = null;
+        m_LayoutDict.Clear();
     }
 
     public void FixLayout()

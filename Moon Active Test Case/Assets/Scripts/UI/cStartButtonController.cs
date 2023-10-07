@@ -9,7 +9,7 @@ public class cStartButtonController : cButton
 {
     [SerializeField] private Transform m_Pivot;
     [SerializeField] private float m_PulseDelay;
-    [Inject] private cGameLogicManager m_GameLogicManager;
+    [Inject] private cGameLogicStateMachine m_GameLogicManager;
 
     private void Awake()
     {
@@ -28,6 +28,6 @@ public class cStartButtonController : cButton
     public override void OnClick()
     {
         base.OnClick();
-        m_GameLogicManager.OnStartButton();
+        m_GameLogicManager.ChangeState(m_GameLogicManager.GameplayState);
     }
 }

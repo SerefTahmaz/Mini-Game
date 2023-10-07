@@ -10,7 +10,7 @@ using Random = UnityEngine.Random;
 public class cSimonSaysGameLogic : MonoBehaviour
 {
     [SerializeField] private cSimon3DInputHandler m_Simon3DInputHandler;
-    [Inject] private cGameLogicManager m_GameLogicManager;
+    [Inject] private cGameLogicStateMachine m_GameLogicManager;
 
     private float m_Speed = 1;
     private bool m_RepeatAllSequence;
@@ -110,7 +110,7 @@ public class cSimonSaysGameLogic : MonoBehaviour
             yield return new WaitForSeconds(.5f);
 
             m_CurrentMatchList.Clear();
-            m_GameLogicManager.OnFail();
+            m_GameLogicManager.ChangeState(m_GameLogicManager.FailState);
         }
     }
 

@@ -11,9 +11,17 @@ public static class cSaveDataHandler
     private static SaveData m_GameConfiguration = new SaveData();
     public static SaveData GameConfiguration
     {
-        get => m_GameConfiguration;
-        set => m_GameConfiguration = value;
+        get
+        {
+            Load();
+            return m_GameConfiguration;
+        }
+        set
+        {
+            m_GameConfiguration = value;
+        }
     }
+
     private static bool m_Loaded = false;
 
     private static string m_SaveFilePath => Application.persistentDataPath + "/SavaData.json";
@@ -61,7 +69,6 @@ public static class cSaveDataHandler
 
     public static string PlayerName()
     {
-        Load();
         return GameConfiguration.PlayerName;
     }
 }

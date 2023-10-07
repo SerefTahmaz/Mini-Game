@@ -7,7 +7,6 @@ using Random = UnityEngine.Random;
 public class cSoundManager : MonoBehaviour, ISoundManager
 {
     [SerializeField] private List<AudioClip> m_Pops;
-    [SerializeField] private List<AudioClip> m_OnLightTracks;
     [SerializeField] private List<AudioClip> m_SuccessSound;
     [SerializeField] private List<AudioClip> m_FailSound;
     [SerializeField] private AudioClip m_Click;
@@ -17,7 +16,7 @@ public class cSoundManager : MonoBehaviour, ISoundManager
     [SerializeField] private AudioSource m_AudioSource;
     [SerializeField] private AudioSource m_AmbientSource;
 
-    private void Start()
+    private void Awake()
     {
         // m_AudioSource.PlayOneShot(m_forestBGSounds[Random.Range(0, m_forestBGSounds.Count-1)], .25f);
     }
@@ -31,11 +30,6 @@ public class cSoundManager : MonoBehaviour, ISoundManager
     public void PlayPop()
     {
         m_AudioSource.PlayOneShot(m_Pops[Random.Range(0, m_Pops.Count-1)]);
-    }
-    
-    public void PlayLightSound()
-    {
-        m_AudioSource.PlayOneShot(m_OnLightTracks[Random.Range(0, m_OnLightTracks.Count-1)]);
     }
 
     public void SuccessSound()

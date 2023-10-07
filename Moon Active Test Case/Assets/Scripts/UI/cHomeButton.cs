@@ -6,9 +6,9 @@ using Zenject;
 
 public class cHomeButton : cButton
 {
-    [Inject] private cGameLogicManager m_GameLogicManager;
+    [Inject] private cGameLogicStateMachine m_GameLogicManager;
     [Inject] private cUIManager m_UIManager;
-    [Inject] private cLevelManager m_LevelManager;
+    [Inject] private ILevelManager m_LevelManager;
     
     public override void OnClick()
     {
@@ -19,7 +19,7 @@ public class cHomeButton : cButton
             m_UIManager.HidePage(Page.FailView);
             m_UIManager.ShowPage(Page.Start);
             m_UIManager.ShowPage(Page.MainMenuSliderView);
-            m_LevelManager.RemoveLevel();
+            m_LevelManager.RemoveCurrentLevel();
         }, () =>
         {
             

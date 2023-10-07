@@ -11,7 +11,7 @@ public class cFillbarController : MonoBehaviour
     [SerializeField] private float m_Duration;
     [SerializeField] private ProceduralImage m_FillImage;
     [SerializeField] private Gradient m_FillColorGradient;
-    [Inject] private cGameLogicManager m_GameLogicManager;
+    [Inject] private cGameLogicStateMachine m_GameLogicManager;
 
     private void Awake()
     {

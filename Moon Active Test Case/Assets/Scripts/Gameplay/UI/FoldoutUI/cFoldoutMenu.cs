@@ -18,14 +18,19 @@ public class cFoldoutMenu : MonoBehaviour
 
     private void Awake()
     {
-        OnClick();
+        OnToggle(0);
     }
 
     public void OnClick()
     {
+        OnToggle(1);   
+    }
+
+    public void OnToggle(float duration)
+    {
         if (m_Closed)
         {
-            DOVirtual.Float(m_HorizontalLayoutGroup.spacing, 20, 1, value =>
+            DOVirtual.Float(m_HorizontalLayoutGroup.spacing, 20, 1* duration, value =>
             {
                 m_HorizontalLayoutGroup.spacing = value;
             });
@@ -33,12 +38,12 @@ public class cFoldoutMenu : MonoBehaviour
             foreach (var VARIABLE in m_CanvasGroups)
             {
                 VARIABLE.DOKill();
-                VARIABLE.DOFade(1, 1);
+                VARIABLE.DOFade(1, 1* duration);
             }
         }
         else
         {
-            DOVirtual.Float(m_HorizontalLayoutGroup.spacing, m_TargetValue, 1, value =>
+            DOVirtual.Float(m_HorizontalLayoutGroup.spacing, m_TargetValue, 1* duration, value =>
             {
                 m_HorizontalLayoutGroup.spacing = value;
             });
@@ -46,15 +51,15 @@ public class cFoldoutMenu : MonoBehaviour
             foreach (var VARIABLE in m_CanvasGroups)
             {
                 VARIABLE.DOKill();
-                VARIABLE.DOFade(0, 1);
+                VARIABLE.DOFade(0, 1* duration);
             }
         }
 
         m_Closed = !m_Closed;
 
         m_CogWhell.DOKill();
-        m_CogWhell.DOLocalRotate(new Vector3(0, 0, -60), .5f).SetRelative(true);
+        m_CogWhell.DOLocalRotate(new Vector3(0, 0, -60), .5f * duration).SetRelative(true);
         
-        m_SoundManager.PlayClick();
+        if(duration > 0) m_SoundManager.PlayClick();
     }
 }

@@ -5,7 +5,7 @@ using Zenject;
 
 public class cReplayButton : cButton
 {
-    [Inject] private cGameLogicManager m_GameLogicManager;
+    [Inject] private cGameLogicStateMachine m_GameLogicManager;
     
     public override void OnClick()
     {

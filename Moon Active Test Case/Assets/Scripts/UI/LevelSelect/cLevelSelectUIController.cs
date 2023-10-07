@@ -14,15 +14,15 @@ public class cLevelSelectUIController : cView
     [SerializeField] private UnityEvent m_OnSelected;
     [SerializeField] private Image m_BG;
     [SerializeField] private Image m_Icon;
-    [Inject] private cGameManagerStateMachine m_GameManager;
-
-    private List<cLevelSelectButton> m_InsButtons = new List<cLevelSelectButton>();
     
+    private cGameManagerStateMachine m_GameManager;
+    private List<cLevelSelectButton> m_InsButtons = new List<cLevelSelectButton>();
     private IInstantiator m_Instantiator;
 
     [Inject]
-    public void Initialize(IInstantiator instantiator) {
+    public void Initialize(IInstantiator instantiator, cGameManagerStateMachine gameManager) {
         m_Instantiator = instantiator;
+        m_GameManager = gameManager;
     }
 
     private void Awake()

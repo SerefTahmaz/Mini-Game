@@ -9,14 +9,15 @@ public class cLevel : MonoBehaviour
     [SerializeField] private cSimonButton m_SimonButtonUnit;
     [SerializeField] private Transform m_PosToSpawn;
     [SerializeField] private List<cSimonButtonSO> m_SimonButtonSos;
-    [SerializeField] private cSimonSaysGameLogic m_SimonSaysGameLogic;
-    [Inject] private ISoundManager m_SoundManager;
+    [SerializeField] private cSimonSaysGameLogic m_SimonSaysGameLogic; 
     
-    private IInstantiator _instantiator;
+    private ISoundManager m_SoundManager;
+    private IInstantiator m_Instantiator;
 
     [Inject]
-    public void Initialize(IInstantiator instantiator) {
-        _instantiator = instantiator;
+    public void Initialize(IInstantiator instantiator, ISoundManager soundManager) {
+        m_Instantiator = instantiator;
+        m_SoundManager = soundManager;
     }
     
     public void InitLevel(cGameConfiguration gameConfiguration)
@@ -39,7 +40,7 @@ public class cLevel : MonoBehaviour
             {
                 float unityAngle = ((float)360 / buttonCount);
                 float currentAngle = unityAngle * i;
-                var ins = _instantiator.InstantiatePrefabForComponent<cSimonButton>(m_SimonButtonUnit, m_PosToSpawn);
+                var ins = m_Instantiator.InstantiatePrefabForComponent<cSimonButton>(m_SimonButtonUnit, m_PosToSpawn);
                 ins.transform.localEulerAngles = new Vector3(0, currentAngle, 0);
                 ins.Init(m_SimonButtonSos[index % m_SimonButtonSos.Count], Mathf.Clamp((unityAngle / 90), .1f, 1));
                 index++;

@@ -11,13 +11,13 @@ public class cFillbarController : MonoBehaviour
     [SerializeField] private float m_Duration;
     [SerializeField] private ProceduralImage m_FillImage;
     [SerializeField] private Gradient m_FillColorGradient;
-    [Inject] private cGameLogicStateMachine m_GameLogicManager;
+    [Inject] private cGameManagerStateMachine m_GameManager;
 
     private void Awake()
     {
-        m_GameLogicManager.GameEvents.OnPlayerInputStartEvent += Fill;
-        m_GameLogicManager.GameEvents.OnSuccessTurn += Refresh;
-        m_GameLogicManager.GameEvents.OnWrongButtonEvent += () =>
+        m_GameManager.GameEvents.OnPlayerInputStartEvent += Fill;
+        m_GameManager.GameEvents.OnSuccessTurn += Refresh;
+        m_GameManager.GameEvents.OnWrongButtonEvent += () =>
         {
             m_FillImage.DOKill();
         };
@@ -37,7 +37,7 @@ public class cFillbarController : MonoBehaviour
         })).OnComplete((() =>
         {
             m_FillImage.DOKill();
-            m_GameLogicManager.GameEvents.OnTimeIsUpEvent.Invoke();;
+            m_GameManager.GameEvents.OnTimeIsUpEvent.Invoke();;
         }));
     }
 

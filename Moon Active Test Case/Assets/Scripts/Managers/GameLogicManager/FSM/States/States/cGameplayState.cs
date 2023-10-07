@@ -13,13 +13,13 @@ namespace FiniteStateMachine
     public class cGameplayState : cStateBase
     {
         [Inject] private cUIManager m_UIManager;
-        cGameLogicStateMachine GameLogicStateMachine => m_StateMachine as cGameLogicStateMachine;
+        cGameManagerStateMachine GameManagerStateMachine => m_StateMachine as cGameManagerStateMachine;
         
         public override void Enter()
         {
             base.Enter();
             m_UIManager.SetInteractable(false);
-            GameLogicStateMachine.TransitionManager.PlayTransition(cTransitionManager.TransitionType.Rotating, () =>
+            GameManagerStateMachine.TransitionManager.PlayTransition(cTransitionManager.TransitionType.Rotating, () =>
             {
                 m_UIManager.HidePage(Page.Start);
                 m_UIManager.HidePage(Page.MainMenuSliderView);

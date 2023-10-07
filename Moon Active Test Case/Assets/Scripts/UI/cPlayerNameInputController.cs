@@ -12,7 +12,7 @@ public class cPlayerNameInputController : cView
     [SerializeField] private UnityEvent m_OnNameSelected;
     [SerializeField] private TMP_Text m_InputText;
     [SerializeField] private GameObject m_DisableInteractableGO;
-    [Inject] private cGameLogicStateMachine m_GameLogicManager;
+    [Inject] private cGameManagerStateMachine m_GameManager;
 
     public override void Activate()
     {
@@ -33,12 +33,12 @@ public class cPlayerNameInputController : cView
         {
             transform.SuccessShakeUI();
 
-            cSaveDataHandler.GameConfiguration.PlayerName = m_InputText.text;
+            cSaveDataHandler.GameConfiguration.m_PlayerName = m_InputText.text;
             cSaveDataHandler.Save();
 
             DOVirtual.DelayedCall(.35f, () =>
             {
-                m_GameLogicManager.LeaderBoardView.SendPlayerEntry();
+                m_GameManager.LeaderBoardView.SendPlayerEntry();
                 m_OnNameSelected.Invoke();
             });
         }

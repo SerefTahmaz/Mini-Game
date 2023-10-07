@@ -69,6 +69,6 @@ public static class cSaveDataHandler
 
     public static string PlayerName()
     {
-        return GameConfiguration.PlayerName;
+        return GameConfiguration.m_PlayerName;
     }
 }

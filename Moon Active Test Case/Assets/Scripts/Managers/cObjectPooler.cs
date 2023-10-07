@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using Zenject;
 
-
 public class cObjectPooler : MonoBehaviour
 {
     [Serializable]
@@ -20,26 +19,28 @@ public class cObjectPooler : MonoBehaviour
     [SerializeField] private List<Pool> Pools = new List<Pool>();
     private Dictionary<string, Queue<GameObject>> PoolDictionary = new Dictionary<string, Queue<GameObject>>();
     private IInstantiator m_Instantiator;
+    private cGameManagerStateMachine m_GameManager;
 
     [Inject]
-    public void Initialize(IInstantiator instantiator) {
+    public void Initialize(IInstantiator instantiator, cGameManagerStateMachine gameManager) {
         m_Instantiator = instantiator;
+        m_GameManager = gameManager;
     }
 
     private void Awake()
     {
         InitPool();
 
-        // Main.GameLogicManager.GameEvents.OnGameStartBeforeLevelDestroy += () =>
-        // {
-        //     foreach (var VARIABLE in PoolDictionary)
-        //     {
-        //         foreach (var t in VARIABLE.Value)
-        //         {
-        //             t.transform.SetParent(transform);
-        //         }
-        //     }
-        // };
+        m_GameManager.GameEvents.OnGameStartBeforeLevelDestroy += () =>
+        {
+            foreach (var VARIABLE in PoolDictionary)
+            {
+                foreach (var t in VARIABLE.Value)
+                {
+                    DeSpawn(t);
+                }
+            }
+        };
     }
 
     private void InitPool()

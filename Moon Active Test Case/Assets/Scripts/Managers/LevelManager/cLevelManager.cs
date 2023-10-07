@@ -9,14 +9,15 @@ public class cLevelManager : MonoBehaviour, ILevelManager
     [SerializeField] private GameObject[] m_LevelPrefabs;
     [SerializeField] private GameObject m_TestLevel;
     private GameObject m_Level;
+    private IInstantiator m_Instantiator;
+    private cGameManagerStateMachine m_GameManager;
 
     public cLevel m_CurrentLevel;
     
-    private IInstantiator _instantiator;
-
     [Inject]
-    public void Initialize(IInstantiator instantiator) {
-        _instantiator = instantiator;
+    public void Initialize(IInstantiator instantiator, cGameManagerStateMachine gameManager) {
+        m_Instantiator = instantiator;
+        m_GameManager = gameManager;
     }
     
     public void LoadCurrentLevel(cGameConfiguration gameConfiguration)
@@ -35,7 +36,7 @@ public class cLevelManager : MonoBehaviour, ILevelManager
         }
 #endif
 
-        m_Level = _instantiator.InstantiatePrefab(levelPrefab, transform);
+        m_Level = m_Instantiator.InstantiatePrefab(levelPrefab, transform);
         m_CurrentLevel = m_Level.GetComponent<cLevel>();
         m_CurrentLevel.InitLevel(gameConfiguration);
     }
@@ -44,6 +45,7 @@ public class cLevelManager : MonoBehaviour, ILevelManager
     {
         if ( m_Level != null )
         {
+            m_GameManager.GameEvents.OnGameStartBeforeLevelDestroy.Invoke();
             Destroy( m_Level.gameObject );
         }
     }

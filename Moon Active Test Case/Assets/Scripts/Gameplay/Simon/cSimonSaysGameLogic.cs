@@ -10,7 +10,7 @@ using Random = UnityEngine.Random;
 public class cSimonSaysGameLogic : MonoBehaviour
 {
     [SerializeField] private cSimon3DInputHandler m_Simon3DInputHandler;
-    [Inject] private cGameLogicStateMachine m_GameLogicManager;
+    [Inject] private cGameManagerStateMachine m_GameManager;
 
     private float m_Speed = 1;
     private bool m_RepeatAllSequence;
@@ -24,7 +24,7 @@ public class cSimonSaysGameLogic : MonoBehaviour
         m_SimonInputHandler = m_Simon3DInputHandler;
         m_SimonInputHandler.OnInput += CheckInput;
 
-        m_GameLogicManager.GameEvents.OnTimeIsUpEvent += () =>
+        m_GameManager.GameEvents.OnTimeIsUpEvent += () =>
         {
             WrongButton();
         };
@@ -66,14 +66,14 @@ public class cSimonSaysGameLogic : MonoBehaviour
                 VARIABLE.IsSelectable = false;
             }
 
-            m_GameLogicManager.OnSuccessTurn();
+            m_GameManager.OnSuccessTurn();
             DOVirtual.DelayedCall(1, () => { AddRound(); });
         }
     }
 
     private void WrongButton()
     {
-        m_GameLogicManager.GameEvents.OnWrongButtonEvent.Invoke();
+        m_GameManager.GameEvents.OnWrongButtonEvent.Invoke();
         
         m_CurrentIndex = 0;
         foreach (var VARIABLE in m_SimonButtons)
@@ -110,7 +110,7 @@ public class cSimonSaysGameLogic : MonoBehaviour
             yield return new WaitForSeconds(.5f);
 
             m_CurrentMatchList.Clear();
-            m_GameLogicManager.ChangeState(m_GameLogicManager.FailState);
+            m_GameManager.ChangeState(m_GameManager.FailState);
         }
     }
 
@@ -143,7 +143,7 @@ public class cSimonSaysGameLogic : MonoBehaviour
 
     private void EnablePlayerSelection()
     {
-        m_GameLogicManager.GameEvents.OnPlayerInputStartEvent.Invoke();
+        m_GameManager.GameEvents.OnPlayerInputStartEvent.Invoke();
         foreach (var button in m_SimonButtons)
         {
             button.IsSelectable = true;

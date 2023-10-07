@@ -33,7 +33,7 @@ public class cSimonButton : MonoBehaviour
         m_LightTween.Kill();
         m_Rend.material.EnableKeyword("_EMISSION");
         m_LightTween=DOVirtual.DelayedCall(duration, DisableLight);
-        m_SoundManager.PlayClip(m_SimonButtonSO.m_OnLightSound);
+        if(m_SimonButtonSO) m_SoundManager.PlayClip(m_SimonButtonSO.m_OnLightSound);
     }
     
     public void DisableLight()

@@ -44,6 +44,50 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6b1e39edb9f335a49bee6221ec086654, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &1586721742
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1586721743}
+  - component: {fileID: 1586721744}
+  m_Layer: 0
+  m_Name: SaveManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1586721743
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1586721742}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 4011334096314335362}
+  m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1586721744
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1586721742}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dee51b22bae54ce43aadb76bdede7cf5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &4011334096314335363
 GameObject:
   m_ObjectHideFlags: 0
@@ -73,11 +117,12 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4011334097798985988}
-  - {fileID: 4011334097038920024}
   - {fileID: 8024552049332697805}
   - {fileID: 4011334098137604898}
   - {fileID: 4011334097199392342}
+  - {fileID: 4011334097038920024}
   - {fileID: 1186880381}
+  - {fileID: 1586721743}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -111,7 +156,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4011334096314335362}
-  m_RootOrder: 1
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &4011334097038920025
 MonoBehaviour:
@@ -159,7 +204,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4011334096314335362}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &4011334098137604899
 MonoBehaviour:
@@ -178,7 +223,7 @@ MonoBehaviour:
   m_SuccessSound:
   - {fileID: 8300000, guid: f3b56c9db4cbd0c4ca252e12334747ab, type: 3}
   m_FailSound:
-  - {fileID: 8300000, guid: b03b14ef562a35a4a939576cdbee903b, type: 3}
+  - {fileID: 8300000, guid: 291d99759e0c541489d46fb6318e1ad6, type: 3}
   m_Click: {fileID: 8300000, guid: 4ef2114429f88a741ab5b4ababced7f3, type: 3}
   m_OnMouseEnter: {fileID: 8300000, guid: b450a54be6e10f54dae75f097d2d3aea, type: 3}
   m_Swoosh: {fileID: 8300000, guid: f8a06f6a224ff514cb43a287f183a2cf, type: 3}
@@ -466,7 +511,7 @@ PrefabInstance:
     - target: {fileID: 6410857067881899241, guid: 545ea11b267aca146a93ff9280b42bc4,
         type: 3}
       propertyPath: m_RootOrder
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6410857067881899241, guid: 545ea11b267aca146a93ff9280b42bc4,
         type: 3}
@@ -521,8 +566,56 @@ PrefabInstance:
     - target: {fileID: 7227521190278253766, guid: 545ea11b267aca146a93ff9280b42bc4,
         type: 3}
       propertyPath: Pools.Array.size
-      value: 1
+      value: 4
       objectReference: {fileID: 0}
+    - target: {fileID: 7227521190278253766, guid: 545ea11b267aca146a93ff9280b42bc4,
+        type: 3}
+      propertyPath: Pools.Array.data[1].Tag
+      value: LeaderboardSlot
+      objectReference: {fileID: 0}
+    - target: {fileID: 7227521190278253766, guid: 545ea11b267aca146a93ff9280b42bc4,
+        type: 3}
+      propertyPath: Pools.Array.data[2].Tag
+      value: SmoothLayoutSlot
+      objectReference: {fileID: 0}
+    - target: {fileID: 7227521190278253766, guid: 545ea11b267aca146a93ff9280b42bc4,
+        type: 3}
+      propertyPath: Pools.Array.data[3].Tag
+      value: SimonButton
+      objectReference: {fileID: 0}
+    - target: {fileID: 7227521190278253766, guid: 545ea11b267aca146a93ff9280b42bc4,
+        type: 3}
+      propertyPath: Pools.Array.data[1].Size
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 7227521190278253766, guid: 545ea11b267aca146a93ff9280b42bc4,
+        type: 3}
+      propertyPath: Pools.Array.data[2].Size
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 7227521190278253766, guid: 545ea11b267aca146a93ff9280b42bc4,
+        type: 3}
+      propertyPath: Pools.Array.data[3].Size
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 7227521190278253766, guid: 545ea11b267aca146a93ff9280b42bc4,
+        type: 3}
+      propertyPath: Pools.Array.data[1].Prefab
+      value: 
+      objectReference: {fileID: 797944307008994564, guid: da661341517348c4fa175d377431cbb0,
+        type: 3}
+    - target: {fileID: 7227521190278253766, guid: 545ea11b267aca146a93ff9280b42bc4,
+        type: 3}
+      propertyPath: Pools.Array.data[2].Prefab
+      value: 
+      objectReference: {fileID: 6654681239438890185, guid: cf1273309db9fb94db79a5e4a6bbdcba,
+        type: 3}
+    - target: {fileID: 7227521190278253766, guid: 545ea11b267aca146a93ff9280b42bc4,
+        type: 3}
+      propertyPath: Pools.Array.data[3].Prefab
+      value: 
+      objectReference: {fileID: 5556806120501860091, guid: 947c6fd50716b7c4bb2a36d5bf8d82c1,
+        type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 545ea11b267aca146a93ff9280b42bc4, type: 3}
 --- !u!4 &8024552049332697805 stripped
@@ -547,7 +640,7 @@ PrefabInstance:
     - target: {fileID: 6805529284372499125, guid: ddac3106ad9a8a342abe4dc3372c55ec,
         type: 3}
       propertyPath: m_RootOrder
-      value: 4
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 6805529284372499125, guid: ddac3106ad9a8a342abe4dc3372c55ec,
         type: 3}

@@ -8,8 +8,6 @@ using UnityEngine;
 
 public class cXMLGameConfigHandler : IGameConfigHandler
 {
-    private static string m_FilePath => Application.dataPath + "/GameConfig.xml";
-    
     public cGameConfiguration Load(TextAsset textAsset)
     {
         var serializer = new XmlSerializer(typeof(cGameConfiguration));
@@ -22,14 +20,21 @@ public class cXMLGameConfigHandler : IGameConfigHandler
      [MenuItem("GameConfig/Template XML Config")]
     public static void CreateTemplateConfig()
     {
-        XmlSerializer serializer = new XmlSerializer(typeof(cGameConfiguration));
- 
-        using (FileStream stream = new FileStream(m_FilePath, FileMode.Create))
+        var path = EditorUtility.SaveFilePanel(
+            "Save config",
+            "",
+            "GameConfig" + ".xml",
+            "xml");
+
+        if (path.Length != 0)
         {
-            serializer.Serialize(stream, new cGameConfiguration());
+            XmlSerializer serializer = new XmlSerializer(typeof(cGameConfiguration));
+ 
+            using (FileStream stream = new FileStream(path, FileMode.Create))
+            {
+                serializer.Serialize(stream, new cGameConfiguration());
+            }
+            AssetDatabase.Refresh();
         }
-  
-        Debug.Log("Save file created at: " + m_FilePath);
-        AssetDatabase.Refresh();
     }
 }

@@ -10,8 +10,6 @@ using UnityEditor;
 
 public class cJsonGameConfigHandler : IGameConfigHandler
 {
-    private static string saveFilePath => Application.dataPath + "/GameConfigData.json";
-
     public cGameConfiguration Load(TextAsset asset)
     {
         return JsonUtility.FromJson<cGameConfiguration>(asset.text);
@@ -21,9 +19,17 @@ public class cJsonGameConfigHandler : IGameConfigHandler
     public static void CreateTemplateConfig()
     {
         string savePlayerData = JsonUtility.ToJson(new cGameConfiguration());
-        File.WriteAllText(saveFilePath, savePlayerData);
-  
-        Debug.Log("Save file created at: " + saveFilePath);
-        AssetDatabase.Refresh();
+
+        var path = EditorUtility.SaveFilePanel(
+            "Save config",
+            "",
+            "GameConfig" + ".json",
+            "json");
+
+        if (path.Length != 0)
+        {
+            File.WriteAllText(path,savePlayerData);
+            AssetDatabase.Refresh();
+        }
     }
 }

@@ -104,6 +104,8 @@ public class cLeaderBoardView : cView
             if (leaderboardEntry.IsPlayer)
             {
                 m_PlayerSlot = ins;
+                m_PlayerSlot.m_PlayerName = m_SaveManager.SaveData.m_PlayerName;
+                m_PlayerSlot.UpdateUI();
             }
                 
             m_Slots.Add(ins);
@@ -127,6 +129,7 @@ public class cLeaderBoardView : cView
         if(m_PlayerSlot == null) return;
         
         m_PlayerSlot.m_StartCount = m_SaveManager.SaveData.m_MaxCoinCount;
+        m_PlayerSlot.m_PlayerName = m_SaveManager.SaveData.m_PlayerName;
 
         var baseRank = m_Slots
             .Select((slot => slot.m_Rank))

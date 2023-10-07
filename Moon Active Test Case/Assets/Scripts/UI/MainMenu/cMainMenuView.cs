@@ -16,13 +16,12 @@ public class cMainMenuView : MonoBehaviour
     
     private Rect m_StartScale;
     private int m_ActiveIndex=-1;
-    private Tween t;
-    private int callNumber;
+    private Tween m_FloatTween;
+    private int m_CurrentCallNumber;
 
     private void Start()
     {
         m_StartScale = m_MenuImages[0].rect;
-
         OnValueChanged((float)2 / 3);
     }
 
@@ -33,17 +32,15 @@ public class cMainMenuView : MonoBehaviour
 
     private async UniTaskVoid OnValueChangedTask(float value)
     {
-        callNumber++;
-        int t2 = callNumber;
+        //Avoid float lerping
+        m_CurrentCallNumber++;
+        int lastCallNumber = m_CurrentCallNumber;
         await UniTask.Delay(TimeSpan.FromSeconds(.05f));
-        if(callNumber != t2) return;
+        if(m_CurrentCallNumber != lastCallNumber) return;
             
+        //Set desired index
         int nextIndex = Mathf.FloorToInt(value * 2);
-        
-        t.Complete(true);
-            
         int activeIndex = m_ActiveIndex;
-            
         m_Menus[nextIndex].Activate();
         if (activeIndex != -1)
         {
@@ -51,41 +48,41 @@ public class cMainMenuView : MonoBehaviour
         }
             
         m_SoundManager.PlayClick();
-
-
-        t=DOVirtual.Float(0, 1, .5f, f =>
+        
+        //Tween icons
+        m_FloatTween.Complete(true);
+        m_FloatTween=DOVirtual.Float(0, 1, .5f, f =>
         {
-            m_MenuImages[nextIndex].sizeDelta = Vector2.Lerp( new Vector2(m_StartScale.width, m_StartScale.height) , 
-                1.41f *  new Vector2(m_StartScale.width, m_StartScale.height), f);
-                
-            if (activeIndex != -1)
-            {
-                m_MenuImages[activeIndex].sizeDelta =  Vector2.Lerp( new Vector2(m_StartScale.width, m_StartScale.height) , 
-                    1.41f *  new Vector2(m_StartScale.width, m_StartScale.height), 1-f);
-            }
-                
-            m_HorizontalLayoutGroup.CalculateLayoutInputHorizontal();
-            m_HorizontalLayoutGroup.CalculateLayoutInputVertical();
-            m_HorizontalLayoutGroup.SetLayoutHorizontal();
-            m_HorizontalLayoutGroup.SetLayoutVertical();
-
+            TweenIcon(nextIndex, f, activeIndex); 
+            
         }).OnComplete((() =>
         {
-            m_MenuImages[nextIndex].sizeDelta = Vector2.Lerp( new Vector2(m_StartScale.width, m_StartScale.height) , 
-                1.41f *  new Vector2(m_StartScale.width, m_StartScale.height), 1);
-                
-            if (activeIndex != -1)
-            {
-                m_MenuImages[activeIndex].sizeDelta =  Vector2.Lerp( new Vector2(m_StartScale.width, m_StartScale.height) , 
-                    1.41f *  new Vector2(m_StartScale.width, m_StartScale.height), 0);
-            }
-                
-            m_HorizontalLayoutGroup.CalculateLayoutInputHorizontal();
-            m_HorizontalLayoutGroup.CalculateLayoutInputVertical();
-            m_HorizontalLayoutGroup.SetLayoutHorizontal();
-            m_HorizontalLayoutGroup.SetLayoutVertical();
-                
+            TweenIcon(nextIndex, 1, activeIndex); 
         }));
         m_ActiveIndex = nextIndex;
+    }
+
+    private void TweenIcon(int nextIndex, float f, int activeIndex)
+    {
+        //Make Focus
+        m_MenuImages[nextIndex].sizeDelta = Vector2.Lerp(new Vector2(m_StartScale.width, m_StartScale.height),
+            1.41f * new Vector2(m_StartScale.width, m_StartScale.height), f);
+
+        //Reverse Focus
+        if (activeIndex != -1)
+        {
+            m_MenuImages[activeIndex].sizeDelta = Vector2.Lerp(new Vector2(m_StartScale.width, m_StartScale.height),
+                1.41f * new Vector2(m_StartScale.width, m_StartScale.height), 1 - f);
+        }
+
+        FixLayout();
+    }
+    
+    private void FixLayout()
+    {
+        m_HorizontalLayoutGroup.CalculateLayoutInputHorizontal();
+        m_HorizontalLayoutGroup.CalculateLayoutInputVertical();
+        m_HorizontalLayoutGroup.SetLayoutHorizontal();
+        m_HorizontalLayoutGroup.SetLayoutVertical();
     }
 }

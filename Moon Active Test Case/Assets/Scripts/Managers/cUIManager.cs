@@ -9,9 +9,13 @@ public class cUIManager : MonoBehaviour
     [SerializeField] private List<cView> m_Views;
     [SerializeField] private cFillbarController m_FillbarController;
     [SerializeField] private CanvasGroup m_CanvasGroup;
+    [SerializeField] private cLeaderBoardView m_LeaderBoardView;
+    [SerializeField] private cTransitionManager m_TransitionManager;
 
     public cFillbarController Fillbar => m_FillbarController;
-    
+    public cLeaderBoardView LeaderBoardView => m_LeaderBoardView;
+    public cTransitionManager TransitionManager => m_TransitionManager;
+
     private void Awake()
     {
         ShowPage(m_StartView);

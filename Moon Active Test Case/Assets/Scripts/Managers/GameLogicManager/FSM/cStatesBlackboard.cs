@@ -1,7 +1,7 @@
 ﻿using FiniteStateMachine;
 using UnityEngine;
 
-public class cStatesBlackBoard : MonoBehaviour
+public class cStatesBlackboard : MonoBehaviour
 {
     public cStateBase m_Empty;
     public cStateBase m_MenuState;

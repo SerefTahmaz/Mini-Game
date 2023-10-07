@@ -19,7 +19,7 @@ namespace FiniteStateMachine
         {
             base.Enter();
             m_UIManager.SetInteractable(false);
-            GameManagerStateMachine.TransitionManager.PlayTransition(cTransitionManager.TransitionType.Rotating, () =>
+            m_UIManager.TransitionManager.PlayTransition(cTransitionManager.TransitionType.Rotating, () =>
             {
                 m_UIManager.HidePage(Page.Start);
                 m_UIManager.HidePage(Page.MainMenuSliderView);

@@ -4,9 +4,9 @@ using System.Linq;
 using AINamesGenerator;
 using UnityEngine;
 
-public class cRandomAILeaderboard
+public static class cRandomAILeaderboard
 {
-    public cLeaderBoardView.LeaderBoardUnitWrapper[] GetRandomEntries(int size)
+    public static cLeaderBoardView.LeaderBoardUnitWrapper[] GetRandomEntries(int size)
     {
         cLeaderBoardView.LeaderBoardUnitWrapper[] aiEntries = new cLeaderBoardView.LeaderBoardUnitWrapper[size];
         for (int i = 0; i < aiEntries.Length; i++)
@@ -27,7 +27,7 @@ public class cRandomAILeaderboard
         return temp;
     }
 
-    public cLeaderBoardView.LeaderBoardUnitWrapper[] FixRanks(cLeaderBoardView.LeaderBoardUnitWrapper[] entries)
+    public static cLeaderBoardView.LeaderBoardUnitWrapper[] FixRanks(cLeaderBoardView.LeaderBoardUnitWrapper[] entries)
     {
         var tempA = entries.OrderBy((wrapper => wrapper.Entry.Score)).ToList();
         var playerEntry = entries.Where((wrapper => wrapper.IsPlayer)).FirstOrDefault();

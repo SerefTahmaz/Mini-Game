@@ -8,8 +8,8 @@ using UnityEngine;
 
 public static class cSaveDataHandler
 {
-    private static SaveData m_GameConfiguration = new SaveData();
-    public static SaveData GameConfiguration
+    private static cSaveData m_GameConfiguration = new cSaveData();
+    public static cSaveData GameConfiguration
     {
         get
         {
@@ -32,7 +32,7 @@ public static class cSaveDataHandler
         if (File.Exists(m_SaveFilePath))
         {
             string loadPlayerData = File.ReadAllText(m_SaveFilePath);
-            GameConfiguration = JsonUtility.FromJson<SaveData>(loadPlayerData);
+            GameConfiguration = JsonUtility.FromJson<cSaveData>(loadPlayerData);
   
             Debug.Log("Load game complete!");
             m_Loaded = true;
@@ -57,7 +57,7 @@ public static class cSaveDataHandler
         if (File.Exists(m_SaveFilePath))
         {
             File.Delete(m_SaveFilePath);
-            GameConfiguration = new SaveData();
+            GameConfiguration = new cSaveData();
   
             Debug.Log("Save file deleted!");
         }

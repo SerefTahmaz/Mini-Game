@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using UnityEngine;
 using Zenject;
@@ -8,21 +9,21 @@ using Zenject;
 public class cStartButtonController : cButton
 {
     [SerializeField] private Transform m_Pivot;
-    [SerializeField] private float m_PulseDelay;
+    [SerializeField, Min(0.001f)] private float m_PulseDelay;
     [Inject] private cGameManagerStateMachine m_GameManager;
 
     private void Awake()
     {
-        ButtonPulseAnim();
+        ButtonPulseAnim().Forget();
     }
 
-    private void ButtonPulseAnim()
+    private async UniTaskVoid ButtonPulseAnim()
     {
-        DOVirtual.DelayedCall(m_PulseDelay, () =>
+        while (true)
         {
-            m_Pivot.DOScale(0.25f, .3f).SetLoops(2, LoopType.Yoyo).SetRelative(true);
-            ButtonPulseAnim();
-        });
+            m_Pivot.DOScale(0.15f, .2f).SetLoops(2, LoopType.Yoyo).SetRelative(true);
+            await UniTask.Delay(TimeSpan.FromSeconds(m_PulseDelay));
+        }
     }
 
     public override void OnClick()

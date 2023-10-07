@@ -9,11 +9,11 @@ using Dan.Models;
 using DG.Tweening;
 using UnityEngine;
 
-public class cOnlineLeaderboard
+public static class cOnlineLeaderboard
 {
-    private string publicLeaderboardKey = "38ed723f6061e48ab4c7b9d7d25b29d2b2da42c43b222cf506b6fc2e0f388a08";
+    private static string publicLeaderboardKey = "38ed723f6061e48ab4c7b9d7d25b29d2b2da42c43b222cf506b6fc2e0f388a08";
     
-    public void GetLeaderBoard(Action<bool, cLeaderBoardView.LeaderBoardUnitWrapper[]> successCallback)
+    public static void GetLeaderBoard(Action<bool, cLeaderBoardView.LeaderBoardUnitWrapper[]> successCallback)
     {
         LeaderboardCreator.GetLeaderboard(publicLeaderboardKey, ((entries) =>
         {
@@ -42,7 +42,7 @@ public class cOnlineLeaderboard
         }));
     }
 
-    private void SetLeaderBoardEntry(string userName, int score, Action<bool> successCallback)
+    private static void SetLeaderBoardEntry(string userName, int score, Action<bool> successCallback)
     {
         LeaderboardCreator.Ping((hasConnection =>
         {
@@ -71,7 +71,7 @@ public class cOnlineLeaderboard
         
     }
 
-    public void SetPlayerEntry()
+    public static void SetPlayerEntry()
     {
         SetLeaderBoardEntry(cSaveDataHandler.PlayerName(), cSaveDataHandler.GameConfiguration.m_MaxCoinCount, b => {});
     }

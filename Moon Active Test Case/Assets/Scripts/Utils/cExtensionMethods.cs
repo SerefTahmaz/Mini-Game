@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using UnityEngine;
 using UnityEngine.UI;
@@ -51,16 +52,6 @@ public static class cExtensionMethods
     
     public static float Remap (this float value, float from1, float to1, float from2, float to2) {
         return (value - from1) / (to1 - from1) * (to2 - from2) + from2;
-    }
-
-    public static void DelayedMethod(this MonoBehaviour monoBehaviour, float delay ,Action lambda)
-    {
-        monoBehaviour.StartCoroutine(Delay());
-        IEnumerator Delay()
-        {
-            yield return new WaitForSeconds(delay);
-            lambda.Invoke();
-        }
     }
     
     public static void ForEach<T>(this IEnumerable<T> enumeration, Action<T> action)

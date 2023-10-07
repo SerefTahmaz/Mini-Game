@@ -17,16 +17,12 @@ using Random = UnityEngine.Random;
 public class cLeaderBoardView : cView
 {
     [SerializeField] private Transform m_LayoutTranform;
-    [SerializeField] private cLeaderBoardSlotController m_BoardSlotControllerPrefab;
     [SerializeField] private cSmoothLayoutController m_SmoothLayoutController;
     [Inject] private cObjectPooler m_ObjectPooler;
     
     private bool m_Selected;
     private cLeaderBoardSlotController m_PlayerSlot;
     private List<cLeaderBoardSlotController> m_Slots = new List<cLeaderBoardSlotController>();
-    //Boards
-    private cRandomAILeaderboard m_RandomAILeaderboard = new cRandomAILeaderboard();
-    private cOnlineLeaderboard m_OnlineLeaderboard = new cOnlineLeaderboard();
 
     public class LeaderBoardUnitWrapper
     {
@@ -51,9 +47,8 @@ public class cLeaderBoardView : cView
     {
         while (true)
         {
-            m_OnlineLeaderboard.SetPlayerEntry();
+            cOnlineLeaderboard.SetPlayerEntry();
             await UniTask.Delay(TimeSpan.FromSeconds(5));
-            m_OnlineLeaderboard.SetPlayerEntry();
         }
     }
 
@@ -61,15 +56,15 @@ public class cLeaderBoardView : cView
     {
         while (true)
         {
-            m_OnlineLeaderboard.GetLeaderBoard((success, entries) =>
+            cOnlineLeaderboard.GetLeaderBoard((success, entries) =>
             {
-                OnLeaderboardLoaded(success ? entries : m_RandomAILeaderboard.GetRandomEntries(30));
+                OnLeaderboardLoaded(success ? entries : cRandomAILeaderboard.GetRandomEntries(30)).Forget();
             });
             await UniTask.Delay(TimeSpan.FromSeconds(10));
         }
     }
 
-    public void OnLeaderboardLoaded(LeaderBoardUnitWrapper[] scores)
+    private async UniTaskVoid OnLeaderboardLoaded(LeaderBoardUnitWrapper[] scores)
     {
         //Clear
         m_SmoothLayoutController.ClearAll();
@@ -79,37 +74,32 @@ public class cLeaderBoardView : cView
             m_ObjectPooler.DeSpawn(m_Slots[i].gameObject);
             m_Slots.RemoveAt(i);
         }
-
         m_PlayerSlot = null;
-
-        //Generate
-        StartCoroutine(FrameDelay());
-        IEnumerator FrameDelay()
-        {
-            yield return null;
-            
-            foreach (var leaderboardEntry in scores) {
-                var ins = m_ObjectPooler.Spawn<cLeaderBoardSlotController>("LeaderboardSlot", m_LayoutTranform);
-                ins.transform.ResetTransform();
-                ins.Init();
-                ins.m_StartCount = (int)leaderboardEntry.Entry.Score;
-                ins.m_PlayerName = leaderboardEntry.Entry.Username;
-                ins.m_Rank = leaderboardEntry.Entry.Rank;
-                ins.UpdateUI();
-
-                if (leaderboardEntry.IsPlayer)
-                {
-                    m_PlayerSlot = ins;
-                }
-                
-                m_Slots.Add(ins);
-                m_SmoothLayoutController.AddLayoutUnit(ins.transform, ins.m_Rank);
-            }
-            m_PlayerSlot.Selected();
-            m_SmoothLayoutController.SetFocusTransform(m_PlayerSlot.transform);
         
-            FixRanks();
+        await UniTask.DelayFrame(1);
+        
+        //Generate
+        foreach (var leaderboardEntry in scores) {
+            var ins = m_ObjectPooler.Spawn<cLeaderBoardSlotController>("LeaderboardSlot", m_LayoutTranform);
+            ins.transform.ResetTransform();
+            ins.Init();
+            ins.m_StartCount = (int)leaderboardEntry.Entry.Score;
+            ins.m_PlayerName = leaderboardEntry.Entry.Username;
+            ins.m_Rank = leaderboardEntry.Entry.Rank;
+            ins.UpdateUI();
+
+            if (leaderboardEntry.IsPlayer)
+            {
+                m_PlayerSlot = ins;
+            }
+                
+            m_Slots.Add(ins);
+            m_SmoothLayoutController.AddLayoutUnit(ins.transform, ins.m_Rank);
         }
+        m_PlayerSlot.Selected();
+        m_SmoothLayoutController.SetFocusTransform(m_PlayerSlot.transform);
+        
+        FixRanks();
     }
 
     public override void Activate()
@@ -148,10 +138,5 @@ public class cLeaderBoardView : cView
             m_SmoothLayoutController.UpdateRank(VARIABLE.transform, VARIABLE.m_Rank);
         }
         m_SmoothLayoutController.FixLayout();
-    }
-    
-    public void SendPlayerData()
-    {
-        m_OnlineLeaderboard.SetPlayerEntry();
     }
 }

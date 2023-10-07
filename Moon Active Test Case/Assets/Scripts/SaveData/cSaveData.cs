@@ -1,4 +1,4 @@
-public class SaveData
+public class cSaveData
 {
     public string m_PlayerName = "NewPlayer";
     public int m_CurrentCoinCount;

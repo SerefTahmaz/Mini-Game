@@ -12,9 +12,7 @@ using Random = UnityEngine.Random;
 public class cGameManagerStateMachine : cStateMachine
     {
         #region PritaveFields
-        [SerializeField] private cStatesBlackBoard m_StatesBlackBoard;
-        [SerializeField] private cLeaderBoardView m_LeaderBoardView;
-        [SerializeField] private cTransitionManager m_TransitionManager;
+        [SerializeField] private cStatesBlackboard m_StatesBlackboard;
         [Inject] private cObjectPooler m_ObjectPooler;
         [Inject] private cUIManager m_UIManager;
         [Inject] private ISoundManager m_SoundManager;
@@ -26,15 +24,13 @@ public class cGameManagerStateMachine : cStateMachine
         #endregion
 
         #region States
-        public cStateBase Empty => m_StatesBlackBoard.m_Empty;
-        public cStateBase GameplayState => m_StatesBlackBoard.m_GameplayState;
-        public cStateBase FailState => m_StatesBlackBoard.m_FailState;
-        public cStateBase MenuState => m_StatesBlackBoard.m_MenuState;
+        public cStateBase Empty => m_StatesBlackboard.m_Empty;
+        public cStateBase GameplayState => m_StatesBlackboard.m_GameplayState;
+        public cStateBase FailState => m_StatesBlackboard.m_FailState;
+        public cStateBase MenuState => m_StatesBlackboard.m_MenuState;
         #endregion
 
         #region Properties
-        public cLeaderBoardView LeaderBoardView => m_LeaderBoardView;
-        public cTransitionManager TransitionManager => m_TransitionManager;
         public cGameManagerEventController GameEvents => m_GameEvents;
         #endregion
 

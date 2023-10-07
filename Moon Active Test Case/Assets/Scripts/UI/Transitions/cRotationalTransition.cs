@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using DG.Tweening;
 using UnityEngine;
 using UnityEngine.UI.ProceduralImage;
+using Zenject;
 
 public class cRotationalTransition : MonoBehaviour
 {
@@ -11,6 +12,7 @@ public class cRotationalTransition : MonoBehaviour
     [SerializeField] private RectTransform m_Icon;
     [SerializeField] private RectTransform m_IconOutline;
     [SerializeField] private ProceduralImage m_BG;
+    [Inject] private ISoundManager m_SoundManager;
     
     public void Anim(Action onFullCoverScreen, Action onFinish)
     {
@@ -34,7 +36,7 @@ public class cRotationalTransition : MonoBehaviour
             yield return new WaitForSeconds(.4f);
             
             onFullCoverScreen.Invoke();
-            cSoundManager.Instance.PlaySwoosh();
+            m_SoundManager.PlaySwoosh();
             
             m_Icon.gameObject.SetActive(true);
             m_Icon.DOScale(.3f, .3f).SetRelative(true);

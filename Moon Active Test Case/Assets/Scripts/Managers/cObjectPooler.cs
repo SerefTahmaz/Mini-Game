@@ -1,9 +1,10 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using Zenject;
 
 
-public class cObjectPooler : cSingleton<cObjectPooler>
+public class cObjectPooler : MonoBehaviour
 {
     [Serializable]
     public class Pool
@@ -18,6 +19,12 @@ public class cObjectPooler : cSingleton<cObjectPooler>
 
     [SerializeField] private List<Pool> Pools = new List<Pool>();
     private Dictionary<string, Queue<GameObject>> PoolDictionary = new Dictionary<string, Queue<GameObject>>();
+    private IInstantiator m_Instantiator;
+
+    [Inject]
+    public void Initialize(IInstantiator instantiator) {
+        m_Instantiator = instantiator;
+    }
 
     private void Awake()
     {
@@ -150,7 +157,7 @@ public class cObjectPooler : cSingleton<cObjectPooler>
         Queue<GameObject> queue = new Queue<GameObject>();
         for (int i = 0; i < count; i++)
         {
-            GameObject obj = Instantiate(prefab, transform);
+            GameObject obj = m_Instantiator.InstantiatePrefab(prefab, transform);
             obj.SetActive(false);
             queue.Enqueue(obj);
         }

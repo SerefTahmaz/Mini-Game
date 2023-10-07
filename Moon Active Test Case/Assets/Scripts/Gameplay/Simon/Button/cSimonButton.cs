@@ -3,11 +3,13 @@ using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
 using UnityEngine;
+using Zenject;
 
 public class cSimonButton : MonoBehaviour
 {
     [SerializeField] private Renderer m_Rend;
     [SerializeField] private Transform m_Center;
+    [Inject] private ISoundManager m_SoundManager;
 
     private Tween m_LightTween;
     private cSimonButtonSO m_SimonButtonSO;
@@ -31,7 +33,7 @@ public class cSimonButton : MonoBehaviour
         m_LightTween.Kill();
         m_Rend.material.EnableKeyword("_EMISSION");
         m_LightTween=DOVirtual.DelayedCall(duration, DisableLight);
-        cSoundManager.Instance.PlayTrack(m_SimonButtonSO.m_OnLightSound);
+        m_SoundManager.PlayClip(m_SimonButtonSO.m_OnLightSound);
     }
     
     public void DisableLight()

@@ -3,11 +3,13 @@ using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
 using UnityEngine;
+using Zenject;
 
 public class cStartButtonController : cButton
 {
     [SerializeField] private Transform m_Pivot;
     [SerializeField] private float m_PulseDelay;
+    [Inject] private cGameLogicManager m_GameLogicManager;
 
     private void Awake()
     {
@@ -26,6 +28,6 @@ public class cStartButtonController : cButton
     public override void OnClick()
     {
         base.OnClick();
-        cGameLogicManager.Instance.OnStartButton();
+        m_GameLogicManager.OnStartButton();
     }
 }

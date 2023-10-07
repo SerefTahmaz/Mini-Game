@@ -1,11 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Zenject;
 
 public class cLevelSelectView : cView
 {
     [SerializeField] private cPlayerNameInputController m_NameSelect;
     [SerializeField] private cLevelSelectUIController m_LevelSelect;
+    [Inject] private cUIManager m_UIManager;
 
     public override void Activate()
     {
@@ -31,6 +33,6 @@ public class cLevelSelectView : cView
     
     public void OnLevelSelected()
     {
-        cUIManager.Instance.HidePage(Page.LevelSelect);
+        m_UIManager.HidePage(Page.LevelSelect);
     }
 }

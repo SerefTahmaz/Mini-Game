@@ -4,18 +4,20 @@ using System.Collections.Generic;
 using DG.Tweening;
 using UnityEngine;
 using UnityEngine.UI.ProceduralImage;
+using Zenject;
 
 public class cFillbarController : MonoBehaviour
 {
     [SerializeField] private float m_Duration;
     [SerializeField] private ProceduralImage m_FillImage;
     [SerializeField] private Gradient m_FillColorGradient;
+    [Inject] private cGameLogicManager m_GameLogicManager;
 
     private void Awake()
     {
-        cGameLogicManager.Instance.GameEvents.OnPlayerInputStartEvent += Fill;
-        cGameLogicManager.Instance.GameEvents.OnSuccessTurn += Refresh;
-        cGameLogicManager.Instance.GameEvents.OnWrongButtonEvent += () =>
+        m_GameLogicManager.GameEvents.OnPlayerInputStartEvent += Fill;
+        m_GameLogicManager.GameEvents.OnSuccessTurn += Refresh;
+        m_GameLogicManager.GameEvents.OnWrongButtonEvent += () =>
         {
             m_FillImage.DOKill();
         };
@@ -35,7 +37,7 @@ public class cFillbarController : MonoBehaviour
         })).OnComplete((() =>
         {
             m_FillImage.DOKill();
-            cGameLogicManager.Instance.GameEvents.OnTimeIsUpEvent.Invoke();;
+            m_GameLogicManager.GameEvents.OnTimeIsUpEvent.Invoke();;
         }));
     }
 

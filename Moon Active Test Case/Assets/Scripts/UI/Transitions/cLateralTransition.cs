@@ -4,12 +4,14 @@ using System.Collections.Generic;
 using DG.Tweening;
 using UnityEngine;
 using UnityEngine.UI.ProceduralImage;
+using Zenject;
 
 public class cLateralTransition : MonoBehaviour
 {
     [SerializeField] private Transform m_Left;
     [SerializeField] private Transform m_Right;
     [SerializeField] private ProceduralImage m_Image;
+    [Inject] private ISoundManager m_SoundManager;
 
     [ContextMenu("Anim")]
     public void Anim(Action onFullCoverScreen, Action onFinish)
@@ -24,7 +26,7 @@ public class cLateralTransition : MonoBehaviour
             yield return new WaitForSeconds(.4f);
             
             onFullCoverScreen.Invoke();
-            cSoundManager.Instance.PlaySwoosh();
+            m_SoundManager.PlaySwoosh();
             
             color.a = 1;
             m_Image.DOColor(color, .3f).SetLoops(2, LoopType.Yoyo);

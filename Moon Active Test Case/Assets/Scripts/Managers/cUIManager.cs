@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class cUIManager : cSingleton<cUIManager>
+public class cUIManager : MonoBehaviour
 {
     [SerializeField] private Page m_StartView;
     [SerializeField] private List<cView> m_Views;

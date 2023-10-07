@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using DG.Tweening;
 using UnityEngine;
 using UnityEngine.UI;
+using Zenject;
 
 public class cButton : MonoBehaviour
 {
+    [Inject] private ISoundManager m_SoundManager;
     private bool m_IsClicked = false;
 
     public virtual void OnEnter()
@@ -14,14 +16,14 @@ public class cButton : MonoBehaviour
         
         ResetState();
         transform.DOScale(.1f, .25f).SetRelative(true);
-        cSoundManager.Instance.PlayMouseEnter();
+        m_SoundManager.PlayMouseEnter();
     }
     
     public virtual void OnClick()
     {
         ResetState();
         transform.DOScale(.15f, .25f).SetLoops(2,LoopType.Yoyo).SetRelative(true);
-        cSoundManager.Instance.PlayClick();
+        m_SoundManager.PlayClick();
 
         m_IsClicked = true;
         DOVirtual.DelayedCall(.25f, () =>

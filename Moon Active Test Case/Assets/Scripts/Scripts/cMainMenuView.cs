@@ -4,14 +4,15 @@ using System.Collections.Generic;
 using DG.Tweening;
 using UnityEngine;
 using UnityEngine.UI;
+using Zenject;
 
 public class cMainMenuView : MonoBehaviour
 {
     [SerializeField] private List<RectTransform> m_MenuImages;
     [SerializeField] private Scrollbar m_Scrollbar;
     [SerializeField] private HorizontalLayoutGroup m_HorizontalLayoutGroup;
-
     [SerializeField] private List<cView> m_Menus;
+    [Inject] private ISoundManager m_SoundManager;
 
 
     private Rect m_StartScale;
@@ -56,7 +57,7 @@ public class cMainMenuView : MonoBehaviour
                 m_Menus[activeIndex].Deactivate();
             }
             
-            cSoundManager.Instance.PlayClick();
+            m_SoundManager.PlayClick();
 
 
             t=DOVirtual.Float(0, 1, .5f, f =>

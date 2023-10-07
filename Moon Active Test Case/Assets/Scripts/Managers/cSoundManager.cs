@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-public class cSoundManager : cSingleton<cSoundManager>
+public class cSoundManager : MonoBehaviour, ISoundManager
 {
     [SerializeField] private List<AudioClip> m_Pops;
     [SerializeField] private List<AudioClip> m_OnLightTracks;
@@ -21,7 +21,7 @@ public class cSoundManager : cSingleton<cSoundManager>
     {
         // m_AudioSource.PlayOneShot(m_forestBGSounds[Random.Range(0, m_forestBGSounds.Count-1)], .25f);
     }
-    
+
     public void SetActive(bool state)
     {
         m_AudioSource.mute = !state;
@@ -63,16 +63,16 @@ public class cSoundManager : cSingleton<cSoundManager>
         m_AudioSource.PlayOneShot(m_Swoosh);
     }
 
-    public void PlayAmbient(AudioClip levelSoClip)
+    public void PlayAmbient(AudioClip clip)
     {
         m_AmbientSource.Stop();
-        m_AmbientSource.clip = levelSoClip;
+        m_AmbientSource.clip = clip;
         m_AmbientSource.volume = .1f;
         m_AmbientSource.Play();
     }
 
-    public void PlayTrack(AudioClip onLightSound)
+    public void PlayClip(AudioClip clip)
     {
-        m_AudioSource.PlayOneShot(onLightSound);
+        m_AudioSource.PlayOneShot(clip);
     }
 }

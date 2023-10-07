@@ -5,12 +5,14 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
+using Zenject;
 
 public class cPlayerNameInputController : cView
 {
     [SerializeField] private UnityEvent m_OnNameSelected;
     [SerializeField] private TMP_Text m_InputText;
     [SerializeField] private GameObject m_DisableInteractableGO;
+    [Inject] private cGameLogicManager m_GameLogicManager;
 
     public override void Activate()
     {
@@ -36,7 +38,7 @@ public class cPlayerNameInputController : cView
 
             DOVirtual.DelayedCall(.35f, () =>
             {
-                cGameLogicManager.Instance.LeaderBoardView.SendPlayerEntry();
+                m_GameLogicManager.LeaderBoardView.SendPlayerEntry();
                 m_OnNameSelected.Invoke();
             });
         }

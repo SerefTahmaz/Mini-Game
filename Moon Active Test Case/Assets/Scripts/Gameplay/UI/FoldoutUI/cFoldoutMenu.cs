@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using DG.Tweening;
 using UnityEngine;
 using UnityEngine.UI;
+using Zenject;
 
 public class cFoldoutMenu : MonoBehaviour
 {
@@ -13,6 +14,7 @@ public class cFoldoutMenu : MonoBehaviour
 
     [SerializeField] private bool m_Closed;
     [SerializeField] private Transform m_CogWhell;
+    [Inject] private ISoundManager m_SoundManager;
 
     private void Awake()
     {
@@ -53,6 +55,6 @@ public class cFoldoutMenu : MonoBehaviour
         m_CogWhell.DOKill();
         m_CogWhell.DOLocalRotate(new Vector3(0, 0, -60), .5f).SetRelative(true);
         
-        cSoundManager.Instance.PlayClick();
+        m_SoundManager.PlayClick();
     }
 }

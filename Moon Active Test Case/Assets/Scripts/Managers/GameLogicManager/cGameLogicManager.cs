@@ -4,15 +4,20 @@ using System.Collections.Generic;
 using DG.Tweening;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using Zenject;
 
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
 
-public class cGameLogicManager : cSingleton<cGameLogicManager>
+public class cGameLogicManager : MonoBehaviour
 {
     [SerializeField] private cLeaderBoardView m_LeaderBoardView;
     [SerializeField] private cTransitionManager m_TransitionManager;
+    [Inject] private cObjectPooler m_ObjectPooler;
+    [Inject] private cUIManager m_UIManager;
+    [Inject] private ISoundManager m_SoundManager;
+    [Inject] private cLevelManager m_LevelManager;
 
     private IGameConfig GameConfig;
     private cGameConfiguration m_CurrentGameConfig;
@@ -31,48 +36,48 @@ public class cGameLogicManager : cSingleton<cGameLogicManager>
     {
         GameEvents.OnTimeIsUpEvent = delegate {  };
         m_CurrentGameConfig = GameConfig.Load(textAsset);
-        cLevelManager.Instance.LoadCurrentLevel();
-        cLevelManager.Instance.m_CurrentLevel.InitLevel(m_CurrentGameConfig);
+        m_LevelManager.LoadCurrentLevel();
+        m_LevelManager.m_CurrentLevel.InitLevel(m_CurrentGameConfig);
         
-        cUIManager.Instance.ShowPage(Page.Gameplay);
-        cUIManager.Instance.Fillbar.Init(m_CurrentGameConfig.m_GameTimeInSeconds);
+        m_UIManager.ShowPage(Page.Gameplay);
+        m_UIManager.Fillbar.Init(m_CurrentGameConfig.m_GameTimeInSeconds);
     }
 
     public void OnSuccessTurn()
     {
-        var go = cObjectPooler.Instance.Spawn("MoneyUI", cCurrencyBarScreen.Instance.transform).transform;
+        var go = m_ObjectPooler.Spawn("MoneyUI", cCurrencyBarScreen.Instance.transform).transform;
         go.localScale = Vector3.one * 1.25f;
         go.gameObject.GetComponent<cMoneyUI>().Fly(m_CurrentGameConfig.m_EachStepPointCount);
-        cSoundManager.Instance.SuccessSound();
+        m_SoundManager.SuccessSound();
         GameEvents.OnSuccessTurn.Invoke();
     }
 
     public void OnStartButton()
     {
-        cUIManager.Instance.SetInteractable(false);
+        m_UIManager.SetInteractable(false);
         m_TransitionManager.PlayTransition(cTransitionManager.TransitionType.Rotating, () =>
         {
-            cUIManager.Instance.HidePage(Page.Start);
-            cUIManager.Instance.HidePage(Page.MainMenuSliderView);
-            cUIManager.Instance.ShowPage(Page.LevelSelect);
+            m_UIManager.HidePage(Page.Start);
+            m_UIManager.HidePage(Page.MainMenuSliderView);
+            m_UIManager.ShowPage(Page.LevelSelect);
         }, () =>
         {
-            cUIManager.Instance.SetInteractable(true);
+            m_UIManager.SetInteractable(true);
         });
     }
 
     public void OnFail()
     {
-        cUIManager.Instance.HidePage(Page.Gameplay);
-        cUIManager.Instance.ShowPage(Page.FailView);
+        m_UIManager.HidePage(Page.Gameplay);
+        m_UIManager.ShowPage(Page.FailView);
     }
 
     public void Replay()
     {
-        cUIManager.Instance.HidePage(Page.LeaderBoardView);
-        cUIManager.Instance.HidePage(Page.FailView);
-        cUIManager.Instance.ShowPage(Page.LevelSelect);
-        cLevelManager.Instance.RemoveLevel();
+        m_UIManager.HidePage(Page.LeaderBoardView);
+        m_UIManager.HidePage(Page.FailView);
+        m_UIManager.ShowPage(Page.LevelSelect);
+        m_LevelManager.RemoveLevel();
     }
 }
 

@@ -2,10 +2,12 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Zenject;
 
 public class cAudioUIButton : MonoBehaviour
 {
     [SerializeField] private GameObject m_DisableGO;
+    [Inject] private ISoundManager m_SoundManager;
 
     private void Awake()
     {
@@ -33,20 +35,20 @@ public class cAudioUIButton : MonoBehaviour
         {
             EnableAudio();
         }
-        cSoundManager.Instance.PlayClick();
+        m_SoundManager.PlayClick();
     }
 
     public void EnableAudio()
     {
         cSaveDataHandler.GameConfiguration.AudioState = true;
         m_DisableGO.SetActive(false);
-        cSoundManager.Instance.SetActive( true);
+        m_SoundManager.SetActive( true);
     }
     
     public void DisableAudio()
     {
         cSaveDataHandler.GameConfiguration.AudioState = false;
         m_DisableGO.SetActive(true);
-        cSoundManager.Instance.SetActive( false);
+        m_SoundManager.SetActive( false);
     }
 }

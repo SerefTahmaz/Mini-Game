@@ -2,14 +2,22 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Zenject;
 
-public class cLevelManager : cSingleton<cLevelManager>
+public class cLevelManager : MonoBehaviour
 {
     [SerializeField] private GameObject[] m_LevelPrefabs;
     [SerializeField] private GameObject m_TestLevel;
     private GameObject m_Level;
 
     public cLevel m_CurrentLevel;
+    
+    private IInstantiator _instantiator;
+
+    [Inject]
+    public void Initialize(IInstantiator instantiator) {
+        _instantiator = instantiator;
+    }
     
     public void LoadCurrentLevel()
     {
@@ -27,7 +35,7 @@ public class cLevelManager : cSingleton<cLevelManager>
         }
 #endif
 
-        m_Level = Instantiate(levelPrefab, transform);
+        m_Level = _instantiator.InstantiatePrefab(levelPrefab, transform);
         m_CurrentLevel = m_Level.GetComponent<cLevel>();
     }
 

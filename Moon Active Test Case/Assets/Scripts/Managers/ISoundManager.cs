@@ -1,0 +1,15 @@
+using UnityEngine;
+
+public interface ISoundManager
+{
+    public void PlayClip(AudioClip clip);
+    public void SetActive(bool state);
+    public void PlayPop();
+    public void PlayLightSound();
+    public void SuccessSound();
+    public void FailSound();
+    public void PlayClick();
+    public void PlayMouseEnter();
+    public void PlaySwoosh();
+    public void PlayAmbient(AudioClip clip);
+}

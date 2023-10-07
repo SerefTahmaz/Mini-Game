@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Zenject;
 
 public class cFollowUIObject : MonoBehaviour
 {
@@ -9,17 +10,18 @@ public class cFollowUIObject : MonoBehaviour
     [SerializeField] private float m_PositionScale;
     [SerializeField] private Vector3 m_Offset;
     [SerializeField] private bool m_Alltime = false;
+    [Inject] private cCameraManager m_CameraManager;
 
     private void Start()
     {
         if (m_Alltime == false)
         {
-            var pos =  cCameraManager.Instance.UiCamera.WorldToScreenPoint(m_FollowObject.position);
+            var pos =  m_CameraManager.UiCamera.WorldToScreenPoint(m_FollowObject.position);
             pos += m_Offset;
-            transform.position = cCameraManager.Instance.MainCamera.ScreenToWorldPoint( (m_PositionScale*pos));
-            transform.rotation = cCameraManager.Instance.MainCamera.transform.rotation;
+            transform.position = m_CameraManager.MainCamera.ScreenToWorldPoint( (m_PositionScale*pos));
+            transform.rotation = m_CameraManager.MainCamera.transform.rotation;
         
-            transform.SetParent(cCameraManager.Instance.MainCamera.transform);
+            transform.SetParent(m_CameraManager.MainCamera.transform);
         }
     }
 
@@ -27,10 +29,10 @@ public class cFollowUIObject : MonoBehaviour
     {
         if (m_Alltime)
         {
-            var pos =  cCameraManager.Instance.UiCamera.WorldToScreenPoint(m_FollowObject.position);
+            var pos =  m_CameraManager.UiCamera.WorldToScreenPoint(m_FollowObject.position);
             pos += m_Offset;
-            transform.position = cCameraManager.Instance.MainCamera.ScreenToWorldPoint( (m_PositionScale*pos));
-            transform.rotation = cCameraManager.Instance.MainCamera.transform.rotation;
+            transform.position = m_CameraManager.MainCamera.ScreenToWorldPoint( (m_PositionScale*pos));
+            transform.rotation = m_CameraManager.MainCamera.transform.rotation;
         }
     }
 }

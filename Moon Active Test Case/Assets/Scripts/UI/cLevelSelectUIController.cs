@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
+using Zenject;
 
 public class cLevelSelectUIController : cView
 {
@@ -13,15 +14,23 @@ public class cLevelSelectUIController : cView
     [SerializeField] private UnityEvent m_OnSelected;
     [SerializeField] private Image m_BG;
     [SerializeField] private Image m_Icon;
+    [Inject] private cGameLogicManager m_GameLogicManager;
 
     private List<cLevelSelectButton> m_InsButtons = new List<cLevelSelectButton>();
+    
+    private IInstantiator m_Instantiator;
+
+    [Inject]
+    public void Initialize(IInstantiator instantiator) {
+        m_Instantiator = instantiator;
+    }
 
     private void Awake()
     {
         for (var index = 0; index < m_GameLevels.Count; index++)
         {
             var VARIABLE = m_GameLevels[index];
-            var ins = Instantiate(m_LevelSelectButton, m_LayoutTransform);
+            var ins = m_Instantiator.InstantiatePrefabForComponent<cLevelSelectButton>(m_LevelSelectButton, m_LayoutTransform);
             ins.Init(VARIABLE, this);
 
             m_InsButtons.Add(ins);
@@ -43,7 +52,7 @@ public class cLevelSelectUIController : cView
 
     public void Selected(cGameLevelSO gameLevelSo)
     {
-        cGameLogicManager.Instance.SetLevel(gameLevelSo.m_ConfigFile);
+        m_GameLogicManager.SetLevel(gameLevelSo.m_ConfigFile);
         m_OnSelected.Invoke();
     }
 

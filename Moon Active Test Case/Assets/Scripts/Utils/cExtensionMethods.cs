@@ -132,8 +132,6 @@ public static class cExtensionMethods
             colorToLerp.a = VARIABLE.color.a;
             VARIABLE.DOColor(colorToLerp, .15f).SetLoops(2, LoopType.Yoyo);
         }
-        
-        cSoundManager.Instance.SuccessSound();
     }
     
     public static void FailShakeUI(this Transform transform)
@@ -149,8 +147,6 @@ public static class cExtensionMethods
             colorToLerp.a = VARIABLE.color.a;
             VARIABLE.DOColor(colorToLerp, .15f).SetLoops(2, LoopType.Yoyo);
         }
-        
-        cSoundManager.Instance.FailSound();
     }
 }
 

@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -48,6 +49,7 @@ public class cGameLogicManager : cSingleton<cGameLogicManager>
 
     public void OnStartButton()
     {
+        cUIManager.Instance.SetInteractable(false);
         m_TransitionManager.PlayTransition(cTransitionManager.TransitionType.Rotating, () =>
         {
             cUIManager.Instance.HidePage(Page.Start);
@@ -55,7 +57,7 @@ public class cGameLogicManager : cSingleton<cGameLogicManager>
             cUIManager.Instance.ShowPage(Page.LevelSelect);
         }, () =>
         {
-            
+            cUIManager.Instance.SetInteractable(true);
         });
     }
 

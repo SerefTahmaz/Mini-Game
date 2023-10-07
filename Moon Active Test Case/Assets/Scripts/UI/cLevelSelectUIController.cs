@@ -38,8 +38,7 @@ public class cLevelSelectUIController : cView
         {
             VARIABLE.ResetState();
         }
-        m_InsButtons[1].OnEnter();
-        m_InsButtons[1].OnExit();
+        OnEnter(m_GameLevels[1]);
     }
 
     public void Selected(cGameLevelSO gameLevelSo)

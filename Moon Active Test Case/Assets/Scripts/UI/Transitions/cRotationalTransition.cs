@@ -34,6 +34,7 @@ public class cRotationalTransition : MonoBehaviour
             yield return new WaitForSeconds(.4f);
             
             onFullCoverScreen.Invoke();
+            cSoundManager.Instance.PlaySwoosh();
             
             m_Icon.gameObject.SetActive(true);
             m_Icon.DOScale(.3f, .3f).SetRelative(true);
@@ -41,8 +42,6 @@ public class cRotationalTransition : MonoBehaviour
             m_IconOutline.DOScale(.3f, .3f).SetRelative(true);
 
             yield return new WaitForSeconds(.3f);
-            
-            cSoundManager.Instance.PlaySwoosh();
 
             m_Icon.DOScale(1.4f, .4f).SetEase(Ease.InQuad).SetRelative(true);
             m_IconOutline.DOScale(2f, .4f).SetEase(Ease.InQuad).SetRelative(true);

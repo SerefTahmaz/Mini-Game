@@ -12,17 +12,16 @@ public class JsonConfigTestScript
     [SetUp]
     public void Init()
     {
-        m_JsonText = Resources.Load<TextAsset>("GameConfigs/Json/Easy");
+        m_JsonText = Resources.Load<TextAsset>("GameConfigs/Tests/Json/Test");
         m_CorrectConfig = JsonUtility.FromJson<cGameConfiguration>(m_JsonText.text);
     }
     
-    // A Test behaves as an ordinary method
     [Test]
-    public void JsonConfigLoadTestPasses()
+    public void JsonConfigLoadTestPass()
     {
         var jsonGameConfig = new cJsonGameConfig();
         var testConfig = jsonGameConfig.Load(m_JsonText);
 
-        Assert.AreEqual(testConfig,m_CorrectConfig);
+        Assert.AreEqual(m_CorrectConfig, testConfig);
     }
 }

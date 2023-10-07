@@ -13,7 +13,7 @@ public class XMLConfigTestScript
     [SetUp]
     public void Init()
     {
-        m_XMLText = Resources.Load<TextAsset>("GameConfigs/XML/Easy");
+        m_XMLText = Resources.Load<TextAsset>("GameConfigs/Tests/XML/Test");
         
         var serializer = new XmlSerializer(typeof(cGameConfiguration));
         using(var reader = new System.IO.StringReader(m_XMLText.text))
@@ -22,13 +22,12 @@ public class XMLConfigTestScript
         }
     }
     
-    // A Test behaves as an ordinary method
     [Test]
-    public void XMLConfigLoadTestPasses()
+    public void XMLConfigLoadTestPass()
     {
         var xmlGameConfig = new cXmlGameConfig();
         var testConfig = xmlGameConfig.Load(m_XMLText);
 
-        Assert.AreEqual(testConfig,m_CorrectConfig);
+        Assert.AreEqual(m_CorrectConfig,testConfig);
     }
 }

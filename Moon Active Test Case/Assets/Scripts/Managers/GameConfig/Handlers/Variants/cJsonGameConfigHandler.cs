@@ -15,17 +15,9 @@ public class cJsonGameConfigHandler : IGameConfigHandler
         return JsonUtility.FromJson<cGameConfiguration>(asset.text);
     }
 
-    [MenuItem("GameConfig/Template Json Config")]
-    public static void CreateTemplateConfig()
+    public void CreateConfig(string path, cGameConfiguration gameConfiguration)
     {
-        string savePlayerData = JsonUtility.ToJson(new cGameConfiguration());
-
-        var path = EditorUtility.SaveFilePanel(
-            "Save config",
-            "",
-            "GameConfig" + ".json",
-            "json");
-
+        string savePlayerData = JsonUtility.ToJson(gameConfiguration);
         if (path.Length != 0)
         {
             File.WriteAllText(path,savePlayerData);

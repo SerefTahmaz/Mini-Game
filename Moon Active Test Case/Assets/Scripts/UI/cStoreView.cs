@@ -3,13 +3,15 @@ using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class cStoreView : cView
 {
-    [SerializeField] private GameObject m_Layout;
+    [SerializeField] private UnityEvent m_OnActivate;
 
-    private void Awake()
+    public override void Activate()
     {
-        
+        base.Activate();
+        m_OnActivate.Invoke();
     }
 }

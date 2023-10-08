@@ -8,7 +8,7 @@ using Zenject;
 
 public class cLevelSelectUIController : cView
 {
-    [SerializeField] private List<cGameLevelSO> m_GameLevels;
+    [SerializeField] private cGameLevelListSO m_GameLevelsList;
     [SerializeField] private Transform m_LayoutTransform;
     [SerializeField] private UnityEvent m_OnSelected;
     [SerializeField] private Image m_BG;
@@ -28,9 +28,9 @@ public class cLevelSelectUIController : cView
 
     private void Awake()
     {
-        for (var index = 0; index < m_GameLevels.Count; index++)
+        for (var index = 0; index < m_GameLevelsList.GameLevelSOs.Count; index++)
         {
-            var VARIABLE = m_GameLevels[index];
+            var VARIABLE = m_GameLevelsList.GameLevelSOs[index];
             var ins = m_LevelSelectButtonFactory.Create();
             ins.transform.SetParent(m_LayoutTransform);
             ins.transform.ResetTransform();
@@ -48,19 +48,19 @@ public class cLevelSelectUIController : cView
         {
             VARIABLE.ResetState();
         }
-        OnEnter(m_GameLevels[1]);
+        OnEnter(m_GameLevelsList.GameLevelSOs[1]);
     }
 
     public void Selected(cGameLevelSO gameLevelSo)
     {
-        m_GameManager.SetLevel(gameLevelSo.m_ConfigFile);
+        m_GameManager.SetLevel(gameLevelSo.ConfigFile);
         m_OnSelected.Invoke();
     }
 
     public void OnEnter(cGameLevelSO gameLevelSo)
     {
-        m_BG.color = gameLevelSo.m_Color;
-        m_Icon.sprite = gameLevelSo.m_Icon;
+        m_BG.color = gameLevelSo.Color1;
+        m_Icon.sprite = gameLevelSo.Icon;
         // m_Icon.color = Color.Lerp(gameLevelSo.m_Color, Color.white, 0);
     }
 }

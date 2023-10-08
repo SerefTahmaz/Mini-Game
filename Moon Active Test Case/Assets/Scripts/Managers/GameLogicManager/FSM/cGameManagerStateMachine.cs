@@ -45,9 +45,6 @@ public class cGameManagerStateMachine : cStateMachine
             FailState.InitializeState("Fail", this);
         }
 
-        
-            
-
         protected override cStateBase GetInitialState()
         {
             return MenuState;

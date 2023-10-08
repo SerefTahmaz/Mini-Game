@@ -62,10 +62,16 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1401044717604367925, guid: 4d640b476ff3f6b489d6dc703a2e640b,
+        type: 3}
+      propertyPath: m_SimonButtonSOs
+      value: 
+      objectReference: {fileID: 11400000, guid: 80ee54567000c5e4f9c63f38c1b9f486,
+        type: 2}
     - target: {fileID: 1401044717604367926, guid: 4d640b476ff3f6b489d6dc703a2e640b,
         type: 3}
       propertyPath: m_Name
-      value: Level1
+      value: Level Variant
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4d640b476ff3f6b489d6dc703a2e640b, type: 3}

@@ -7,7 +7,7 @@ using Zenject;
 
 public class cSimonButton : MonoBehaviour
 {
-    [SerializeField] private Renderer m_Rend;
+    [SerializeField] private Renderer m_Renderer;
     [SerializeField] private Transform m_Center;
     [Inject] private ISoundManager m_SoundManager;
 
@@ -18,28 +18,28 @@ public class cSimonButton : MonoBehaviour
     public bool IsSelectable
     {
         get => m_IsSelectable;
-        set => m_IsSelectable = value;
+        private set => m_IsSelectable = value;
     }
 
     public void Init(cSimonButtonSO simonButtonSo, float scale)
     {
         m_SimonButtonSO = simonButtonSo;
-        m_Rend.material = simonButtonSo.m_ColorMat;
+        m_Renderer.material = simonButtonSo.ColorMat;
         m_Center.transform.localScale = Vector3.one * scale;
     }
 
     public void EnableLight(float duration=Single.PositiveInfinity)
     {
         m_LightTween.Kill();
-        m_Rend.material.EnableKeyword("_EMISSION");
+        m_Renderer.material.EnableKeyword("_EMISSION");
         m_LightTween=DOVirtual.DelayedCall(duration, DisableLight);
-        if(m_SimonButtonSO) m_SoundManager.PlayClip(m_SimonButtonSO.m_OnLightSound);
+        if(m_SimonButtonSO) m_SoundManager.PlayClip(m_SimonButtonSO.OnLightSound);
     }
     
     public void DisableLight()
     {
         m_LightTween.Kill();
-        m_Rend.material.DisableKeyword("_EMISSION");
+        m_Renderer.material.DisableKeyword("_EMISSION");
     }
     
     public void Deselect()
@@ -51,5 +51,10 @@ public class cSimonButton : MonoBehaviour
     {
         if(!IsSelectable) return;
         EnableLight(.5f);
+    }
+
+    public void SetSelectable(bool state)
+    {
+        IsSelectable = state;
     }
 }

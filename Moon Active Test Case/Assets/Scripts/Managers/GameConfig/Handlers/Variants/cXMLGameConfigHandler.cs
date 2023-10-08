@@ -17,22 +17,15 @@ public class cXMLGameConfigHandler : IGameConfigHandler
         }
     }
     
-     [MenuItem("GameConfig/Template XML Config")]
-    public static void CreateTemplateConfig()
+    public void CreateConfig(string path,cGameConfiguration gameConfiguration)
     {
-        var path = EditorUtility.SaveFilePanel(
-            "Save config",
-            "",
-            "GameConfig" + ".xml",
-            "xml");
-
         if (path.Length != 0)
         {
             XmlSerializer serializer = new XmlSerializer(typeof(cGameConfiguration));
  
             using (FileStream stream = new FileStream(path, FileMode.Create))
             {
-                serializer.Serialize(stream, new cGameConfiguration());
+                serializer.Serialize(stream, gameConfiguration);
             }
             AssetDatabase.Refresh();
         }

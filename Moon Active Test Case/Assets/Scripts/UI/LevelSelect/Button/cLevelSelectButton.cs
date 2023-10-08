@@ -17,8 +17,8 @@ public class cLevelSelectButton : cButton
     {
         LevelSelectUIController = levelSelectUIController;
         m_GameLevelSo = gameLevelSo;
-        m_LevelNameText.text = m_GameLevelSo.m_LevelName;
-        m_BG.color = gameLevelSo.m_Color;
+        m_LevelNameText.text = m_GameLevelSo.LevelName;
+        m_BG.color = gameLevelSo.Color1;
 
     }
     public override void OnClick()

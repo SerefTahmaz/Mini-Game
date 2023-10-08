@@ -9,7 +9,7 @@ using Zenject;
 public class cLevel : MonoBehaviour
 {
     [SerializeField] private Transform m_PosToSpawn;
-    [SerializeField] private List<cSimonButtonSO> m_SimonButtonSos;
+    [SerializeField] private cSimonButtonListSO m_SimonButtonSOs;
     [SerializeField] private cSimonSaysGameLogic m_SimonSaysGameLogic;
 
     private List<cSimonButton> m_Buttons = new List<cSimonButton>();
@@ -41,6 +41,7 @@ public class cLevel : MonoBehaviour
     {
         int index = 0;
         var buttonCount = gameConfiguration.m_ButtonCount;
+        var timeScale = (float)buttonCount / 4;
 
         for (int i = 0; i < buttonCount; i++)
         {
@@ -48,15 +49,15 @@ public class cLevel : MonoBehaviour
             float currentAngle = unityAngle * i;
             var ins = m_ObjectPooler.Spawn<cSimonButton>("SimonButton", m_PosToSpawn);
             ins.transform.localEulerAngles = new Vector3(0, currentAngle, 0);
-            ins.Init(m_SimonButtonSos[index % m_SimonButtonSos.Count], Mathf.Clamp((unityAngle / 90), .1f, 1));
+            ins.Init(m_SimonButtonSOs.SimonButtonSOs[index % m_SimonButtonSOs.SimonButtonSOs.Count], Mathf.Clamp((unityAngle / 90), .1f, 1));
             index++;
 
             m_Buttons.Add(ins);
 
             ins.transform.localScale = Vector3.zero;
-            ins.transform.DOScale(1, .5f).SetEase(Ease.OutBack);
+            ins.transform.DOScale(1, .5f/timeScale).SetEase(Ease.OutBack);
             m_SoundManager.PlayPop();
-            await UniTask.Delay(TimeSpan.FromSeconds(.5f));
+            await UniTask.Delay(TimeSpan.FromSeconds(.5f/timeScale));
         }
 
         m_SimonSaysGameLogic.Init(m_Buttons, gameConfiguration);

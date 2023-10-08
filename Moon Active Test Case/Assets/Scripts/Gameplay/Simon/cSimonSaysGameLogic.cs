@@ -50,21 +50,21 @@ public class cSimonSaysGameLogic : MonoBehaviour
         }
     }
     
-    private async UniTaskVoid NextButton(cSimonButton button)
+    private async UniTaskVoid NextButton(cSimonButton selectedButton)
     {
-        foreach (var VARIABLE in m_SimonButtons)
+        foreach (var button in m_SimonButtons)
         {
-            VARIABLE.Deselect();
+            button.Deselect();
         }
-        button.Select();
+        selectedButton.Select();
         
         m_CurrentIndex++;
         if (m_CurrentIndex >= m_CurrentMatchList.Count)
         {
             m_CurrentIndex = 0;
-            foreach (var VARIABLE in m_SimonButtons)
+            foreach (var button in m_SimonButtons)
             {
-                VARIABLE.IsSelectable = false;
+                button.SetSelectable(false);
             }
 
             m_GameManager.OnSuccessTurn();
@@ -85,21 +85,21 @@ public class cSimonSaysGameLogic : MonoBehaviour
 
         foreach (var VARIABLE in m_SimonButtons)
         {
-            VARIABLE.IsSelectable = false;
+            VARIABLE.SetSelectable(false);
         }
 
         for (int i = 0; i < 5; i++)
         {
-            foreach (var VARIABLE in m_SimonButtons)
+            foreach (var button in m_SimonButtons)
             {
-                VARIABLE.EnableLight();
+                button.EnableLight();
             }
 
             await UniTask.Delay(TimeSpan.FromSeconds(.15f));
 
-            foreach (var VARIABLE in m_SimonButtons)
+            foreach (var button in m_SimonButtons)
             {
-                VARIABLE.DisableLight();
+                button.DisableLight();
             }
 
             await UniTask.Delay(TimeSpan.FromSeconds(.15f));
@@ -139,7 +139,7 @@ public class cSimonSaysGameLogic : MonoBehaviour
         m_GameManager.GameEvents.OnPlayerInputStartEvent.Invoke();
         foreach (var button in m_SimonButtons)
         {
-            button.IsSelectable = true;
+            button.SetSelectable(true);
         }
     }
 }

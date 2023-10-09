@@ -61,6 +61,5 @@ public class cLevel : MonoBehaviour
         }
 
         m_SimonSaysGameLogic.Init(m_Buttons, gameConfiguration);
-        m_SimonSaysGameLogic.AddRound();
     }
 }

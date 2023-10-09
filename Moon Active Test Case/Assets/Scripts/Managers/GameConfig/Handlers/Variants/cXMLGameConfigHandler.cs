@@ -6,9 +6,12 @@ using System.Xml.Serialization;
 using UnityEditor;
 using UnityEngine;
 
+/// <summary>
+///   <para>Handles converting between XML file and game configuration</para>
+/// </summary>
 public class cXMLGameConfigHandler : IGameConfigHandler
 {
-    public cGameConfiguration Load(TextAsset textAsset)
+    public cGameConfiguration Convert(TextAsset textAsset)
     {
         var serializer = new XmlSerializer(typeof(cGameConfiguration));
         using(var reader = new System.IO.StringReader(textAsset.text))

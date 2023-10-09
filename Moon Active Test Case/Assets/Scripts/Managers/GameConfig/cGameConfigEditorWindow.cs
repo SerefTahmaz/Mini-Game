@@ -6,6 +6,9 @@ using UnityEngine;
 using UnityEditor;
 using Object = UnityEngine.Object;
 
+/// <summary>
+///   <para>Editor window for creating and editing game configuration files</para>
+/// </summary>
 [Serializable]
 public class cGameConfigEditorWindow : EditorWindow
 {
@@ -128,7 +131,7 @@ public class cGameConfigEditorWindow : EditorWindow
         switch (extension)
         {
             case ".json":
-                var loadedConfigjson = m_JsonGameConfigHandler.Load(m_EditedConfig);
+                var loadedConfigjson = m_JsonGameConfigHandler.Convert(m_EditedConfig);
                 m_ButtonCount = loadedConfigjson.m_ButtonCount;
                 m_EachStepPointCount = loadedConfigjson.m_EachStepPointCount;
                 m_GameTimeInSeconds = loadedConfigjson.m_GameTimeInSeconds;
@@ -136,7 +139,7 @@ public class cGameConfigEditorWindow : EditorWindow
                 m_GameSpeed = loadedConfigjson.m_GameSpeed;
                 break;
             case ".xml":
-                var loadedConfigxml = m_XMLGameConfigHandler.Load(m_EditedConfig);
+                var loadedConfigxml = m_XMLGameConfigHandler.Convert(m_EditedConfig);
                 m_ButtonCount = loadedConfigxml.m_ButtonCount;
                 m_EachStepPointCount = loadedConfigxml.m_EachStepPointCount;
                 m_GameTimeInSeconds = loadedConfigxml.m_GameTimeInSeconds;

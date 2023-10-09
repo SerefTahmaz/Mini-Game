@@ -20,7 +20,7 @@ public class JsonConfigTestScript
     public void JsonConfigLoadTestPass()
     {
         var jsonGameConfig = new cJsonGameConfigHandler();
-        var testConfig = jsonGameConfig.Load(m_JsonText);
+        var testConfig = jsonGameConfig.Convert(m_JsonText);
 
         Assert.AreEqual(m_CorrectConfig, testConfig);
     }

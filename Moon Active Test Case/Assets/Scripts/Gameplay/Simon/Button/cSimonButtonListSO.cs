@@ -2,6 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// <para>Holder for simon button setting list</para>
+/// </summary>
 [CreateAssetMenu(fileName = "Simon Button", menuName = "Simon Button/ButtonList")]
 public class cSimonButtonListSO : ScriptableObject
 {

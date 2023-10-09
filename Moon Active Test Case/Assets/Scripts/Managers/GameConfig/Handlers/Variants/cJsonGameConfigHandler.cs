@@ -8,9 +8,12 @@ using UnityEngine;
 using UnityEditor;
 #endif
 
+/// <summary>
+///   <para>Handles converting between JSON file and game configuration</para>
+/// </summary>
 public class cJsonGameConfigHandler : IGameConfigHandler
 {
-    public cGameConfiguration Load(TextAsset asset)
+    public cGameConfiguration Convert(TextAsset asset)
     {
         return JsonUtility.FromJson<cGameConfiguration>(asset.text);
     }

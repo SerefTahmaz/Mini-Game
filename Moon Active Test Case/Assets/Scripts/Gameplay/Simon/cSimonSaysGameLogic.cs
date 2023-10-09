@@ -8,6 +8,9 @@ using UnityEngine;
 using Zenject;
 using Random = UnityEngine.Random;
 
+/// <summary>
+///   <para>Simon says game logic controller</para>
+/// </summary>
 public class cSimonSaysGameLogic : MonoBehaviour
 {
     [Inject] private ISimonInputHandler m_SimonInputHandler;
@@ -29,11 +32,17 @@ public class cSimonSaysGameLogic : MonoBehaviour
         };
     }
     
+    /// <summary>
+    /// <para>Use initialize simon says logic</para>
+    /// </summary>
+    /// <param name="buttons">simon buttons</param>
+    /// /// <param name="gameConfiguration">game configuration for speed etc.</param>
     public void Init(List<cSimonButton> buttons, cGameConfiguration gameConfiguration)
     {
         m_SimonButtons=buttons;
         m_Speed = gameConfiguration.m_GameSpeed;
         m_RepeatAllSequence = gameConfiguration.m_RepeatMode;
+        AddRound();
     }
 
     private void CheckInput(cSimonButton button)
@@ -109,7 +118,7 @@ public class cSimonSaysGameLogic : MonoBehaviour
         m_GameManager.ChangeState(m_GameManager.FailState);
     }
 
-    public void AddRound()
+    private void AddRound()
     {
         
         var rndButton = m_SimonButtons.OrderBy((button => Random.value)).FirstOrDefault();

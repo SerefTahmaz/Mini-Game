@@ -1,15 +1,10 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using Cysharp.Threading.Tasks;
-using DG.Tweening;
 using FiniteStateMachine;
 using UnityEngine;
-using UnityEngine.AI;
-using UnityEngine.Animations;
 using Zenject;
-using Random = UnityEngine.Random;
 
+/// <summary>
+/// Manager state machine for dealing with general game states
+/// </summary>
 public class cGameManagerStateMachine : cStateMachine
     {
         #region PritaveFields
@@ -64,10 +59,14 @@ public class cGameManagerStateMachine : cStateMachine
             ChangeState(GameplayState);
         }
         
+        /// <summary>
+        /// <para>Initialize level spawning according to given config</para>
+        /// </summary>
+        /// <param name="textAsset">game configuration text</param>
         public void SetLevel(TextAsset textAsset)
         {
             GameEvents.OnTimeIsUpEvent = delegate {  };
-            m_CurrentGameConfig = m_GameConfigHandler.Load(textAsset);
+            m_CurrentGameConfig = m_GameConfigHandler.Convert(textAsset);
             m_LevelManager.LoadCurrentLevel(m_CurrentGameConfig);
         
             m_UIManager.ShowPage(Page.Gameplay);

@@ -4,6 +4,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using Zenject;
 
+/// <summary>
+/// Handles detecting input on simon button in the scene using raycasts
+/// </summary>
 public class cSimon3DInputHandler : ISimonInputHandler, IDisposable
 {
     private IInputManager m_InputManager;

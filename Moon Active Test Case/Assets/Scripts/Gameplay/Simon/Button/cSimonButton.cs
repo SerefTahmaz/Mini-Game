@@ -5,6 +5,9 @@ using DG.Tweening;
 using UnityEngine;
 using Zenject;
 
+/// <summary>
+/// <para>Simon button controller</para>
+/// </summary>
 public class cSimonButton : MonoBehaviour
 {
     [SerializeField] private Renderer m_Renderer;
@@ -21,6 +24,11 @@ public class cSimonButton : MonoBehaviour
         private set => m_IsSelectable = value;
     }
 
+    /// <summary>
+    /// <para>Use to initialize simon button</para>
+    /// </summary>
+    /// <param name="simonButtonSo">settings SO</param>
+    /// /// <param name="scale">transform scale</param>
     public void Init(cSimonButtonSO simonButtonSo, float scale)
     {
         m_SimonButtonSO = simonButtonSo;
@@ -28,6 +36,10 @@ public class cSimonButton : MonoBehaviour
         m_Center.transform.localScale = Vector3.one * scale;
     }
 
+    /// <summary>
+    /// <para>Light button</para>
+    /// </summary>
+    /// <param name="duration">Lighting duration</param>
     public void EnableLight(float duration=Single.PositiveInfinity)
     {
         m_LightTween.Kill();

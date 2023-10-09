@@ -126,12 +126,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1414e1865bf688c44a351ef445d3b608, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Pops:
-  - {fileID: 8300000, guid: f7ae00b3258a1924184be35fa297c4c1, type: 3}
-  m_SuccessSound:
-  - {fileID: 8300000, guid: f3b56c9db4cbd0c4ca252e12334747ab, type: 3}
-  m_FailSound:
-  - {fileID: 8300000, guid: 291d99759e0c541489d46fb6318e1ad6, type: 3}
+  m_Pops: {fileID: 8300000, guid: f7ae00b3258a1924184be35fa297c4c1, type: 3}
+  m_SuccessSound: {fileID: 8300000, guid: f3b56c9db4cbd0c4ca252e12334747ab, type: 3}
+  m_FailSound: {fileID: 8300000, guid: 291d99759e0c541489d46fb6318e1ad6, type: 3}
   m_Click: {fileID: 8300000, guid: 4ef2114429f88a741ab5b4ababced7f3, type: 3}
   m_OnMouseEnter: {fileID: 8300000, guid: b450a54be6e10f54dae75f097d2d3aea, type: 3}
   m_Swoosh: {fileID: 8300000, guid: f8a06f6a224ff514cb43a287f183a2cf, type: 3}

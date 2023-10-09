@@ -1,6 +1,9 @@
 using System;
 using UnityEngine;
 
+/// <summary>
+///   <para>Game configuration data</para>
+/// </summary>
 [Serializable]
 public struct cGameConfiguration
 {

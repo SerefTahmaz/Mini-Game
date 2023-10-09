@@ -66,7 +66,7 @@ public class cGameManagerStateMachine : cStateMachine
         public void SetLevel(TextAsset textAsset)
         {
             GameEvents.OnTimeIsUpEvent = delegate {  };
-            m_CurrentGameConfig = m_GameConfigHandler.Convert(textAsset);
+            m_CurrentGameConfig = m_GameConfigHandler.FileToConfig(textAsset);
             m_LevelManager.LoadCurrentLevel(m_CurrentGameConfig);
         
             m_UIManager.ShowPage(Page.Gameplay);

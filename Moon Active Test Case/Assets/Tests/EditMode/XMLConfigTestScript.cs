@@ -26,7 +26,7 @@ public class XMLConfigTestScript
     public void XMLConfigLoadTestPass()
     {
         var xmlGameConfig = new cXMLGameConfigHandler();
-        var testConfig = xmlGameConfig.Convert(m_XMLText);
+        var testConfig = xmlGameConfig.FileToConfig(m_XMLText);
 
         Assert.AreEqual(m_CorrectConfig,testConfig);
     }

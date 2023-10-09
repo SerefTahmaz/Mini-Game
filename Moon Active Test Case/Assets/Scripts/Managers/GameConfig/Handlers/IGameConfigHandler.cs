@@ -10,12 +10,11 @@ public interface IGameConfigHandler
     /// </summary>
     /// <param name="textAsset">Text file to convert</param>
     /// <returns>The converted game config</returns>
-    public cGameConfiguration Convert(TextAsset textAsset);
+    public cGameConfiguration FileToConfig(TextAsset textAsset);
     /// <summary>
-    /// <para>Create config file in a given path</para>
+    /// <para>Convert your game configuration to a text file</para>
     /// </summary>
     /// <param name="path">Path to save file</param>
-    /// /// <param name="gameConfiguration">Save file config values</param>
-    /// <returns>The converted game config</returns>
-    public void CreateConfig(string path, cGameConfiguration gameConfiguration);
+    /// <param name="gameConfiguration">Save file config values</param>
+    public void ConfigToFile(string path, cGameConfiguration gameConfiguration);
 }

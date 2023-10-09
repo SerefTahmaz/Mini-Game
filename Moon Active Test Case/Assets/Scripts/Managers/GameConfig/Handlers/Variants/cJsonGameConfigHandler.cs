@@ -13,12 +13,12 @@ using UnityEditor;
 /// </summary>
 public class cJsonGameConfigHandler : IGameConfigHandler
 {
-    public cGameConfiguration Convert(TextAsset asset)
+    public cGameConfiguration FileToConfig(TextAsset asset)
     {
         return JsonUtility.FromJson<cGameConfiguration>(asset.text);
     }
 
-    public void CreateConfig(string path, cGameConfiguration gameConfiguration)
+    public void ConfigToFile(string path, cGameConfiguration gameConfiguration)
     {
         string savePlayerData = JsonUtility.ToJson(gameConfiguration);
         if (path.Length != 0)

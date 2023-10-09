@@ -21,8 +21,8 @@ public class cGameConfigEditorWindow : EditorWindow
     [SerializeField] private TextAsset m_EditedConfig;
 
     private SerializedObject m_SerializedObject;
-    private cJsonGameConfigHandler m_JsonGameConfigHandler= new cJsonGameConfigHandler();
-    private cXMLGameConfigHandler m_XMLGameConfigHandler= new cXMLGameConfigHandler();
+    private IGameConfigHandler m_JsonGameConfigHandler= new cJsonGameConfigHandler();
+    private IGameConfigHandler m_XMLGameConfigHandler= new cXMLGameConfigHandler();
 
     private enum FileType
     {
@@ -131,7 +131,7 @@ public class cGameConfigEditorWindow : EditorWindow
         switch (extension)
         {
             case ".json":
-                var loadedConfigjson = m_JsonGameConfigHandler.Convert(m_EditedConfig);
+                var loadedConfigjson = m_JsonGameConfigHandler.FileToConfig(m_EditedConfig);
                 m_ButtonCount = loadedConfigjson.m_ButtonCount;
                 m_EachStepPointCount = loadedConfigjson.m_EachStepPointCount;
                 m_GameTimeInSeconds = loadedConfigjson.m_GameTimeInSeconds;
@@ -139,7 +139,7 @@ public class cGameConfigEditorWindow : EditorWindow
                 m_GameSpeed = loadedConfigjson.m_GameSpeed;
                 break;
             case ".xml":
-                var loadedConfigxml = m_XMLGameConfigHandler.Convert(m_EditedConfig);
+                var loadedConfigxml = m_XMLGameConfigHandler.FileToConfig(m_EditedConfig);
                 m_ButtonCount = loadedConfigxml.m_ButtonCount;
                 m_EachStepPointCount = loadedConfigxml.m_EachStepPointCount;
                 m_GameTimeInSeconds = loadedConfigxml.m_GameTimeInSeconds;
@@ -202,10 +202,10 @@ public class cGameConfigEditorWindow : EditorWindow
             switch (fileType)
             {
                 case FileType.json:
-                    m_JsonGameConfigHandler.CreateConfig(path,gameConfiguration);
+                    m_JsonGameConfigHandler.ConfigToFile(path,gameConfiguration);
                     break;
                 case FileType.xml:
-                    m_XMLGameConfigHandler.CreateConfig(path,gameConfiguration);
+                    m_XMLGameConfigHandler.ConfigToFile(path,gameConfiguration);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();

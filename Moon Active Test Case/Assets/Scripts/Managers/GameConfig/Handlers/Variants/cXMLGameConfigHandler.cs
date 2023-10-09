@@ -11,7 +11,7 @@ using UnityEngine;
 /// </summary>
 public class cXMLGameConfigHandler : IGameConfigHandler
 {
-    public cGameConfiguration Convert(TextAsset textAsset)
+    public cGameConfiguration FileToConfig(TextAsset textAsset)
     {
         var serializer = new XmlSerializer(typeof(cGameConfiguration));
         using(var reader = new System.IO.StringReader(textAsset.text))
@@ -20,7 +20,7 @@ public class cXMLGameConfigHandler : IGameConfigHandler
         }
     }
     
-    public void CreateConfig(string path,cGameConfiguration gameConfiguration)
+    public void ConfigToFile(string path,cGameConfiguration gameConfiguration)
     {
         if (path.Length != 0)
         {

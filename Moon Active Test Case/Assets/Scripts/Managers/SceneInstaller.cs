@@ -9,7 +9,6 @@ public class SceneInstaller : MonoInstaller
     [SerializeField] private cSoundManager m_SoundManager;
     [SerializeField] private cInputManager m_InputManager;
     [SerializeField] private cLevelManager m_LevelManager;
-    [SerializeField] private cSaveManager m_SaveManager;
 
     public override void InstallBindings()
     {
@@ -19,7 +18,7 @@ public class SceneInstaller : MonoInstaller
         Container.Bind<ISoundManager>().To<cSoundManager>().FromInstance(m_SoundManager);
         Container.Bind<IInputManager>().To<cInputManager>().FromInstance(m_InputManager);
         Container.Bind<ILevelManager>().To<cLevelManager>().FromInstance(m_LevelManager);
-        Container.Bind<ISaveManager>().To<cSaveManager>().FromInstance(m_SaveManager);
+        Container.Bind<ISaveManager>().To<cSaveManager>().AsSingle();
     }
 }
 

@@ -10,7 +10,7 @@ using Random = UnityEngine.Random;
 
 public class cSimonSaysGameLogic : MonoBehaviour
 {
-    [SerializeField] private cSimon3DInputHandler m_Simon3DInputHandler;
+    [Inject] private ISimonInputHandler m_SimonInputHandler;
     [Inject] private cGameManagerStateMachine m_GameManager;
 
     private float m_Speed = 1;
@@ -18,11 +18,9 @@ public class cSimonSaysGameLogic : MonoBehaviour
     private int m_CurrentIndex = 0;
     private List<cSimonButton> m_CurrentMatchList = new List<cSimonButton>();
     private List<cSimonButton> m_SimonButtons = new List<cSimonButton>();
-    private ISimonInputHandler m_SimonInputHandler;
 
     private void Awake()
     {
-        m_SimonInputHandler = m_Simon3DInputHandler;
         m_SimonInputHandler.OnInput += CheckInput;
 
         m_GameManager.GameEvents.OnTimeIsUpEvent += () =>

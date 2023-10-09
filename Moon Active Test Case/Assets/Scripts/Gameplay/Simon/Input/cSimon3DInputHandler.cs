@@ -4,14 +4,20 @@ using System.Collections.Generic;
 using UnityEngine;
 using Zenject;
 
-public class cSimon3DInputHandler : MonoBehaviour, ISimonInputHandler
+public class cSimon3DInputHandler : ISimonInputHandler, IDisposable
 {
-    [Inject] private IInputManager m_InputManager;
-    
-    public Action<cSimonButton> OnInput { get; set; }
+    private IInputManager m_InputManager;
+    private Action<cSimonButton> m_OnInput = delegate(cSimonButton button) {  }; 
 
-    private void Awake()
+    public Action<cSimonButton> OnInput
     {
+        get => m_OnInput;
+        set => m_OnInput = value;
+    }
+
+    public cSimon3DInputHandler(IInputManager inputManager)
+    {
+        m_InputManager = inputManager;
         m_InputManager.OnInputDown += CheckInput;
     }
 
@@ -28,7 +34,7 @@ public class cSimon3DInputHandler : MonoBehaviour, ISimonInputHandler
         }
     }
 
-    private void OnDestroy()
+    public void Dispose()
     {
         m_InputManager.OnInputDown -= CheckInput;
     }

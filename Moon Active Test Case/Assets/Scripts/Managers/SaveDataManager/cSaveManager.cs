@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 
-public class cSaveManager : MonoBehaviour, ISaveManager
+public class cSaveManager : ISaveManager
 {
     private bool m_Loaded;
     
@@ -22,7 +22,7 @@ public class cSaveManager : MonoBehaviour, ISaveManager
         set => cSaveDataHandler.SaveData = value;
     }
 
-    private void Awake()
+    public cSaveManager()
     {
         SaveLoop().Forget();
     }

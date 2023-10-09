@@ -52,12 +52,11 @@ public class cGameConfigEditorWindow : EditorWindow
         EditorGUILayout.PropertyField(m_SerializedObject.FindProperty("m_GameTimeInSeconds"));
         EditorGUILayout.PropertyField(m_SerializedObject.FindProperty("m_RepeatMode"));
         EditorGUILayout.PropertyField(m_SerializedObject.FindProperty("m_GameSpeed"));
-        EditorGUILayout.PropertyField(m_SerializedObject.FindProperty("m_FileType"));
-        
+
         EditorGUILayout.HelpBox("Durations are in Seconds", MessageType.Info);
         
         EditorGUILayout.Space(20);
-
+        
         CreateConfigGUI();
         
         DisplayOr();
@@ -77,6 +76,7 @@ public class cGameConfigEditorWindow : EditorWindow
 
     private void CreateConfigGUI()
     {
+        EditorGUILayout.PropertyField(m_SerializedObject.FindProperty("m_FileType"));
         if (GUILayout.Button("Create Game Config"))
         {
             var gameConfig = new cGameConfiguration()
@@ -107,7 +107,7 @@ public class cGameConfigEditorWindow : EditorWindow
                     break;
                 default:
                     m_EditedConfig = null;
-                    Debug.Log("Not Supported");
+                    Debug.Log("Invalid Action");
                     break;
             }
         }
@@ -148,7 +148,7 @@ public class cGameConfigEditorWindow : EditorWindow
                 break;
             default:
                 m_EditedConfig = null;
-                Debug.Log("Not Supported");
+                Debug.Log("Invalid Action");
                 break;
         }
     }
@@ -178,7 +178,7 @@ public class cGameConfigEditorWindow : EditorWindow
                     break;
                 default:
                     m_EditedConfig = null;
-                    Debug.Log("Not Supported");
+                    Debug.Log("Invalid Action");
                     break;
             }
         }
@@ -186,13 +186,28 @@ public class cGameConfigEditorWindow : EditorWindow
     
     private void CreateNewConfig(cGameConfiguration gameConfiguration)
     {
-        var path = EditorUtility.SaveFilePanel(
-            "Save config",
-            "",
-            "GameConfig" + ".xml",
-            "xml");
-
-        CreateConfig(gameConfiguration,path,m_FileType);
+        string path;
+        switch (m_FileType)
+        {
+            case FileType.json:
+                path = EditorUtility.SaveFilePanel(
+                    "Save config",
+                    "",
+                    "GameConfig" + ".json",
+                    "json");
+                CreateConfig(gameConfiguration,path,m_FileType);
+                break;
+            case FileType.xml:
+                path = EditorUtility.SaveFilePanel(
+                    "Save config",
+                    "",
+                    "GameConfig" + ".xml",
+                    "xml");
+                CreateConfig(gameConfiguration,path,m_FileType);
+                break;
+            default:
+                throw new ArgumentOutOfRangeException();
+        }
     }
 
     private void CreateConfig(cGameConfiguration gameConfiguration,string path, FileType fileType)

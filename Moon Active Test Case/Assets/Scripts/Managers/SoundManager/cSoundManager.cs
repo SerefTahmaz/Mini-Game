@@ -19,12 +19,14 @@ public class cSoundManager : MonoBehaviour, ISoundManager
     private AudioClip m_Click => m_SoundManagerClipsSO.Click;
     private AudioClip m_OnMouseEnter => m_SoundManagerClipsSO.OnMouseEnter;
     private AudioClip m_Swoosh => m_SoundManagerClipsSO.Swoosh;
+    private AudioClip m_AmbientSound => m_SoundManagerClipsSO.AmbientSound;
+    private AudioClip m_GameFailSound => m_SoundManagerClipsSO.GameFailSound;
     
     
-    private void Awake()
-    {
-        // m_AudioSource.PlayOneShot(m_forestBGSounds[Random.Range(0, m_forestBGSounds.Count-1)], .25f);
-    }
+    // private void Awake()
+    // {
+    //     // m_AudioSource.PlayOneShot(m_forestBGSounds[Random.Range(0, m_forestBGSounds.Count-1)], .25f);
+    // }
 
     public void SetActive(bool state)
     {
@@ -62,12 +64,21 @@ public class cSoundManager : MonoBehaviour, ISoundManager
         m_AudioSource.PlayOneShot(m_Swoosh);
     }
 
-    public void PlayAmbient(AudioClip clip)
+    public void PlayAmbient()
     {
-        m_AmbientSource.Stop();
-        m_AmbientSource.clip = clip;
-        m_AmbientSource.volume = .1f;
+        m_AmbientSource.clip = m_AmbientSound;
+        m_AmbientSource.volume = .5f;
         m_AmbientSource.Play();
+    }
+
+    public void PauseAmbient()
+    {
+        m_AmbientSource.Pause();
+    }
+    
+    public void PlayGameFail()
+    {
+        m_AudioSource.PlayOneShot(m_GameFailSound);
     }
 
     public void PlayClip(AudioClip clip)

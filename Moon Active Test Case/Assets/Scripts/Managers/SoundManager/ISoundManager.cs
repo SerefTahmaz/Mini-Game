@@ -10,5 +10,7 @@ public interface ISoundManager
     public void PlayClick();
     public void PlayMouseEnter();
     public void PlaySwoosh();
-    public void PlayAmbient(AudioClip clip);
+    public void PlayAmbient();
+    public void PauseAmbient();
+    public void PlayGameFail();
 }

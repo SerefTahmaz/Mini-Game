@@ -10,7 +10,7 @@ namespace FiniteStateMachine
     {
         [Inject] private cUIManager m_UIManager;
         [Inject] private ILevelManager m_LevelManager;
-        
+
         public override void Enter()
         {
             base.Enter();

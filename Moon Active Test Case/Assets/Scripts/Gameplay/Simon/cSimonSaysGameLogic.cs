@@ -15,6 +15,7 @@ public class cSimonSaysGameLogic : MonoBehaviour
 {
     [Inject] private ISimonInputHandler m_SimonInputHandler;
     [Inject] private cGameManagerStateMachine m_GameManager;
+    [Inject] private ISoundManager m_SoundManager;
 
     private float m_Speed = 1;
     private bool m_RepeatAllSequence;
@@ -83,6 +84,7 @@ public class cSimonSaysGameLogic : MonoBehaviour
     private async UniTaskVoid WrongButton()
     {
         m_GameManager.GameEvents.OnWrongButtonEvent.Invoke();
+        m_SoundManager.PlayGameFail();
         
         m_CurrentIndex = 0;
         foreach (var VARIABLE in m_SimonButtons)
@@ -99,7 +101,7 @@ public class cSimonSaysGameLogic : MonoBehaviour
         {
             foreach (var button in m_SimonButtons)
             {
-                button.EnableLight();
+                button.EnableLight(sound:false);
             }
 
             await UniTask.Delay(TimeSpan.FromSeconds(.15f));

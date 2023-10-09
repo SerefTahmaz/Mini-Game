@@ -40,12 +40,13 @@ public class cSimonButton : MonoBehaviour
     /// <para>Light button</para>
     /// </summary>
     /// <param name="duration">Lighting duration</param>
-    public void EnableLight(float duration=Single.PositiveInfinity)
+    /// /// <param name="sound">With sound?</param>
+    public void EnableLight(float duration=Single.PositiveInfinity, bool sound = true)
     {
         m_LightTween.Kill();
         m_Renderer.material.EnableKeyword("_EMISSION");
         m_LightTween=DOVirtual.DelayedCall(duration, DisableLight);
-        if(m_SimonButtonSO) m_SoundManager.PlayClip(m_SimonButtonSO.OnLightSound);
+        if(m_SimonButtonSO && sound) m_SoundManager.PlayClip(m_SimonButtonSO.OnLightSound);
     }
     
     public void DisableLight()

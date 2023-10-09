@@ -5,6 +5,9 @@ using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.TestTools;
 
+/// <summary>
+/// <para>Unit test to verify configuration loading works</para>
+/// </summary>
 public class XMLConfigTestScript
 {
     private cGameConfiguration m_CorrectConfig;

@@ -3,42 +3,47 @@ using System.Collections;
 using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
+using SimonSays.Managers;
+using SimonSays.Managers.GameManager;
 using UnityEngine;
 using Zenject;
 
-public class cStartButtonController : cButton
+namespace SimonSays.UI
 {
-    [SerializeField] private Transform m_Pivot;
-    [SerializeField, Min(0.001f)] private float m_PulseDelay;
-    [Inject] private cGameManagerStateMachine m_GameManager;
-    [Inject] private cUIManager m_UIManager;
-
-    private void Awake()
+    public class cStartButtonController : cButton
     {
-        ButtonPulseAnim().Forget();
-    }
+        [SerializeField] private Transform m_Pivot;
+        [SerializeField, Min(0.001f)] private float m_PulseDelay;
+        [Inject] private cGameManagerStateMachine m_GameManager;
+        [Inject] private cUIManager m_UIManager;
 
-    private async UniTaskVoid ButtonPulseAnim()
-    {
-        while (true)
+        private void Awake()
         {
-            m_Pivot.DOScale(0.15f, .2f).SetLoops(2, LoopType.Yoyo).SetRelative(true);
-            await UniTask.Delay(TimeSpan.FromSeconds(m_PulseDelay));
+            ButtonPulseAnim().Forget();
         }
-    }
 
-    public override void OnClick()
-    {
-        base.OnClick();
+        private async UniTaskVoid ButtonPulseAnim()
+        {
+            while (true)
+            {
+                m_Pivot.DOScale(0.15f, .2f).SetLoops(2, LoopType.Yoyo).SetRelative(true);
+                await UniTask.Delay(TimeSpan.FromSeconds(m_PulseDelay));
+            }
+        }
+
+        public override void OnClick()
+        {
+            base.OnClick();
         
-        m_UIManager.SetInteractable(false);
-        m_UIManager.TransitionManager.PlayTransition(cTransitionManager.TransitionType.Rotating, () =>
-        {
+            m_UIManager.SetInteractable(false);
+            m_UIManager.TransitionManager.PlayTransition(cTransitionManager.TransitionType.Rotating, () =>
+            {
             
-            m_GameManager.ChangeState(m_GameManager.GameplayState);
-        }, () =>
-        {
-            m_UIManager.SetInteractable(true);
-        });
+                m_GameManager.ChangeState(m_GameManager.GameplayState);
+            }, () =>
+            {
+                m_UIManager.SetInteractable(true);
+            });
+        }
     }
 }

@@ -2,7 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class cMainMenuSliderView : cView
+namespace SimonSays.UI
 {
+    public class cMainMenuSliderView : cView
+    {
     
+    }
 }

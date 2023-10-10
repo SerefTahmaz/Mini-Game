@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using DG.Tweening;
+using SimonSays.Managers;
 using UnityEngine;
 using UnityEngine.AI;
 using Zenject;

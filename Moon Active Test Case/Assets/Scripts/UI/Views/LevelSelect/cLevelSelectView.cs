@@ -1,39 +1,44 @@
 using System.Collections;
 using System.Collections.Generic;
+using SimonSays.Managers;
+using SimonSays.Managers.SaveManager;
 using UnityEngine;
 using Zenject;
 
-public class cLevelSelectView : cView
+namespace SimonSays.UI.LevelSelect
 {
-    [SerializeField] private cPlayerNameInputController m_NameSelect;
-    [SerializeField] private cLevelSelectUIController m_LevelSelect;
-    [Inject] private cUIManager m_UIManager;
-    [Inject] private ISaveManager m_SaveManager;
-
-    public override void Activate()
+    public class cLevelSelectView : cView
     {
-        base.Activate();
+        [SerializeField] private cPlayerNameInputController m_NameSelect;
+        [SerializeField] private cLevelSelectUIController m_LevelSelect;
+        [Inject] private cUIManager m_UIManager;
+        [Inject] private ISaveManager m_SaveManager;
 
-        if (!m_SaveManager.SaveData.m_IsPlayerSetName)
+        public override void Activate()
         {
-            m_NameSelect.Activate();
-            m_LevelSelect.Deactivate();
+            base.Activate();
+
+            if (!m_SaveManager.SaveData.m_IsPlayerSetName)
+            {
+                m_NameSelect.Activate();
+                m_LevelSelect.Deactivate();
+            }
+            else
+            {
+                m_NameSelect.Deactivate();
+                m_LevelSelect.Activate();
+            }
         }
-        else
+
+        public void OnNameSelected()
         {
-            m_NameSelect.Deactivate();
             m_LevelSelect.Activate();
+            m_NameSelect.Deactivate();
         }
-    }
-
-    public void OnNameSelected()
-    {
-        m_LevelSelect.Activate();
-        m_NameSelect.Deactivate();
-    }
     
-    public void OnLevelSelected()
-    {
-        m_UIManager.HidePage(Page.LevelSelect);
+        public void OnLevelSelected()
+        {
+            m_UIManager.HidePage(Page.LevelSelect);
+        }
     }
 }

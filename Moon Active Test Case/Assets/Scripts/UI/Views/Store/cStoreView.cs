@@ -5,13 +5,16 @@ using DG.Tweening;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class cStoreView : cView
+namespace SimonSays.UI
 {
-    [SerializeField] private UnityEvent m_OnActivate;
-
-    public override void Activate()
+    public class cStoreView : cView
     {
-        base.Activate();
-        m_OnActivate.Invoke();
+        [SerializeField] private UnityEvent m_OnActivate;
+
+        public override void Activate()
+        {
+            base.Activate();
+            m_OnActivate.Invoke();
+        }
     }
 }

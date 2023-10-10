@@ -1,18 +1,21 @@
 using System;
 using UnityEngine;
 
-public class cInputManager : MonoBehaviour, IInputManager
+namespace SimonSays.Managers
 {
-    private Action m_OnInputDown = delegate {  };
-
-    public Action OnInputDown
+    public class cInputManager : MonoBehaviour, IInputManager
     {
-        get => m_OnInputDown;
-        set => m_OnInputDown = value;
-    }
+        private Action m_OnInputDown = delegate {  };
 
-    void Update()
-    {
-        if(Input.GetMouseButtonDown(0)) OnInputDown.Invoke();
+        public Action OnInputDown
+        {
+            get => m_OnInputDown;
+            set => m_OnInputDown = value;
+        }
+
+        void Update()
+        {
+            if(Input.GetMouseButtonDown(0)) OnInputDown.Invoke();
+        }
     }
 }

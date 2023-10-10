@@ -1,12 +1,16 @@
+using SimonSays.UI.LevelSelect;
 using UnityEngine;
 using Zenject;
 
-public class LevelSelectInstaller : MonoInstaller
+namespace SimonSays.UI.LevelSelect
 {
-    [SerializeField] private cLevelSelectButton m_LevelSelectButton;
-    public override void InstallBindings()
+    public class LevelSelectInstaller : MonoInstaller
     {
-        Container.BindFactory<cLevelSelectButton, LevelSelectButtonFactory>().FromComponentInNewPrefab(m_LevelSelectButton);
+        [SerializeField] private cLevelSelectButton m_LevelSelectButton;
+        public override void InstallBindings()
+        {
+            Container.BindFactory<cLevelSelectButton, LevelSelectButtonFactory>().FromComponentInNewPrefab(m_LevelSelectButton);
+        }
     }
 }
 

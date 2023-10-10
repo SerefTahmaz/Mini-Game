@@ -1,15 +1,19 @@
 using System.Collections;
 using System.Collections.Generic;
+using SimonSays.Managers.GameManager;
 using UnityEngine;
 using Zenject;
 
-public class cReplayButton : cButton
+namespace SimonSays.UI
 {
-    [Inject] private cGameManagerStateMachine m_GameManager;
-    
-    public override void OnClick()
+    public class cReplayButton : cButton
     {
-        base.OnClick();
-        m_GameManager.Replay();
+        [Inject] private cGameManagerStateMachine m_GameManager;
+    
+        public override void OnClick()
+        {
+            base.OnClick();
+            m_GameManager.Replay();
+        }
     }
 }

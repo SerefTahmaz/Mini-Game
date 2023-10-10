@@ -6,25 +6,28 @@ using UnityEngine;
 
 #if UNITY_EDITOR
 using UnityEditor;
-#endif
 
-/// <summary>
-///   <para>Handles converting between JSON file and game configuration</para>
-/// </summary>
-public class cJsonGameConfigHandler : IGameConfigHandler
+namespace SimonSays.Managers.Config
 {
-    public cGameConfiguration FileToConfig(TextAsset asset)
+    /// <summary>
+    ///   <para>Handles converting between JSON file and game configuration</para>
+    /// </summary>
+    public class cJsonGameConfigHandler : IGameConfigHandler
     {
-        return JsonUtility.FromJson<cGameConfiguration>(asset.text);
-    }
-
-    public void ConfigToFile(string path, cGameConfiguration gameConfiguration)
-    {
-        string savePlayerData = JsonUtility.ToJson(gameConfiguration);
-        if (path.Length != 0)
+        public cGameConfiguration FileToConfig(TextAsset asset)
         {
-            File.WriteAllText(path,savePlayerData);
-            AssetDatabase.Refresh();
+            return JsonUtility.FromJson<cGameConfiguration>(asset.text);
+        }
+
+        public void ConfigToFile(string path, cGameConfiguration gameConfiguration)
+        {
+            string savePlayerData = JsonUtility.ToJson(gameConfiguration);
+            if (path.Length != 0)
+            {
+                File.WriteAllText(path,savePlayerData);
+                AssetDatabase.Refresh();
+            }
         }
     }
 }
+#endif

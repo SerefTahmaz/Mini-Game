@@ -2,10 +2,13 @@ using System;
 using UnityEngine;
 using Zenject;
 
-public class SimonInstaller : MonoInstaller
+namespace SimonSays.Gameplay
 {
-    public override void InstallBindings()
+    public class SimonInstaller : MonoInstaller
     {
-        Container.BindInterfacesTo<cSimon3DInputHandler>().AsSingle();
+        public override void InstallBindings()
+        {
+            Container.BindInterfacesTo<cSimon3DInputHandler>().AsSingle();
+        }
     }
 }

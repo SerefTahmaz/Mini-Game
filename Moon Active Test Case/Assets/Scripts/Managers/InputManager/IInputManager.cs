@@ -3,7 +3,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public interface IInputManager
+namespace SimonSays.Managers
 {
-    public Action OnInputDown {get; set;}
+    public interface IInputManager
+    {
+        public Action OnInputDown {get; set;}
+    }
 }

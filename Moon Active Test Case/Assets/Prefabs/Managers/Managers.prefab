@@ -126,12 +126,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1414e1865bf688c44a351ef445d3b608, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Pops: {fileID: 8300000, guid: f7ae00b3258a1924184be35fa297c4c1, type: 3}
-  m_SuccessSound: {fileID: 8300000, guid: f3b56c9db4cbd0c4ca252e12334747ab, type: 3}
-  m_FailSound: {fileID: 8300000, guid: 291d99759e0c541489d46fb6318e1ad6, type: 3}
-  m_Click: {fileID: 8300000, guid: 4ef2114429f88a741ab5b4ababced7f3, type: 3}
-  m_OnMouseEnter: {fileID: 8300000, guid: b450a54be6e10f54dae75f097d2d3aea, type: 3}
-  m_Swoosh: {fileID: 8300000, guid: f8a06f6a224ff514cb43a287f183a2cf, type: 3}
+  m_SoundManagerClipsSO: {fileID: 11400000, guid: a0d06978b1e8d4349a80f1972fba0366,
+    type: 2}
   m_AudioSource: {fileID: 4011334098137604896}
   m_AmbientSource: {fileID: 4011334098137604901}
 --- !u!82 &4011334098137604896
@@ -244,7 +240,7 @@ AudioSource:
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
-  Loop: 0
+  Loop: 1
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
@@ -393,6 +389,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 796305420611312328, guid: 65637747797b8284ebe907e6a11f15ae,
+        type: 3}
+      propertyPath: m_MenuBackground.Array.size
+      value: 3
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 65637747797b8284ebe907e6a11f15ae, type: 3}
 --- !u!4 &4011334097798985988 stripped
@@ -540,7 +541,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LevelPrefabs.Array.data[0]
       value: 
-      objectReference: {fileID: 3880311413650771484, guid: bcb9a5fd22c35bd409ec37b374387f7a,
+      objectReference: {fileID: 3880311413650771487, guid: bcb9a5fd22c35bd409ec37b374387f7a,
         type: 3}
     - target: {fileID: 6805529284372499125, guid: ddac3106ad9a8a342abe4dc3372c55ec,
         type: 3}

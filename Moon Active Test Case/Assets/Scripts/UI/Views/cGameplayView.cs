@@ -2,10 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class cGameplayView : cView
+namespace SimonSays.UI
 {
-    public override void Activate()
+    public class cGameplayView : cView
     {
-        base.Activate();
+        public override void Activate()
+        {
+            base.Activate();
+        }
     }
 }

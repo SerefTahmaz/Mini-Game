@@ -1,11 +1,16 @@
 using FiniteStateMachine;
+using SimonSays.Gameplay.UI;
+using SimonSays.Managers;
+using SimonSays.Managers.Config;
 using UnityEngine;
 using Zenject;
 
-/// <summary>
-/// Manager state machine for dealing with general game states
-/// </summary>
-public class cGameManagerStateMachine : cStateMachine
+namespace SimonSays.Managers.GameManager
+{
+    /// <summary>
+    /// Manager state machine for dealing with general game states
+    /// </summary>
+    public class cGameManagerStateMachine : cStateMachine
     {
         #region PritaveFields
         [SerializeField] private cStatesBlackboard m_StatesBlackboard;
@@ -73,3 +78,4 @@ public class cGameManagerStateMachine : cStateMachine
             m_UIManager.Fillbar.Init(m_CurrentGameConfig.m_GameTimeInSeconds);
         }
     }
+}

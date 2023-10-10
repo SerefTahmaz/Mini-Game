@@ -7,62 +7,65 @@ using Dan.Main;
 using UnityEditor;
 using UnityEngine;
 
-public static class cSaveDataHandler
+namespace SimonSays.Managers.SaveManager
 {
-    private static cSaveData m_SaveData = new cSaveData();
-    public static cSaveData SaveData
+    public static class cSaveDataHandler
     {
-        get => m_SaveData;
-        set => m_SaveData = value;
-    }
+        private static cSaveData m_SaveData = new cSaveData();
+        public static cSaveData SaveData
+        {
+            get => m_SaveData;
+            set => m_SaveData = value;
+        }
 
-    private static bool m_Loaded = false;
+        private static bool m_Loaded = false;
 
-    private static string m_SaveFilePath => Application.persistentDataPath + "/SavaData.json";
+        private static string m_SaveFilePath => Application.persistentDataPath + "/SavaData.json";
 
-    public static void Load(){
-        if(m_Loaded) return;
+        public static void Load(){
+            if(m_Loaded) return;
         
-        if (File.Exists(m_SaveFilePath))
-        {
-            string loadPlayerData = File.ReadAllText(m_SaveFilePath);
-            SaveData = JsonUtility.FromJson<cSaveData>(loadPlayerData);
+            if (File.Exists(m_SaveFilePath))
+            {
+                string loadPlayerData = File.ReadAllText(m_SaveFilePath);
+                SaveData = JsonUtility.FromJson<cSaveData>(loadPlayerData);
   
-            Debug.Log("Load game complete!");
-            m_Loaded = true;
+                Debug.Log("Load game complete!");
+                m_Loaded = true;
+            }
+            else
+                Debug.Log("There is no save files to load!");
         }
-        else
-            Debug.Log("There is no save files to load!");
-    }
 
 
-    public static void Save()
-    {
-        string savePlayerData = JsonUtility.ToJson(SaveData);
-        File.WriteAllText(m_SaveFilePath, savePlayerData);
-
-        Debug.Log("Save file created at: ");
-    }
-
-
-    [MenuItem("SaveData/DeleteSaveData")]
-    public static void DeleteSaveFile()
-    {
-        if (File.Exists(m_SaveFilePath))
+        public static void Save()
         {
-            File.Delete(m_SaveFilePath);
-            SaveData = new cSaveData();
-  
-            Debug.Log("Save file deleted!");
+            string savePlayerData = JsonUtility.ToJson(SaveData);
+            File.WriteAllText(m_SaveFilePath, savePlayerData);
+
+            // Debug.Log("Save file created at: ");
         }
-        else
-            Debug.Log("There is nothing to delete!");
 
-        m_Loaded = false;
-    }
 
-    public static string PlayerName()
-    {
-        return SaveData.m_PlayerName;
+        [MenuItem("SaveData/DeleteSaveData")]
+        public static void DeleteSaveFile()
+        {
+            if (File.Exists(m_SaveFilePath))
+            {
+                File.Delete(m_SaveFilePath);
+                SaveData = new cSaveData();
+  
+                Debug.Log("Save file deleted!");
+            }
+            else
+                Debug.Log("There is nothing to delete!");
+
+            m_Loaded = false;
+        }
+
+        public static string PlayerName()
+        {
+            return SaveData.m_PlayerName;
+        }
     }
 }

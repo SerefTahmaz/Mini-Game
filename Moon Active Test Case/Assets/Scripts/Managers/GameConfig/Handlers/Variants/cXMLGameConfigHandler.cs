@@ -6,31 +6,34 @@ using System.Xml.Serialization;
 using UnityEditor;
 using UnityEngine;
 
-/// <summary>
-///   <para>Handles converting between XML file and game configuration</para>
-/// </summary>
-public class cXMLGameConfigHandler : IGameConfigHandler
+namespace SimonSays.Managers.Config
 {
-    public cGameConfiguration FileToConfig(TextAsset textAsset)
+    /// <summary>
+    ///   <para>Handles converting between XML file and game configuration</para>
+    /// </summary>
+    public class cXMLGameConfigHandler : IGameConfigHandler
     {
-        var serializer = new XmlSerializer(typeof(cGameConfiguration));
-        using(var reader = new System.IO.StringReader(textAsset.text))
+        public cGameConfiguration FileToConfig(TextAsset textAsset)
         {
-            return (cGameConfiguration) serializer.Deserialize(reader);
-        }
-    }
-    
-    public void ConfigToFile(string path,cGameConfiguration gameConfiguration)
-    {
-        if (path.Length != 0)
-        {
-            XmlSerializer serializer = new XmlSerializer(typeof(cGameConfiguration));
- 
-            using (FileStream stream = new FileStream(path, FileMode.Create))
+            var serializer = new XmlSerializer(typeof(cGameConfiguration));
+            using(var reader = new System.IO.StringReader(textAsset.text))
             {
-                serializer.Serialize(stream, gameConfiguration);
+                return (cGameConfiguration) serializer.Deserialize(reader);
             }
-            AssetDatabase.Refresh();
+        }
+    
+        public void ConfigToFile(string path,cGameConfiguration gameConfiguration)
+        {
+            if (path.Length != 0)
+            {
+                XmlSerializer serializer = new XmlSerializer(typeof(cGameConfiguration));
+ 
+                using (FileStream stream = new FileStream(path, FileMode.Create))
+                {
+                    serializer.Serialize(stream, gameConfiguration);
+                }
+                AssetDatabase.Refresh();
+            }
         }
     }
 }

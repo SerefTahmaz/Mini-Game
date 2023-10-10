@@ -1,5 +1,10 @@
-public interface ILevelManager
+using SimonSays.Managers.Config;
+
+namespace SimonSays.Managers
 {
-    public void LoadCurrentLevel(cGameConfiguration gameConfiguration);
-    public void RemoveCurrentLevel();
+    public interface ILevelManager
+    {
+        public void LoadCurrentLevel(cGameConfiguration gameConfiguration);
+        public void RemoveCurrentLevel();
+    }
 }

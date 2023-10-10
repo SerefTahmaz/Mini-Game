@@ -3,13 +3,16 @@ using System.Collections.Generic;
 using System.Net;
 using UnityEngine;
 
-public class cPrivacyPolicyButton : cButton
+namespace SimonSays.UI
 {
-    [SerializeField] private string m_PrivacyPolicyURL;
-
-    public override void OnClick()
+    public class cPrivacyPolicyButton : cButton
     {
-        base.OnClick();
-        Application.OpenURL(m_PrivacyPolicyURL);
+        [SerializeField] private string m_PrivacyPolicyURL;
+
+        public override void OnClick()
+        {
+            base.OnClick();
+            Application.OpenURL(m_PrivacyPolicyURL);
+        }
     }
 }

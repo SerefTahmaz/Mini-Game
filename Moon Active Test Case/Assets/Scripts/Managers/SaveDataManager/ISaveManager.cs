@@ -1,6 +1,9 @@
-public interface ISaveManager
+namespace SimonSays.Managers.SaveManager
 {
-    public cSaveData SaveData { get; set; }
-    public void Save();
-    public void Load();
+    public interface ISaveManager
+    {
+        public cSaveData SaveData { get; set; }
+        public void Save();
+        public void Load();
+    }
 }

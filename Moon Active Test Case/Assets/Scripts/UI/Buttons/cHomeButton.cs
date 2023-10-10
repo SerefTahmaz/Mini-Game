@@ -1,23 +1,28 @@
 using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
+using SimonSays.Managers;
+using SimonSays.Managers.GameManager;
 using UnityEngine;
 using Zenject;
 
-public class cHomeButton : cButton
+namespace SimonSays.UI
 {
-    [Inject] private cGameManagerStateMachine m_GameManager;
-    [Inject] private cUIManager m_UIManager;
-    
-    public override void OnClick()
+    public class cHomeButton : cButton
     {
-        base.OnClick();
-        m_UIManager.TransitionManager.PlayTransition(cTransitionManager.TransitionType.Lateral, () =>
+        [Inject] private cGameManagerStateMachine m_GameManager;
+        [Inject] private cUIManager m_UIManager;
+    
+        public override void OnClick()
         {
-            m_GameManager.ChangeState(m_GameManager.MenuState);
-        }, () =>
-        {
+            base.OnClick();
+            m_UIManager.TransitionManager.PlayTransition(cTransitionManager.TransitionType.Lateral, () =>
+            {
+                m_GameManager.ChangeState(m_GameManager.MenuState);
+            }, () =>
+            {
             
-        });
+            });
+        }
     }
 }

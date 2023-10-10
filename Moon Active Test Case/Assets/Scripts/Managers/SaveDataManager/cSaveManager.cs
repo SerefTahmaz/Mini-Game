@@ -4,45 +4,48 @@ using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 
-public class cSaveManager : ISaveManager
+namespace SimonSays.Managers.SaveManager
 {
-    private bool m_Loaded;
-    
-    public cSaveData SaveData
+    public class cSaveManager : ISaveManager
     {
-        get
+        private bool m_Loaded;
+    
+        public cSaveData SaveData
         {
-            if (!m_Loaded)
+            get
             {
-                cSaveDataHandler.Load();
-                m_Loaded = true;
+                if (!m_Loaded)
+                {
+                    cSaveDataHandler.Load();
+                    m_Loaded = true;
+                }
+                return cSaveDataHandler.SaveData;
             }
-            return cSaveDataHandler.SaveData;
+            set => cSaveDataHandler.SaveData = value;
         }
-        set => cSaveDataHandler.SaveData = value;
-    }
 
-    public cSaveManager()
-    {
-        SaveLoop().Forget();
-    }
-    
-    private async UniTaskVoid SaveLoop()
-    {
-        while (true)
+        public cSaveManager()
         {
-            await UniTask.Delay(TimeSpan.FromSeconds(20));
+            SaveLoop().Forget();
+        }
+    
+        private async UniTaskVoid SaveLoop()
+        {
+            while (true)
+            {
+                await UniTask.Delay(TimeSpan.FromSeconds(20));
+                cSaveDataHandler.Save();
+            }
+        }
+
+        public void Save()
+        {
             cSaveDataHandler.Save();
         }
-    }
 
-    public void Save()
-    {
-        cSaveDataHandler.Save();
-    }
-
-    public void Load()
-    {
-        cSaveDataHandler.Load();
+        public void Load()
+        {
+            cSaveDataHandler.Load();
+        }
     }
 }

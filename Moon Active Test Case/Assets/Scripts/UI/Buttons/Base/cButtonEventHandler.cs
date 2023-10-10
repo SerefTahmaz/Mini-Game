@@ -4,24 +4,27 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
 
-public class cButtonEventHandler : MonoBehaviour, IPointerEnterHandler, IPointerClickHandler, IPointerExitHandler
+namespace SimonSays.UI
 {
-    [SerializeField] private UnityEvent m_OnEnter;
-    [SerializeField] private UnityEvent m_OnClick;
-    [SerializeField] private UnityEvent m_OnExit;
-
-    public void OnPointerEnter(PointerEventData eventData)
+    public class cButtonEventHandler : MonoBehaviour, IPointerEnterHandler, IPointerClickHandler, IPointerExitHandler
     {
-        m_OnEnter.Invoke();
-    }
+        [SerializeField] private UnityEvent m_OnEnter;
+        [SerializeField] private UnityEvent m_OnClick;
+        [SerializeField] private UnityEvent m_OnExit;
 
-    public void OnPointerClick(PointerEventData eventData)
-    {
-        m_OnClick.Invoke();
-    }
+        public void OnPointerEnter(PointerEventData eventData)
+        {
+            m_OnEnter.Invoke();
+        }
 
-    public void OnPointerExit(PointerEventData eventData)
-    {
-        m_OnExit.Invoke();
+        public void OnPointerClick(PointerEventData eventData)
+        {
+            m_OnClick.Invoke();
+        }
+
+        public void OnPointerExit(PointerEventData eventData)
+        {
+            m_OnExit.Invoke();
+        }
     }
 }

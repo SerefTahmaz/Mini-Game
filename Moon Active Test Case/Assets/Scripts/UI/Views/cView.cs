@@ -3,27 +3,30 @@ using System.Collections.Generic;
 using DG.Tweening;
 using UnityEngine;
 
-public class cView : MonoBehaviour
+namespace SimonSays.UI
 {
-    [SerializeField] private CanvasGroup m_CanvasGroup;
-
-    protected bool m_IsActive;
-
-    public virtual void Activate()
+    public class cView : MonoBehaviour
     {
-        m_CanvasGroup.DOComplete();
-        m_CanvasGroup.blocksRaycasts = true;
-        m_CanvasGroup.interactable = true;
-        m_CanvasGroup.DOFade(1, .2f);
-        m_IsActive = true;
-    }
+        [SerializeField] private CanvasGroup m_CanvasGroup;
+
+        protected bool m_IsActive;
+
+        public virtual void Activate()
+        {
+            m_CanvasGroup.DOComplete();
+            m_CanvasGroup.blocksRaycasts = true;
+            m_CanvasGroup.interactable = true;
+            m_CanvasGroup.DOFade(1, .2f);
+            m_IsActive = true;
+        }
     
-    public virtual void Deactivate()
-    {
-        m_CanvasGroup.DOComplete();
-        m_CanvasGroup.blocksRaycasts = false;
-        m_CanvasGroup.interactable = false;
-        m_CanvasGroup.DOFade(0,.2f);
-        m_IsActive = false;
+        public virtual void Deactivate()
+        {
+            m_CanvasGroup.DOComplete();
+            m_CanvasGroup.blocksRaycasts = false;
+            m_CanvasGroup.interactable = false;
+            m_CanvasGroup.DOFade(0,.2f);
+            m_IsActive = false;
+        }
     }
 }

@@ -2,7 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class cStartView : cView
+namespace SimonSays.UI
 {
+    public class cStartView : cView
+    {
     
+    }
 }

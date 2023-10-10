@@ -1,50 +1,54 @@
 using System.Collections;
 using System.Collections.Generic;
+using SimonSays.Managers.SaveManager;
 using UnityEngine;
 using Zenject;
 
-public class cHapticUIButton : MonoBehaviour
+namespace SimonSays.UI
 {
-    [SerializeField] private GameObject m_DisableGO;
-    [Inject] private ISaveManager m_SaveManager;
-
-    private void Awake()
+    public class cHapticUIButton : MonoBehaviour
     {
-        var audiostate = m_SaveManager.SaveData.m_HapticState;;
+        [SerializeField] private GameObject m_DisableGO;
+        [Inject] private ISaveManager m_SaveManager;
 
-        if (audiostate)
+        private void Awake()
         {
-            EnableAudio();
-        }
-        else
-        {
-            DisableAudio();
-        }
-    }
+            var hapticState = m_SaveManager.SaveData.m_HapticState;;
 
-    public void OnClick()
-    {
-        var audiostate = m_SaveManager.SaveData.m_HapticState;
-
-        if (audiostate)
-        {
-            DisableAudio();
+            if (hapticState)
+            {
+                EnableHaptic();
+            }
+            else
+            {
+                DisableHaptic();
+            }
         }
-        else
-        {
-            EnableAudio();
-        }
-    }
 
-    public void EnableAudio()
-    {
-        m_SaveManager.SaveData.m_HapticState = true;
-        m_DisableGO.SetActive(false);
-    }
+        public void OnClick()
+        {
+            var hapticState = m_SaveManager.SaveData.m_HapticState;
+
+            if (hapticState)
+            {
+                DisableHaptic();
+            }
+            else
+            {
+                EnableHaptic();
+            }
+        }
+
+        public void EnableHaptic()
+        {
+            m_SaveManager.SaveData.m_HapticState = true;
+            m_DisableGO.SetActive(false);
+        }
     
-    public void DisableAudio()
-    {
-        m_SaveManager.SaveData.m_HapticState = false;
-        m_DisableGO.SetActive(true);
+        public void DisableHaptic()
+        {
+            m_SaveManager.SaveData.m_HapticState = false;
+            m_DisableGO.SetActive(true);
+        }
     }
 }

@@ -1,19 +1,22 @@
 ﻿using UnityEngine;
 
-public class cSingleton<T> : MonoBehaviour where T : MonoBehaviour
+namespace Seref.Utils
 {
-    private static object _lock = new object();
-    private static T _instance;
-
-    public static T Instance
+    public class cSingleton<T> : MonoBehaviour where T : MonoBehaviour
     {
-        get
-        {
-            lock (_lock)
-            {
-                if (_instance == null) _instance = (T) FindObjectOfType(typeof(T));
+        private static object _lock = new object();
+        private static T _instance;
 
-                return _instance;
+        public static T Instance
+        {
+            get
+            {
+                lock (_lock)
+                {
+                    if (_instance == null) _instance = (T) FindObjectOfType(typeof(T));
+
+                    return _instance;
+                }
             }
         }
     }

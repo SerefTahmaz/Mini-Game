@@ -5,27 +5,30 @@ using SimonSays.Managers.Config;
 using UnityEngine;
 using UnityEngine.TestTools;
 
-/// <summary>
-/// <para>Unit test to verify configuration loading works</para>
-/// </summary>
-public class JsonConfigTestScript
+namespace SimonSays.Tests
 {
-    private cGameConfiguration m_CorrectConfig;
-    private TextAsset m_JsonText;
-    
-    [SetUp]
-    public void Init()
+    /// <summary>
+    /// <para>Unit test to verify configuration loading works</para>
+    /// </summary>
+    public class JsonConfigTestScript
     {
-        m_JsonText = Resources.Load<TextAsset>("GameConfigs/Tests/Json/Test");
-        m_CorrectConfig = JsonUtility.FromJson<cGameConfiguration>(m_JsonText.text);
-    }
+        private cGameConfiguration m_CorrectConfig;
+        private TextAsset m_JsonText;
     
-    [Test]
-    public void JsonConfigLoadTestPass()
-    {
-        var jsonGameConfig = new cJsonGameConfigHandler();
-        var testConfig = jsonGameConfig.FileToConfig(m_JsonText);
+        [SetUp]
+        public void Init()
+        {
+            m_JsonText = Resources.Load<TextAsset>("GameConfigs/Tests/Json/Test");
+            m_CorrectConfig = JsonUtility.FromJson<cGameConfiguration>(m_JsonText.text);
+        }
+    
+        [Test]
+        public void JsonConfigLoadTestPass()
+        {
+            var jsonGameConfig = new cJsonGameConfigHandler();
+            var testConfig = jsonGameConfig.FileToConfig(m_JsonText);
 
-        Assert.AreEqual(m_CorrectConfig, testConfig);
+            Assert.AreEqual(m_CorrectConfig, testConfig);
+        }
     }
 }

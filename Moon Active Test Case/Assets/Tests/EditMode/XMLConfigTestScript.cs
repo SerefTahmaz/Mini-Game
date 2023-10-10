@@ -6,32 +6,35 @@ using SimonSays.Managers.Config;
 using UnityEngine;
 using UnityEngine.TestTools;
 
-/// <summary>
-/// <para>Unit test to verify configuration loading works</para>
-/// </summary>
-public class XMLConfigTestScript
+namespace SimonSays.Tests
 {
-    private cGameConfiguration m_CorrectConfig;
-    private TextAsset m_XMLText;
-    
-    [SetUp]
-    public void Init()
+    /// <summary>
+    /// <para>Unit test to verify configuration loading works</para>
+    /// </summary>
+    public class XMLConfigTestScript
     {
-        m_XMLText = Resources.Load<TextAsset>("GameConfigs/Tests/XML/Test");
-        
-        var serializer = new XmlSerializer(typeof(cGameConfiguration));
-        using(var reader = new System.IO.StringReader(m_XMLText.text))
+        private cGameConfiguration m_CorrectConfig;
+        private TextAsset m_XMLText;
+    
+        [SetUp]
+        public void Init()
         {
-            m_CorrectConfig = (cGameConfiguration) serializer.Deserialize(reader);
+            m_XMLText = Resources.Load<TextAsset>("GameConfigs/Tests/XML/Test");
+        
+            var serializer = new XmlSerializer(typeof(cGameConfiguration));
+            using(var reader = new System.IO.StringReader(m_XMLText.text))
+            {
+                m_CorrectConfig = (cGameConfiguration) serializer.Deserialize(reader);
+            }
         }
-    }
     
-    [Test]
-    public void XMLConfigLoadTestPass()
-    {
-        var xmlGameConfig = new cXMLGameConfigHandler();
-        var testConfig = xmlGameConfig.FileToConfig(m_XMLText);
+        [Test]
+        public void XMLConfigLoadTestPass()
+        {
+            var xmlGameConfig = new cXMLGameConfigHandler();
+            var testConfig = xmlGameConfig.FileToConfig(m_XMLText);
 
-        Assert.AreEqual(m_CorrectConfig,testConfig);
+            Assert.AreEqual(m_CorrectConfig,testConfig);
+        }
     }
 }

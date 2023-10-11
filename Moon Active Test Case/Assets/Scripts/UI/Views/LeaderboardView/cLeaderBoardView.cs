@@ -64,19 +64,14 @@ namespace SimonSays.UI.Leaderboard
             {
                 cOnlineLeaderboard.GetLeaderBoard((success, entries,player) =>
                 {
-                    LeaderBoardUnitWrapper[] selectedEntries;
+                    List<LeaderBoardUnitWrapper> selectedEntries = new List<LeaderBoardUnitWrapper>();
                     if (success)
                     {
-                        selectedEntries = entries;
-                        if (player != null)
-                        {
-                            m_SaveManager.SaveData.m_CurrentRank = player.Entry.Rank;
-                        }
-                        m_SaveManager.Save();
+                        AddOnlineEntries(selectedEntries, entries, player);
                     }
                     else
                     {
-                        selectedEntries = cRandomAILeaderboard.GetRandomEntries(30, m_SaveManager);
+                        AddRandomEntries(selectedEntries);
                     }
                 
                     OnLeaderboardLoaded(selectedEntries).Forget();
@@ -85,7 +80,40 @@ namespace SimonSays.UI.Leaderboard
             }
         }
 
-        private async UniTaskVoid OnLeaderboardLoaded(LeaderBoardUnitWrapper[] scores)
+        private void AddOnlineEntries(List<LeaderBoardUnitWrapper> selectedEntries, LeaderBoardUnitWrapper[] entries, LeaderBoardUnitWrapper player)
+        {
+            selectedEntries.AddRange(entries);
+            if (player != null)
+            {
+                m_SaveManager.SaveData.m_CurrentRank = player.Entry.Rank;
+                m_SaveManager.Save();
+            }
+            else
+            {
+                selectedEntries.Add(CreatePlayerUnitWrapper());
+            }
+        }
+        
+        private void AddRandomEntries(List<LeaderBoardUnitWrapper> selectedEntries)
+        {
+            selectedEntries.AddRange(cRandomAILeaderboard.GetRandomEntries(30, m_SaveManager));
+        }
+
+        private LeaderBoardUnitWrapper CreatePlayerUnitWrapper()
+        {
+            return new LeaderBoardUnitWrapper()
+            {
+                Entry = new Entry()
+                {
+                    Rank = m_SaveManager.SaveData.m_CurrentRank,
+                    Score = m_SaveManager.SaveData.m_MaxCoinCount,
+                    Username = m_SaveManager.SaveData.m_PlayerName
+                },
+                IsPlayer = true
+            };
+        }
+
+        private async UniTaskVoid OnLeaderboardLoaded(List<LeaderBoardUnitWrapper> scores)
         {
             //Clear
             m_SmoothLayoutController.ClearAll();

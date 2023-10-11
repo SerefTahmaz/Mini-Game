@@ -8,6 +8,10 @@ namespace SimonSays.Managers
 {
     public class cObjectPooler : MonoBehaviour, IObjectPooler
     {
+        [SerializeField] private List<Pool> Pools = new List<Pool>();
+        private Dictionary<string, Queue<GameObject>> PoolDictionary = new Dictionary<string, Queue<GameObject>>();
+        private IInstantiator m_Instantiator;
+        
         [Serializable]
         public class Pool
         {
@@ -19,15 +23,9 @@ namespace SimonSays.Managers
             public int Size;
         }
 
-        [SerializeField] private List<Pool> Pools = new List<Pool>();
-        private Dictionary<string, Queue<GameObject>> PoolDictionary = new Dictionary<string, Queue<GameObject>>();
-        private IInstantiator m_Instantiator;
-        private cGameManagerStateMachine m_GameManager;
-
         [Inject]
-        public void Initialize(IInstantiator instantiator, cGameManagerStateMachine gameManager) {
+        public void Initialize(IInstantiator instantiator) {
             m_Instantiator = instantiator;
-            m_GameManager = gameManager;
         }
 
         private void Awake()

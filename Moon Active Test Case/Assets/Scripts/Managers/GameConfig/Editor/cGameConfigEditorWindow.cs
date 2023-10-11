@@ -52,7 +52,7 @@ namespace SimonSays.Managers.Config.Editor
         {
             m_SerializedObject.Update();
 
-            EditorGUILayout.LabelField("CREATE GAME CONFIG", new GUIStyle(){fontStyle = FontStyle.Bold, normal = new GUIStyleState(){textColor = Color.yellow}});
+            EditorGUILayout.LabelField("CREATE GAME CONFIGURATION", new GUIStyle(){fontStyle = FontStyle.Bold, normal = new GUIStyleState(){textColor = Color.yellow}});
             EditorGUILayout.PropertyField(m_SerializedObject.FindProperty("m_GameConfiguration"));
 
             EditorGUILayout.HelpBox("Durations are in Seconds", MessageType.Info);

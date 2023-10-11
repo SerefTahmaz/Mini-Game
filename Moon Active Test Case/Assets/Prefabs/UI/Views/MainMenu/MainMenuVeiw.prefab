@@ -23,7 +23,7 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3864621683636156588}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -50,6 +50,21 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 3864621683636156591}
     m_Modifications:
+    - target: {fileID: 3654891428356921921, guid: e804be691b9c1bb4ea0625115c418267,
+        type: 3}
+      propertyPath: m_Alpha
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3654891428356921921, guid: e804be691b9c1bb4ea0625115c418267,
+        type: 3}
+      propertyPath: m_Interactable
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3654891428356921921, guid: e804be691b9c1bb4ea0625115c418267,
+        type: 3}
+      propertyPath: m_BlocksRaycasts
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3654891428356921926, guid: e804be691b9c1bb4ea0625115c418267,
         type: 3}
       propertyPath: m_Name
@@ -285,6 +300,21 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2402859720873041490, guid: a465c209154d85a4aab4363cb3dfd7e8,
+        type: 3}
+      propertyPath: m_Alpha
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2402859720873041490, guid: a465c209154d85a4aab4363cb3dfd7e8,
+        type: 3}
+      propertyPath: m_Interactable
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2402859720873041490, guid: a465c209154d85a4aab4363cb3dfd7e8,
+        type: 3}
+      propertyPath: m_BlocksRaycasts
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a465c209154d85a4aab4363cb3dfd7e8, type: 3}
 --- !u!224 &3864621684259744873 stripped
@@ -424,36 +454,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: LevelSelectionView
-      objectReference: {fileID: 0}
-    - target: {fileID: 3036337211389724463, guid: 2144cda96e20ce348bd89270d1d6f9c6,
-        type: 3}
-      propertyPath: m_Alpha
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3036337211389724463, guid: 2144cda96e20ce348bd89270d1d6f9c6,
-        type: 3}
-      propertyPath: m_Interactable
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3036337211389724463, guid: 2144cda96e20ce348bd89270d1d6f9c6,
-        type: 3}
-      propertyPath: m_BlocksRaycasts
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3036337211962452664, guid: 2144cda96e20ce348bd89270d1d6f9c6,
-        type: 3}
-      propertyPath: m_Alpha
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3036337211962452664, guid: 2144cda96e20ce348bd89270d1d6f9c6,
-        type: 3}
-      propertyPath: m_Interactable
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3036337211962452664, guid: 2144cda96e20ce348bd89270d1d6f9c6,
-        type: 3}
-      propertyPath: m_BlocksRaycasts
-      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2144cda96e20ce348bd89270d1d6f9c6, type: 3}
@@ -934,6 +934,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 3864621683636156591}
     m_Modifications:
+    - target: {fileID: 7658257833079558569, guid: 6e9c8ecccd828214b95f513814837be5,
+        type: 3}
+      propertyPath: m_Alpha
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7658257833079558569, guid: 6e9c8ecccd828214b95f513814837be5,
         type: 3}
       propertyPath: m_Interactable

@@ -11,7 +11,7 @@ namespace SimonSays.UI
 {
     public class cFoldoutMenu : MonoBehaviour
     {
-        [SerializeField] private List<CanvasGroup> m_CanvasGroups;
+        [SerializeField] private List<cBaseFoldoutItem> m_FoldoutItems;
         [SerializeField] private HorizontalLayoutGroup m_HorizontalLayoutGroup;
         [SerializeField] private float m_TargetValue;
 
@@ -19,9 +19,15 @@ namespace SimonSays.UI
         [SerializeField] private Transform m_CogWhell;
         [Inject] private ISoundManager m_SoundManager;
 
-        private void Awake()
+        public void Refresh()
         {
-            OnToggle(0);
+            SetToggle(true, 0);
+            foreach (var foldoutItem in m_FoldoutItems)
+            {
+                foldoutItem.Refresh();
+            }
+
+            m_Closed = true;
         }
 
         public void OnClick()
@@ -31,34 +37,36 @@ namespace SimonSays.UI
 
         public void OnToggle(float duration)
         {
-            if (m_Closed)
-            {
-                DOVirtual.Float(m_HorizontalLayoutGroup.spacing, 20, 1* duration, value =>
-                {
-                    m_HorizontalLayoutGroup.spacing = value;
-                });
+            m_Closed = !m_Closed;
+            SetToggle(m_Closed, duration);
+        }
 
-                foreach (var VARIABLE in m_CanvasGroups)
-                {
-                    VARIABLE.DOKill();
-                    VARIABLE.DOFade(1, 1* duration);
-                }
-            }
-            else
+        public void SetToggle(bool close, float duration)
+        {
+            if (close)
             {
                 DOVirtual.Float(m_HorizontalLayoutGroup.spacing, m_TargetValue, 1* duration, value =>
                 {
                     m_HorizontalLayoutGroup.spacing = value;
                 });
             
-                foreach (var VARIABLE in m_CanvasGroups)
+                foreach (var foldoutItem in m_FoldoutItems)
                 {
-                    VARIABLE.DOKill();
-                    VARIABLE.DOFade(0, 1* duration);
+                    foldoutItem.Deactivate(1 * duration);
                 }
             }
+            else
+            {
+                DOVirtual.Float(m_HorizontalLayoutGroup.spacing, 20, 1* duration, value =>
+                {
+                    m_HorizontalLayoutGroup.spacing = value;
+                });
 
-            m_Closed = !m_Closed;
+                foreach (var foldoutItem in m_FoldoutItems)
+                {
+                    foldoutItem.Activate(1 * duration);
+                }
+            }
 
             m_CogWhell.DOKill();
             m_CogWhell.DOLocalRotate(new Vector3(0, 0, -60), .5f * duration).SetRelative(true);

@@ -30,11 +30,11 @@ namespace SimonSays.Managers.SaveManager
                 string loadPlayerData = File.ReadAllText(m_SaveFilePath);
                 SaveData = JsonUtility.FromJson<cSaveData>(loadPlayerData);
   
-                Debug.Log("Load game complete!");
+                // Debug.Log("Load game complete!");
                 m_Loaded = true;
             }
-            else
-                Debug.Log("There is no save files to load!");
+            // else
+            //     Debug.Log("There is no save files to load!");
         }
 
 

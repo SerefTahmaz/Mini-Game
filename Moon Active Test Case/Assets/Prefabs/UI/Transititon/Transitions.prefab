@@ -211,6 +211,26 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 4601160370769616796}
     m_Modifications:
+    - target: {fileID: 2249202451411745348, guid: 5ec62d1a73fb3524ba5850d03d58bc8b,
+        type: 3}
+      propertyPath: m_TranslationOffsets.Array.data[0].x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2249202451411745348, guid: 5ec62d1a73fb3524ba5850d03d58bc8b,
+        type: 3}
+      propertyPath: m_TranslationOffsets.Array.data[0].y
+      value: -2.1621072
+      objectReference: {fileID: 0}
+    - target: {fileID: 3133815617155678874, guid: 5ec62d1a73fb3524ba5850d03d58bc8b,
+        type: 3}
+      propertyPath: m_TranslationOffsets.Array.data[0].x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3133815617155678874, guid: 5ec62d1a73fb3524ba5850d03d58bc8b,
+        type: 3}
+      propertyPath: m_TranslationOffsets.Array.data[0].y
+      value: -2.1621072
+      objectReference: {fileID: 0}
     - target: {fileID: 7931673057281383427, guid: 5ec62d1a73fb3524ba5850d03d58bc8b,
         type: 3}
       propertyPath: m_Name

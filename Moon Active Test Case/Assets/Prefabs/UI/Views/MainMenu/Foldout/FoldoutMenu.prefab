@@ -256,6 +256,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 45660544931ca4149942a90099d9946c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_CanvasGroup: {fileID: 688660258291001138}
   m_DisableGO: {fileID: 2018334292925362964}
 --- !u!224 &6929413853415943368 stripped
 RectTransform:
@@ -435,9 +436,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 20e213aae269e664a821cf247c56222c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_CanvasGroups:
-  - {fileID: 688660259086808540}
-  - {fileID: 688660258291001138}
+  m_FoldoutItems:
+  - {fileID: 1250588421826743270}
+  - {fileID: 1250588420997191697}
   m_HorizontalLayoutGroup: {fileID: 1250588421383418123}
   m_TargetValue: -100
   m_Closed: 0
@@ -649,6 +650,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8653a314e5c04f54ba902f6185eae50b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_CanvasGroup: {fileID: 688660259086808540}
   m_DisableGO: {fileID: 2018334294209929722}
 --- !u!224 &6929413854733942310 stripped
 RectTransform:

@@ -20,6 +20,7 @@ namespace SimonSays.UI
 
         public async UniTaskVoid Anim(Action onFullCoverScreen, Action onFinish)
         {
+            m_Pivot.gameObject.SetActive(true);
             m_Pivot.DORotate(Vector3.forward * 102, 0);
             m_BG.DOFade(0, 0);
             m_Icon.DOScale(.65f, 0);
@@ -74,6 +75,9 @@ namespace SimonSays.UI
             m_IconOutline.GetComponent<ProceduralImage>().DOFade(.43f, 0);
             
             onFinish.Invoke();
+            
+            await UniTask.Delay(TimeSpan.FromSeconds(.01f));
+            m_Pivot.gameObject.SetActive(false);
         }
     }
 }

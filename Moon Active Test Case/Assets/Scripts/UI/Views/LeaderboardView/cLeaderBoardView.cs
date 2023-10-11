@@ -68,7 +68,10 @@ namespace SimonSays.UI.Leaderboard
                     if (success)
                     {
                         selectedEntries = entries;
-                        m_SaveManager.SaveData.m_CurrentRank = player.Entry.Rank;
+                        if (player != null)
+                        {
+                            m_SaveManager.SaveData.m_CurrentRank = player.Entry.Rank;
+                        }
                         m_SaveManager.Save();
                     }
                     else

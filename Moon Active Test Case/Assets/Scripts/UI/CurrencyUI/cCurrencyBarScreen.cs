@@ -40,6 +40,7 @@ namespace SimonSays.UI.Currency
         public void SpendCurrency(int currency)
         {
             CurrentCurrencyAmount -= currency;
+            m_SaveManager.Save();
         
             foreach (var bar in m_CurrencyBars)
             {
@@ -50,6 +51,7 @@ namespace SimonSays.UI.Currency
         public void GainCurrency(int currency)
         {
             CurrentCurrencyAmount += currency;
+            m_SaveManager.Save();
         
             foreach (var bar in m_CurrencyBars)
             {
